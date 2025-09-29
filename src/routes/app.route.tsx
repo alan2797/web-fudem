@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import PublicRoute from "./public.route";
 import Login from "../pages/login/login.page";
 import LoginStep from "../pages/login/login-step.page";
+import RecoveryAccount from "../pages/recovery-account/recovery.page";
 
 interface RoutesProps {
   isAuthenticated: boolean;
@@ -16,6 +17,15 @@ const AppRoutes: React.FC<RoutesProps> = ({ isAuthenticated }) => {
         element={
           <PublicRoute isAuthenticated={isAuthenticated} restricted>
             <Login />
+          </PublicRoute>
+        }
+      />
+      {/* Rutas públicas */}
+      <Route
+        path="/recovery-account"
+        element={
+          <PublicRoute isAuthenticated={isAuthenticated} restricted>
+            <RecoveryAccount />
           </PublicRoute>
         }
       />

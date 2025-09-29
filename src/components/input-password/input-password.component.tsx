@@ -26,6 +26,7 @@ const InputPassword = <TFormValues extends Record<string, unknown>>({
             onChange={field.onChange}
             onBlur={field.onBlur}
             visibilityToggle
+            size="large"
           />
         )}
       />

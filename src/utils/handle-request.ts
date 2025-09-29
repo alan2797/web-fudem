@@ -17,7 +17,7 @@ export async function handleRequest<T>(
 
   try {
     if (show) dispatch(showSpinner());
-
+;
     const result = await thunkAction();
 
     if (successMessage) message.success(successMessage);
@@ -25,7 +25,7 @@ export async function handleRequest<T>(
     return result;
   } catch (err) {
     console.error(err);
-    if (errorMessage) message.success(errorMessage);
+    if (errorMessage) message.error(errorMessage);
     return null;
   } finally {
     if (show) dispatch(hideSpinner());

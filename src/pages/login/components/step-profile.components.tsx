@@ -2,26 +2,19 @@
 import { Button } from 'antd';
 import { ArrowRightOutlined, ShopOutlined } from '@ant-design/icons';
 import StepLayout from './step-layout.component';
-
-export interface Profile {
-  id: number;
-  name: string;
-}
+import type { ProfileDto } from '../../../interfaces/profile.interface';
 
 interface StepProfileProps {
-  profile: Profile | null;
-  setProfile: (profile: Profile) => void;
+  profile: ProfileDto | null;
+  setProfile: (profile: ProfileDto) => void;
   onNext: () => void;
+  profilesList: ProfileDto[];
 }
 
-const StepProfile: React.FC<StepProfileProps> = ({ onNext, setProfile, profile }) => {
-  const profiles: Profile[] = [
-    { id: 1, name: 'Técnico de Consultas' },
-    { id: 2, name: 'Técnico de Citas' },
-    { id: 3, name: 'Citas' }
-  ];
+const StepProfile: React.FC<StepProfileProps> = ({ onNext, setProfile, profile, profilesList }) => {
+  const profiles: ProfileDto[] = profilesList || [];
 
-  const handleProfileSelect = (p: Profile) => {
+  const handleProfileSelect = (p: ProfileDto) => {
     setProfile(p);
   };
 

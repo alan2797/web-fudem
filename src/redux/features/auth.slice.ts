@@ -1,18 +1,24 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../services/api";
-import type { LoginRequestDto } from "../../interfaces/login.interface";
+import type { LoginRequestDto, LoginResponseDto } from "../../interfaces/login.interface";
 
 export interface AuthState {
-  user: any | null;
+  user: LoginResponseDto | null;
   token: string | null;
-  loading: boolean;
   error: string | null;
 }
 
 const initialState: AuthState = {
-  user: null,
+  user: {
+    requiresAreaSelection: true,
+    requiresBranchSelection: true,
+    requiresPositionSelection: true,
+    requiresProfileSelection: true,
+    success: true,
+    requiresPasswordChange: true,
+    token: "asdasd"
+  },
   token: null,
-  loading: false,
   error: null,
 };
 
@@ -44,7 +50,8 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        console.log(action.payload);
+        state.user = action.payload;
         state.token = action.payload.token;
         localStorage.setItem("token", action.payload.token);
       })

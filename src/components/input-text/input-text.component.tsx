@@ -26,6 +26,7 @@ const InputText = <TFormValues extends Record<string, unknown>>({
               value: (field.value ?? "") as string,
               onChange: field.onChange,
               onBlur: field.onBlur,
+              size: 'large'
             }}
         />}
       />

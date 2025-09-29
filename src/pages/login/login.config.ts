@@ -11,8 +11,7 @@ export const configForm = (): FieldConfig<LoginRequestDto>[] => [
     xs: "12",
     validations: [
       { type: "required", message: "El email es obligatorio" },
-      { type: "min", value: 3, message: "Mínimo 3 caracteres" },
-      { type: "email", message: "Formato de email inválido" },
+      { type: "min", value: 3, message: "Mínimo 3 caracteres" }
     ],
   },
   {
