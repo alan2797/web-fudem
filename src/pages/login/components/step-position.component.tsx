@@ -1,22 +1,18 @@
 import { Button } from 'antd';
 import { ArrowRightOutlined, RollbackOutlined, ShopOutlined } from '@ant-design/icons';
 import StepLayout from './step-layout.component';
-
-export interface Position {
-  id: number;
-  name: string;
-}
+import type { PositionDto } from '../../../interfaces/position.interface';
 
 interface StepPositionProps {
-  position: Position | null;
-  setPosition: (pos: Position) => void;
+  position: PositionDto | null;
+  setPosition: (pos: PositionDto) => void;
   onBack: () => void;
   handleNext: () => void;
-  positionList: Position[];
+  positionList: PositionDto[];
 }
 
 const StepPosition: React.FC<StepPositionProps> = ({ onBack, handleNext, setPosition, position, positionList }) => {
-  const positions: Position[] = positionList;
+  const positions: PositionDto[] = positionList;
 
   return (
     <StepLayout

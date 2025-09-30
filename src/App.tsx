@@ -6,6 +6,7 @@ import type { RootState } from "./redux/store";
 
 const App: React.FC = () => {
   const token = useSelector((state: RootState) => state.auth.token);
+  //validar aqui que el token tenga branchId, profileId, areaId y positionId
   const isAuthenticated = !!token;
   return (
     <Router>
