@@ -33,3 +33,14 @@ export interface ButtonCustomProps extends ButtonProps {
   label?: string;
   block?: boolean;
 }
+
+export interface ApiResponse<T = any> {
+  timestamp: string;      // Fecha y hora de la respuesta
+  path: string;           // Endpoint que se llamó
+  status: number;         // Código HTTP
+  success: boolean;       // Éxito de la operación
+  message: string;        // Mensaje descriptivo
+  data: T;                // Contenido de la respuesta, genérico
+  error: string | null | object;   // Mensaje de error, si existe
+}
+

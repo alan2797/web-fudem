@@ -1,3 +1,4 @@
+import type { BranchDto } from "./branch.interface";
 import type { ProfileDto } from "./profile.interface";
 
 export interface LoginRequestDto extends Record<string, unknown> {
@@ -14,4 +15,19 @@ export interface LoginResponseDto {
   token: string;
   requiresPasswordChange: boolean;
   profiles?: ProfileDto[];
+  availableBranches?: BranchDto[];
+  canSelectOrganization?: boolean;
+}
+
+export interface TokenPayload {
+  userId: string;
+  username: string;
+  isAdmin: boolean;
+  iat: number;
+  exp: number;
+}
+
+export interface SelectAreaDto {
+    areaId: number;
+    branchId: number;
 }

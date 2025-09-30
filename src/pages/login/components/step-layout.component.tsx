@@ -31,7 +31,7 @@ const StepLayout = <T,>({
       align="middle"
       style={{ minHeight: "100vh" }}
     >
-      <Col xs={22} sm={20} md={16} lg={14} xl={12}>
+      <Col xs={22} sm={22} md={22} lg={20} xl={18}>
         <Card
           style={{ borderRadius: 24 }}
           bodyStyle={{ padding: "2rem", textAlign: "center" }}

@@ -1,25 +1,18 @@
 import { ShoppingOutlined, ArrowRightOutlined, ArrowLeftOutlined } from "@ant-design/icons"
 import { Button } from "antd"
 import StepLayout from "./step-layout.component"
+import type { BranchDto } from "../../../interfaces/branch.interface"
 
-export interface Branch {
-  id: number
-  name: string
-}
 
 interface StepBranchProps {
   onNext: () => void
-  onBack: () => void
-  setBranch: (branch: Branch) => void
-  branch?: Branch | null
+  setBranch: (branch: BranchDto) => void
+  branch?: BranchDto | null
+  branchList?: BranchDto[]
 }
 
-const StepBranch: React.FC<StepBranchProps> = ({ onNext, onBack, setBranch, branch }) => {
-  const branches: Branch[] = [
-    { id: 1, name: "Zacatoluca" },
-    { id: 2, name: "Valle Dulce" },
-    { id: 3, name: "Merliot" },
-  ]
+const StepBranch: React.FC<StepBranchProps> = ({ onNext, setBranch, branch, branchList }) => {
+  const branches: BranchDto[] | undefined = branchList ?? []
 
   return (
     <StepLayout
@@ -47,14 +40,8 @@ const StepBranch: React.FC<StepBranchProps> = ({ onNext, onBack, setBranch, bran
           {data.name}
         </Button>
       )}
-      onBack={onBack}
       onNext={onNext}
       disableNext={!branch?.id}
-      backLabel={
-        <>
-          Regresar <ArrowLeftOutlined style={{ marginLeft: 8 }} />
-        </>
-      }
       nextLabel={
         <>
           Ingresar <ArrowRightOutlined style={{ marginLeft: 8 }} />

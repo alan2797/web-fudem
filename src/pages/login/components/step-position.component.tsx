@@ -11,15 +11,12 @@ interface StepPositionProps {
   position: Position | null;
   setPosition: (pos: Position) => void;
   onBack: () => void;
-  onFinish: () => void;
+  handleNext: () => void;
+  positionList: Position[];
 }
 
-const StepPosition: React.FC<StepPositionProps> = ({ onBack, onFinish, setPosition, position }) => {
-  const positions: Position[] = [
-    { id: 1, name: 'Caja 1' },
-    { id: 2, name: 'Caja 2' },
-    { id: 3, name: 'Caja 3' }
-  ];
+const StepPosition: React.FC<StepPositionProps> = ({ onBack, handleNext, setPosition, position, positionList }) => {
+  const positions: Position[] = positionList;
 
   return (
     <StepLayout
@@ -47,7 +44,7 @@ const StepPosition: React.FC<StepPositionProps> = ({ onBack, onFinish, setPositi
         </Button>
       )}
       onBack={onBack}
-      onNext={onFinish}
+      onNext={handleNext}
       disableNext={!position?.id}
       backLabel={
         <>

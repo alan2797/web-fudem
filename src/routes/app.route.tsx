@@ -3,6 +3,9 @@ import PublicRoute from "./public.route";
 import Login from "../pages/login/login.page";
 import LoginStep from "../pages/login/login-step.page";
 import RecoveryAccount from "../pages/recovery-account/recovery.page";
+import MainLayout from "../components/layout/main-layout.component";
+import PrivateRoute from "./private.route";
+import HomePage from "../pages/home/home.page";
 
 interface RoutesProps {
   isAuthenticated: boolean;
@@ -34,11 +37,23 @@ const AppRoutes: React.FC<RoutesProps> = ({ isAuthenticated }) => {
       <Route
         path="login/step"
         element={
-          <PublicRoute isAuthenticated={isAuthenticated} restricted>
+          <PrivateRoute isAuthenticated={isAuthenticated}>
             <LoginStep />
-          </PublicRoute>
+          </PrivateRoute>
         }
       />
+
+     {/* Rutas privadas con layout */}
+     <Route
+        path="/"
+        element={
+          <PrivateRoute isAuthenticated={isAuthenticated}>
+            <MainLayout />
+          </PrivateRoute>
+        }
+      >
+        <Route index element={<HomePage />} />
+      </Route>
 
       {/* Rutas privadas <Route
         path="/home"

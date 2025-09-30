@@ -12,7 +12,7 @@ const PublicRoute: React.FC<PublicRouteProps> = ({
   children,
   isAuthenticated,
   restricted = false,
-  redirectPath = "/home",
+  redirectPath = "/",
 }) => {
   if (isAuthenticated && restricted) {
     return <Navigate to={redirectPath} replace />;

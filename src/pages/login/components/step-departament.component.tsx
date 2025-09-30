@@ -5,17 +5,14 @@ import {
   } from "@ant-design/icons";
   import { Button } from "antd";
 import StepLayout from "./step-layout.component";
-  
-  export interface Department {
-    id: number;
-    name: string;
-  }
+import type { DepartmentDto } from "../../../interfaces/area.interface";
   
   interface StepDepartmentProps {
     onNext: () => void;
     onBack: () => void;
-    setDepartment: (department: Department) => void;
-    department?: Department  | null;
+    setDepartment: (department: DepartmentDto) => void;
+    department?: DepartmentDto  | null;
+    departamentList: DepartmentDto[];
   }
   
   const StepDepartment: React.FC<StepDepartmentProps> = ({
@@ -23,15 +20,12 @@ import StepLayout from "./step-layout.component";
     onBack,
     setDepartment,
     department,
+    departamentList
   }) => {
-    const departments: Department[] = [
-      { id: 1, name: "Caja" },
-      { id: 2, name: "Óptica" },
-      { id: 3, name: "Toma de Datos" },
-    ];
+    const departments: DepartmentDto[] = departamentList;
   
     return (
-      <StepLayout<Department>
+      <StepLayout<DepartmentDto>
       imgSrc="/src/assets/svg/logo-sm.svg"
         title="¿A qué área desea entrar?"
         items={departments}

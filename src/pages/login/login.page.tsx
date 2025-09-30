@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Card, Form, Button, theme } from "antd";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { FieldConfig } from "../../interfaces/components.interface";
+import type { ApiResponse, FieldConfig } from "../../interfaces/components.interface";
 import { configForm } from "./login.config";
 import { generateZodSchema } from "../../validators/validations";
 import type { LoginRequestDto, LoginResponseDto } from "../../interfaces/login.interface";
@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../redux/store";
 import { login } from "../../redux/features/auth.slice";
 import { handleRequest } from "../../utils/handle-request";
+import { localStorageService } from "../../services/localstorage";
 
 const configFormSchema: FieldConfig<LoginRequestDto>[] = configForm();
 const loginSchema = generateZodSchema<LoginRequestDto>(configFormSchema);
@@ -34,21 +35,19 @@ const Login: React.FC = () => {
 
   const onSubmit: SubmitHandler<LoginRequestDto> = async (data) => {
     console.log(data);
-    const result: LoginResponseDto = await handleRequest(dispatch, () => dispatch(login(data)).unwrap(), {
+    const result: ApiResponse<LoginResponseDto> | null = await handleRequest(dispatch, () => dispatch(login(data)).unwrap(), {
       showSpinner: true,
       successMessage: "Login exitoso",
       errorMessage: "Error en las credenciales",
     });
     console.log(result);
-    if (
-      result?.requiresAreaSelection ||
-      result?.requiresBranchSelection ||
-      result?.requiresPositionSelection ||
-      result?.requiresProfileSelection
-    ) {
+    const token = localStorageService.decode();
+    if(token?.isAdmin){
       navigate("/login/step");
-    } else {
-      //navigate("/home"); // o la ruta que corresponda a tu dashboard
+    }else if(result?.data.requiresProfileSelection){
+      navigate("/login/step");
+    }else{
+      navigate("/home");
     }
   };
 
@@ -83,7 +82,8 @@ const Login: React.FC = () => {
             <div className="text-start" style={{ marginTop: "-10px" }}>
               <Link
                 to="/recovery-account"
-                className="text-primary text-decoration-underline fs-6 "
+                className="text-decoration-underline fs-6 fw-lighter"
+                style={{color: "#0096F7"}}
               >
                 He olvidado mi usuario/contraseña
               </Link>
