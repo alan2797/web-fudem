@@ -83,7 +83,7 @@ const Login: React.FC = () => {
             <div className="text-start" style={{ marginTop: "-10px" }}>
               <Link
                 to="/recovery-account"
-                className="text-primary text-decoration-underline fs-6 "
+                className="main-link"
               >
                 He olvidado mi usuario/contraseña
               </Link>

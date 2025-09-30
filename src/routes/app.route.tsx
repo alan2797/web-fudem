@@ -3,6 +3,10 @@ import PublicRoute from "./public.route";
 import Login from "../pages/login/login.page";
 import LoginStep from "../pages/login/login-step.page";
 import RecoveryAccount from "../pages/recovery-account/recovery.page";
+import ForgotUsername from "../pages/recovery-account/forgot-username.page";
+import BloquedUser from "../pages/recovery-account/bloqued-user.page";
+import ForgotPassword from "../pages/recovery-account/forgot-password.page";
+import ChangeTemporaryPassword from "../pages/temporary-password/temporary-password.page";
 
 interface RoutesProps {
   isAuthenticated: boolean;
@@ -20,12 +24,43 @@ const AppRoutes: React.FC<RoutesProps> = ({ isAuthenticated }) => {
           </PublicRoute>
         }
       />
-      {/* Rutas públicas */}
       <Route
         path="/recovery-account"
         element={
           <PublicRoute isAuthenticated={isAuthenticated} restricted>
             <RecoveryAccount />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/forgot-username"
+        element={
+          <PublicRoute isAuthenticated={isAuthenticated} restricted>
+            <ForgotUsername />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/bloqued-user"
+        element={
+          <PublicRoute isAuthenticated={isAuthenticated} restricted>
+            <BloquedUser />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/forgot-password"
+        element={
+          <PublicRoute isAuthenticated={isAuthenticated} restricted>
+            <ForgotPassword />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/change-password-temp"
+        element={
+          <PublicRoute isAuthenticated={isAuthenticated} restricted>
+            <ChangeTemporaryPassword />
           </PublicRoute>
         }
       />
