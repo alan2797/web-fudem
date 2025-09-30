@@ -82,8 +82,7 @@ const Login: React.FC = () => {
             <div className="text-start" style={{ marginTop: "-10px" }}>
               <Link
                 to="/recovery-account"
-                className="text-decoration-underline fs-6 fw-lighter"
-                style={{color: "#0096F7"}}
+                className="main-link"
               >
                 He olvidado mi usuario/contraseña
               </Link>

@@ -1,48 +1,36 @@
 import React from "react";
 import { Row, Col, Card, theme, Divider } from "antd";
-// import { Link } from "react-router-dom";
-import { UserDeleteOutlined } from "@ant-design/icons";
+import { KeyOutlined, LockOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-// import { type SubmitHandler } from "react-hook-form";
 
-// import { configForm } from "./login.config";
-// import { generateZodSchema } from "../../validators/validations";
-// import type { LoginRequestDto } from "../../interfaces/login.interface";
-// import { useNavigate } from "react-router-dom";
 const RecoveryAccount: React.FC = () => {
   const { token } = theme.useToken();
-//   const navigate = useNavigate();
-/* 
-  const onSubmit: SubmitHandler<LoginRequestDto> = async () => {
-
-    navigate("/login/step")
-  }; */
 
   return (
     <Row className="min-vh-100 d-flex justify-content-center align-items-center" style={{ backgroundColor: token.colorPrimary }} >
       <Col xs={24} lg={10} className="d-flex justify-content-center">
-        <Card className="w-100" style={{ maxWidth: 410, borderRadius: 24 }} bodyStyle={{ padding: '2rem' }}>
-            <div className="d-flex justify-content-center mb-4">
+        <Card className="w-100" style={{ maxWidth: 441, borderRadius: 24 }} styles={{ body: { padding: "2rem" }}} >
+            <div className="d-flex justify-content-center mt-2 mb-5">
                 <img
                 src="/src/assets/images/login/logo-lg.png"
                 alt="Logo"
                 height={40}
                 />
             </div>
-            <div className="d-flex justify-content-center mb-2">
+            <div className="d-flex justify-content-center mb-4">
                 <div
-                    className=" rounded-circle d-flex justify-content-center align-items-center p-4"
-                    style={{backgroundColor: "#E3F2FD" }}
+                    className=" rounded-circle d-flex justify-content-center align-items-center p-3"
+                    style={{backgroundColor: "#e3f1f8" }}
                 >
-                    <UserDeleteOutlined size={40} className="text-primary fs-1" />
+                    <UserDeleteOutlined size={40} className="main-text fs-1" />
                 </div>
             </div>
             <Row className="mb-4">
                 <Col xs="12">
-                    <h3 className="text-center text-dark mb-2 fw-bolder">
+                    <h5 className="text-center mb-2 fw-bolder">
                     ¿No puedes ingresar?
-                    </h3>
-                    <p className="text-center text-dark">
+                    </h5    >
+                    <p className="text-center">
                     Elige una de las siguientes opciones para poder entrar
                     </p>
                 </Col>
@@ -50,86 +38,78 @@ const RecoveryAccount: React.FC = () => {
             <Row>
             <div className="d-flex align-items-start">
                 <div className="me-3 align-self-center">
-                <UserDeleteOutlined className="text-primary fs-1" />
+                <UserDeleteOutlined className="main-text fs-1" />
                 </div>
                 <div>
-                <h6 className="fw-bolder text-primary m-0">
+                <h6 className="fw-bolder main-text m-0">
                     Olvidé mi usuario
                 </h6>
                 <p
-                    className="small lh-1 text-dark m-0"
+                    className="small lh-1 m-0 my-1"
                 >
                     Le ayudaremos a recuperar su usuario de manera rápida y
                     segura para que pueda ingresar a su cuenta.
                 </p>
                 <Link
                     to="/forgot-username"
-                    className="text-info text-decoration-underline fs-6"
+                    className="main-link"
                 >
                     Recuperar mi usuario
                 </Link>
                 </div>
             </div>
-            <div>
-                <Divider style={{borderColor: token.colorPrimary}} />
+            <div className="w-100">
+                <Divider className="my-3 border-color-primary"></Divider>
             </div>
             </Row>
             <Row>
             <div className="d-flex align-items-start">
                 <div className="me-3 align-self-center">
-                <UserDeleteOutlined className="text-primary fs-1" />
+                <LockOutlined className="main-text fs-1" />
                 </div>
                 <div>
-                <h6 className="fw-bolder text-primary m-0">
-                    Olvidé mi usuario
+                <h6 className="fw-bolder main-text m-0">
+                    Mi usuario está bloqueado
                 </h6>
                 <p
-                    className="small lh-1 text-dark m-0"
+                    className="small lh-1 m-0 my-1"
                 >
-                    Le ayudaremos a recuperar su usuario de manera rápida y
-                    segura para que pueda ingresar a su cuenta.
+                    Al restablecer su contraseña se desbloqueará su usario automáticamente.
                 </p>
                 <Link
-                    to="/forgot-username"
-                    className="text-info text-decoration-underline fs-6"
+                    to="/bloqued-user"
+                    className="main-link"
                 >
-                    Recuperar mi usuario
+                    Desbloquear usuario
                 </Link>
                 </div>
             </div>
-            <div>
-                <hr
-                className=" border-bottom-primary border-2 border-transparent"
-                />
+            <div className="w-100">
+                <Divider className="border-color-primary"></Divider>
             </div>
             </Row>
             <Row>
             <div className="d-flex align-items-start">
                 <div className="me-3 align-self-center">
-                <UserDeleteOutlined className="text-primary fs-1" />
+                <KeyOutlined  className="main-text fs-1" />
                 </div>
                 <div>
-                <h6 className="fw-bolder text-primary m-0">
-                    Olvidé mi usuario
+                <h6 className="fw-bolder main-text m-0">
+                    Olvidé mi contraseña
                 </h6>
                 <p
-                    className="small lh-1 text-dark m-0"
+                    className="small lh-1 m-0 my-1"
                 >
-                    Le ayudaremos a recuperar su usuario de manera rápida y
+                    Le ayudaremos a recuperar su contraseña de manera rápida y
                     segura para que pueda ingresar a su cuenta.
                 </p>
                 <Link
-                    to="/forgot-username"
-                    className="text-info text-decoration-underline fs-6"
+                    to="/forgot-password"
+                    className="main-link"
                 >
-                    Recuperar mi usuario
+                    Recuperar contraseña
                 </Link>
                 </div>
-            </div>
-            <div>
-                <hr
-                className=" border-bottom-primary border-2 border-transparent"
-                />
             </div>
             </Row>
         </Card>

@@ -4,9 +4,22 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --main-color: #0070B5;
+  --main-secondary-color: #0099F7;
 }
 
 body {
   margin: 0;
 }
 
+.border-color-primary{
+  border-color:var(--main-color)
+}
+
+.main-text{
+  color: var(--main-color);
+}
+
+.main-link{
+  color: var(--main-secondary-color);
+}
