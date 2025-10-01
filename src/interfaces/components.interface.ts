@@ -1,4 +1,5 @@
 import type { ButtonProps } from 'antd';
+import type { ReactNode } from 'react';
 import type { Control } from 'react-hook-form';
 
 export type Validation =
@@ -20,6 +21,11 @@ export interface FieldConfig<T extends Record<string, unknown> = Record<string, 
   sm?: string | number;
   xs?: string | number;
   validations: Validation[];
+   // Propiedades específicas para SelectMenu (opcionales)
+  options?: Array<{ label: string; value: string | number }>;
+  icon?: ReactNode;
+  color?: string;
+  size?: 'small' | 'middle' | 'large';
 }
 
 export interface FormFieldProps<T extends Record<string, unknown> = Record<string, unknown>> {

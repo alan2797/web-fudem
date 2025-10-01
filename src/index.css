@@ -23,3 +23,16 @@ body {
 .main-link{
   color: var(--main-secondary-color);
 }
+
+.icon-wrapper {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 25px;
+}
+
+.icon-wrapper:hover {
+  background-color: rgb(236, 236, 236);
+  border-radius: 7px;
+}
