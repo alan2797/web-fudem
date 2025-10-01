@@ -11,7 +11,7 @@ import { FormField } from "../../components/form-field/form-field.component";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../redux/store";
 import { login } from "../../redux/features/auth.slice";
-import { handleRequest } from "../../utils/handle-request";
+import { handleRequestThunk } from "../../utils/handle-request-thunk";
 import { localStorageService } from "../../services/localstorage";
 
 const configFormSchema: FieldConfig<LoginRequestDto>[] = configForm();
@@ -35,20 +35,23 @@ const Login: React.FC = () => {
 
   const onSubmit: SubmitHandler<LoginRequestDto> = async (data) => {
     console.log(data);
-    const result: ApiResponse<LoginResponseDto> | null = await handleRequest(dispatch, () => dispatch(login(data)).unwrap(), {
+    const result: ApiResponse<LoginResponseDto> | null = await handleRequestThunk(dispatch, () => dispatch(login(data)).unwrap(), {
       showSpinner: true,
-      successMessage: "Login exitoso",
-      errorMessage: "Error en las credenciales",
+      showMessageApi: true
     });
     console.log(result);
-    const token = localStorageService.decode();
-    if(token?.isAdmin){
-      navigate("/login/step");
-    }else if(result?.data.requiresProfileSelection){
-      navigate("/login/step");
-    }else{
-      navigate("/home");
+    if(result?.success){
+      const token = localStorageService.decode();
+      console.log(token);
+      if(token?.isAdmin){
+        navigate("/login/step");
+      }else if(result?.data.requiresProfileSelection){
+        navigate("/login/step");
+      }else{
+        navigate("/home");
+      }
     }
+  
   };
 
   return (

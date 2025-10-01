@@ -1,30 +1,29 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../services/api";
-import type { LoginRequestDto, LoginResponseDto, SelectAreaDto } from "../../interfaces/login.interface";
+import type { ForgotUsernameRequestDto, LoginRequestDto, LoginResponseDto, SelectAreaDto } from "../../interfaces/login.interface";
 import { localStorageService } from "../../services/localstorage";
 import { getAreasService, getPositionsService, selectBranchService, selectDepartmentService, selectPositionService, selectProfileService } from "../../services/sessions";
-import type { SelectPositionDto } from "../../interfaces/position.interface";
+import type { PositionDto, SelectPositionDto } from "../../interfaces/position.interface";
 import type { SelectProfileDto } from "../../interfaces/profile.interface";
 import type { SelectBranchDto } from "../../interfaces/branch.interface";
+import { authService, recoveryUsernameService } from "../../services/auth";
+import type { DepartmentDto } from "../../interfaces/area.interface";
 
 
 export interface AuthState {
   user: LoginResponseDto | null;
   token: string | null;
   error: string | null;
+  areas: DepartmentDto[] | null;
+  positions: PositionDto[] | null;
 }
 
 const initialState: AuthState = {
   user: {
-    requiresAreaSelection: false,
-    requiresBranchSelection: false,
-    requiresPositionSelection: false,
-    requiresProfileSelection: false,
-    success: false,
-    requiresPasswordChange: false,
     token: localStorageService.getToken() ?? ''
   },
+  areas:[],
+  positions:[],
   token: localStorageService.getToken() ?? '',
   error: null,
 };
@@ -34,11 +33,11 @@ export const login = createAsyncThunk(
   "auth/login",
   async (credentials: LoginRequestDto, { rejectWithValue }) => {
     try {
-      const response = await api.post("/auth/login", credentials);
+      const response = await authService(credentials);
       return response.data;
     } catch (err: any) {
       console.log(err);
-      return rejectWithValue(err.response?.data?.message || "Error en login");
+      return rejectWithValue(err);
     }
   }
 );
@@ -48,7 +47,7 @@ export const selectProfile = createAsyncThunk(
   async (selectProfileDto: SelectProfileDto, { rejectWithValue }) => {
     try {
       const response = await selectProfileService(selectProfileDto);
-      return response.data; // puede retornar user actualizado
+      return response.data; 
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || "Error al seleccionar perfil");
     }
@@ -60,7 +59,7 @@ export const selectBranch = createAsyncThunk(
   async (selectBranchDto: SelectBranchDto, { rejectWithValue }) => {
     try {
       const response = await selectBranchService(selectBranchDto);
-      return response.data; // puede retornar user actualizado
+      return response.data; 
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || "Error al seleccionar sucursal");
     }
@@ -72,7 +71,7 @@ export const getAreas = createAsyncThunk(
   async (branchId: number, { rejectWithValue }) => {
     try {
       const response = await getAreasService(branchId);
-      return response.data; // puede retornar user actualizado
+      return response.data; 
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || "Error al seleccionar areas");
     }
@@ -84,7 +83,7 @@ export const getPositions = createAsyncThunk(
   async (areaId: number, { rejectWithValue }) => {
     try {
       const response = await getPositionsService(areaId);
-      return response.data; // puede retornar user actualizado
+      return response.data; 
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || "Error al seleccionar areas");
     }
@@ -96,7 +95,7 @@ export const selectArea = createAsyncThunk(
   async (selectAreaDto: SelectAreaDto, { rejectWithValue }) => {
     try {
       const response = await selectDepartmentService(selectAreaDto);
-      return response.data; // puede retornar user actualizado
+      return response.data; 
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || "Error al seleccionar area");
     }
@@ -108,9 +107,21 @@ export const selectPosition = createAsyncThunk(
   async (selectPositionDto: SelectPositionDto, { rejectWithValue }) => {
     try {
       const response = await selectPositionService(selectPositionDto);
-      return response.data; // puede retornar user actualizado
+      return response.data; 
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || "Error al seleccionar area");
+    }
+  }
+);
+
+export const recoveryUsername = createAsyncThunk(
+  "auth/recoveryUsername",
+  async (data: ForgotUsernameRequestDto, { rejectWithValue }) => {
+    try {
+      const response = await recoveryUsernameService(data);
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err);
     }
   }
 );
@@ -128,6 +139,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.user = action.payload.data;
         state.token = action.payload.data.token;
         localStorageService.setToken(action.payload.data.token);
@@ -147,6 +159,12 @@ const authSlice = createSlice({
       .addCase(selectPosition.fulfilled, (state, action) => {
         state.token = action.payload.data.token;
         localStorageService.setToken(action.payload.data.token);
+      })
+      .addCase(getAreas.fulfilled, (state, action) => {
+        state.areas = action.payload.data;
+      })
+      .addCase(getPositions.fulfilled, (state, action) => {
+        state.positions = action.payload.data;
       })
   },
 });

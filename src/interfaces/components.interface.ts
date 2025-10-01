@@ -1,4 +1,5 @@
 import type { ButtonProps } from 'antd';
+import type { ReactNode } from 'react';
 import type { Control } from 'react-hook-form';
 
 export type Validation =
@@ -27,13 +28,6 @@ export interface FormFieldProps<T extends Record<string, unknown> = Record<strin
   control: Control<T>;
   error?: string;
 }
-
-export interface ButtonCustomProps extends ButtonProps {
-  loading?: boolean;
-  label?: string;
-  block?: boolean;
-}
-
 export interface ApiResponse<T = any> {
   timestamp: string;      // Fecha y hora de la respuesta
   path: string;           // Endpoint que se llamó
@@ -42,5 +36,17 @@ export interface ApiResponse<T = any> {
   message: string;        // Mensaje descriptivo
   data: T;                // Contenido de la respuesta, genérico
   error: string | null | object;   // Mensaje de error, si existe
+}
+
+export interface HandleOptions {
+  showSpinner?: boolean;
+  successMessage?: string;
+  errorMessage?: string;
+  showMessageApi?: boolean
+}
+
+export interface ButtonCustomProps extends ButtonProps {
+  to?: string;          // ruta a la que navegará
+  text?: string | ReactNode;        // texto del botón
 }
 

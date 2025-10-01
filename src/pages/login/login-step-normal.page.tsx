@@ -1,4 +1,4 @@
-import { useState, type JSX, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import StepProfile from "./components/step-profile.components";
 import StepDepartment from "./components/step-departament.component";
@@ -8,21 +8,12 @@ import { Content } from "antd/es/layout/layout";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../redux/store";
 import type { ProfileDto, SelectProfileResponse } from "../../interfaces/profile.interface";
-import { handleRequest } from "../../utils/handle-request";
+import { handleRequestThunk } from "../../utils/handle-request-thunk";
 import { getAreas, getPositions, selectArea, selectPosition, selectProfile } from "../../redux/features/auth.slice";
 import type { DepartmentDto, SelectAreaResponse } from "../../interfaces/area.interface";
-import type { LoginResponseDto } from "../../interfaces/login.interface";
+import type { LoginStepNormalProps, StepItemNormal } from "../../interfaces/login.interface";
 import type { PositionDto, SelectPositionResponse } from "../../interfaces/position.interface";
 import type { ApiResponse } from "../../interfaces/components.interface";
-
-interface StepItem {
-  type: "profile" | "department" | "position";
-  component: JSX.Element;
-}
-
-interface LoginStepNormalProps {
-  user: LoginResponseDto | null;
-}
 
 const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
   const [step, setStep] = useState<number>(0);
@@ -53,13 +44,11 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
         case "profile":
             if (!profile) break;
             
-            const profileResult: ApiResponse<SelectProfileResponse> | null = await handleRequest(
+            const profileResult: ApiResponse<SelectProfileResponse> | null = await handleRequestThunk(
                 dispatch,
                 () => dispatch(selectProfile({profileId: profile.id})).unwrap(),
                 {
-                    showSpinner: true,
-                    successMessage: "Perfil seleccionado",
-                    errorMessage: "Error al seleccionar perfil",
+                    showSpinner: true, showMessageApi: true
                 }
             );
             if((profileResult && !profileResult.success) || !profileResult) return;
@@ -76,33 +65,29 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
             setBranchId(profileResult.data.profile.branchId);
             
             // 🔹 CARGAR ÁREAS INMEDIATAMENTE después de seleccionar perfil
-            const departmentResultList: ApiResponse<DepartmentDto[]> | null = await handleRequest(
+            const departmentResultList: ApiResponse<DepartmentDto[]> | null = await handleRequestThunk(
                     dispatch,
                     () => dispatch(getAreas(profileResult.data.profile.branchId)).unwrap(),
                 {
-                    showSpinner: false, // Ya mostró spinner en selectProfile
-                    successMessage: "Áreas cargadas",
-                    errorMessage: "Error al cargar áreas",
+                    showSpinner: false, showMessageApi: true
                 }
             );
+            if(!departmentResultList || !departmentResultList?.success) return;
             setDepartmentList(departmentResultList?.data ?? []);
           break;
   
         case "department":
           if (!department) break;
-          const departamentResult: ApiResponse<SelectAreaResponse> | null= await handleRequest(
+          const departamentResult: ApiResponse<SelectAreaResponse> | null= await handleRequestThunk(
             dispatch,
             () => dispatch(selectArea({areaId: department.id, branchId: branchId ?? 0})).unwrap(),
             {
-                showSpinner: true,
-                successMessage: "Area seleccionado",
-                errorMessage: "Error al seleccionar Area",
+                showSpinner: true, showMessageApi: true
             }
             );
           console.log(departamentResult);
           
           if ((departamentResult && !departamentResult.success) || !departamentResult) return;
-
 
           // Si tiene ya positionId definido, ir directo a home
           if (positionId != null) {
@@ -114,16 +99,15 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
           setAreaId(department.id);
           console.log("llego a obtener posiciones");
            // 🔹 CARGAR ÁREAS INMEDIATAMENTE después de seleccionar perfil
-           const positionResultList: ApiResponse<PositionDto[]> | null = await handleRequest(
+           const positionResultList: ApiResponse<PositionDto[]> | null = await handleRequestThunk(
             dispatch,
             () => dispatch(getPositions(department.id)).unwrap(),
                 {
-                    showSpinner: false, // Ya mostró spinner en selectProfile
-                    successMessage: "Puestos cargadas",
-                    errorMessage: "Error al cargar Puestos",
+                    showSpinner: false, showMessageApi: true
                 }
             );
             
+            if(!positionResultList || !positionResultList?.success) return;
             setPositionList(positionResultList?.data ?? []);
 
           break;
@@ -131,13 +115,11 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
         case "position":
           if (!position) break;
 
-          const positionResult: ApiResponse<SelectPositionResponse> | null = await handleRequest(
+          const positionResult: ApiResponse<SelectPositionResponse> | null = await handleRequestThunk(
             dispatch,
             () => dispatch(selectPosition({areaId: areaId ?? 0, positionId: position.id ?? 0})).unwrap(),
               {
-                  showSpinner: true,
-                  successMessage: "Position seleccionado",
-                  errorMessage: "Error al seleccionar Position",
+                  showSpinner: true, showMessageApi: true
               }
             );
           console.log(positionResult);
@@ -165,13 +147,12 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
   };
 
   const handleFinish = () => {
-    console.log("Usuario normal - completado, yendo a home");
     navigate("/home");
   };
 
   // Construir steps dinámicamente basado en los flags del usuario
-  const buildSteps = (): StepItem[] => {
-    const steps: StepItem[] = [];
+  const buildSteps = (): StepItemNormal[] => {
+    const steps: StepItemNormal[] = [];
     
     steps.push({
       type: "profile",
@@ -218,8 +199,7 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
   };
 
   const steps = buildSteps();
-
-  // Si no hay steps, ir directamente a home
+  
   if (steps.length === 0) {
     return null;
   }

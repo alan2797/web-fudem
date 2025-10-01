@@ -12,16 +12,16 @@ export const generateZodSchema = <T extends Record<string, any>>(
     field.validations?.forEach((val) => {
       switch (val.type) {
         case "required":
-          schema = (schema as z.ZodString).nonempty(val.message || "Campo requerido");
+          schema = (schema as z.ZodString).nonempty(val.message || "El campo requerido");
           break;
         case "min":
-          schema = (schema as z.ZodString).min(val.value, val.message);
+          schema = (schema as z.ZodString).min(val.value, val.message || "El campo requiere minimo " + val.value + " caracteres");
           break;
         case "max":
-          schema = (schema as z.ZodString).max(val.value, val.message);
+          schema = (schema as z.ZodString).max(val.value, val.message || "El campo requiere maximo " + val.value + " caracteres");
           break;
         case "email":
-          schema = (schema as z.ZodString).email(val.message || "Formato inválido");
+          schema = (schema as z.ZodString).email(val.message || "Formato de correo inválido");
           break;
         case "matches":
           schema = (schema as z.ZodString).regex(val.regex, val.message);

@@ -7,7 +7,7 @@ import { Col, Layout, Row, theme } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../redux/store";
-import { handleRequest } from "../../utils/handle-request";
+import { handleRequestThunk } from "../../utils/handle-request-thunk";
 import { getAreas, getPositions, selectArea, selectBranch, selectPosition } from "../../redux/features/auth.slice";
 import type { DepartmentDto, SelectAreaResponse } from "../../interfaces/area.interface";
 import type { LoginResponseDto } from "../../interfaces/login.interface";
@@ -25,8 +25,10 @@ interface StepItem {
 
 interface LoginStepNormalProps {
   user: LoginResponseDto | null;
+  areas: DepartmentDto[];
+  positions: DepartmentDto[]
 }
-const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user }) => {
+const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user, areas, positions }) => {
   const [step, setStep] = useState<number>(0);
   const [department, setDepartment] = useState<DepartmentDto | null>(null);
   const [position, setPosition] = useState<PositionDto | null>(null);
@@ -48,7 +50,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user }) => {
       switch (currentStepType) {
         case "branch":
           if (!branch) return;
-          const branchResult: ApiResponse<SelectBranchResponse> | null = await handleRequest(
+          const branchResult: ApiResponse<SelectBranchResponse> | null = await handleRequestThunk(
             dispatch,
             () => dispatch(selectBranch({branchId: branch.id})).unwrap(),
             {
@@ -62,21 +64,21 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user }) => {
           console.log(branchResult);
 
           // 🔹 CARGAR ÁREAS INMEDIATAMENTE después de seleccionar perfil
-          const departmentResultList: ApiResponse<DepartmentDto[]> | null = await handleRequest(
+          const departmentResultList: ApiResponse<DepartmentDto[]> | null = await handleRequestThunk(
             dispatch,
             () => dispatch(getAreas(branch.id)).unwrap(),
             {
-              showSpinner: false, // Ya mostró spinner en selectProfile
-              successMessage: "Áreas cargadas",
-              errorMessage: "Error al cargar áreas",
+              showSpinner: false, 
+              showMessageApi: true
             }
           );
+          if(!departmentResultList || !departmentResultList?.success) return;
           setDepartmentList(departmentResultList?.data ?? []);
           break;
 
         case "department":
           if (!department) break;
-          const departamentResult: ApiResponse<SelectAreaResponse> | null= await handleRequest(
+          const departamentResult: ApiResponse<SelectAreaResponse> | null= await handleRequestThunk(
             dispatch,
             () =>
               dispatch(
@@ -99,7 +101,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user }) => {
           }
 
           // 🔹 CARGAR ÁREAS INMEDIATAMENTE después de seleccionar perfil
-          const positionResultList: ApiResponse<PositionDto[]> | null = await handleRequest(
+          const positionResultList: ApiResponse<PositionDto[]> | null = await handleRequestThunk(
             dispatch,
             () =>
               dispatch(
@@ -112,6 +114,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user }) => {
             }
           );
 
+          if(!positionResultList || !positionResultList?.success) return;
           setPositionList(positionResultList?.data ?? []);
 
           break;
@@ -119,7 +122,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user }) => {
         case "position":
           if (!position) break;
           
-          const positionResult: ApiResponse<SelectPositionResponse> | null = await handleRequest(
+          const positionResult: ApiResponse<SelectPositionResponse> | null = await handleRequestThunk(
             dispatch,
             () => dispatch(selectPosition({areaId: department?.id ?? 0, positionId: position.id ?? 0})).unwrap(),
               {
@@ -153,7 +156,6 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user }) => {
   };
 
   const handleFinish = () => {
-    console.log("Admin - completado, yendo a home");
     navigate("/home");
   };
 
@@ -179,7 +181,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user }) => {
           setDepartment={setDepartment}
           onNext={handleNext}
           onBack={handleBack}
-          departamentList={departmentList ?? []}
+          departamentList={departmentList ?? areas}
         />
       ),
     },
@@ -192,7 +194,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user }) => {
           setPosition={setPosition}
           onBack={handleBack}
           handleNext={handleNext}
-          positionList={positionList ?? []}
+          positionList={positionList ?? positions}
         />
       ),
     },
