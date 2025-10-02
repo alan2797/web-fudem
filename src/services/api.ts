@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://link-virtue-lambda-admitted.trycloudflare.com",
+  baseURL: "https://accepting-barrier-gathering-wing.trycloudflare.com",
   headers: {
     "Content-Type": "application/json",
   },

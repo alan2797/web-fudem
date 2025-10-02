@@ -12,6 +12,11 @@ export const RoutePaths = {
     // Private routes
     LOGIN_STEP: '/login/step',
     HOME: '/',
+
+     // Users routes
+    USERS_LIST: '/users/list',
+    USERS_CREATE: '/users/create',
+    USERS_EDIT: '/users/edit',
   
     // Catch all
     NOT_FOUND: '*',

@@ -12,6 +12,8 @@ const ForgotPassword = lazy(() => import('../pages/recovery-account/forgot-passw
 const ChangeTemporaryPassword = lazy(() => import('../pages/temporary-password/temporary-password.page'));
 const HomePage = lazy(() => import('../pages/home/home.page'));
 
+const UserList = lazy(() => import('../pages/users/user-list/user-list.page'));
+
 export const publicRoutes: RouteConfig[] = [
   {
     path: RoutePaths.LOGIN,
@@ -72,6 +74,13 @@ export const privateRoutes: RouteConfig[] = [
     isPrivate: false,
     isRestricted: true,
     title: 'Cambiar Contraseña Temporal'
+  },
+  {
+    path: RoutePaths.USERS_LIST,
+    component: UserList,
+    isPrivate: true,
+    layout: 'main',
+    title: 'Lista de Usuario'
   },
 ];
 

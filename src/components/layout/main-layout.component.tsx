@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../redux/store";
 import type { MenuProps } from "antd";
 import { SelectMenu } from "../select-menu/select-menu.component";
+import { RoutePaths } from "../../utils/constants";
 
 const { Header, Sider, Content } = Layout;
 
@@ -61,12 +62,12 @@ const MainLayout = () => {
       type: "group",
       children: [
         {
-          key: "/users1",
+          key: "users",
           icon: <UserOutlined />,
           label: "Administración de Usuarios",
           children: [
             {
-              key: "/users/list",
+              key: RoutePaths.USERS_LIST,
               label: "Lista de Usuarios",
               icon: <UnorderedListOutlined />,
             },
@@ -90,7 +91,7 @@ const MainLayout = () => {
       type: "group",
       children: [
         {
-          key: "/branches",
+          key: "branches",
           icon: <ShopOutlined />,
           label: "Sucursales",
           children: [
@@ -164,7 +165,7 @@ const MainLayout = () => {
           `}
         </style>
         <div className="text-center py-4">
-          {collapsed ? "" : <img src="src/assets/svg/logo-sm.svg"></img>}
+          {collapsed ? "" : <img src="/src/assets/svg/logo-sm.svg"></img>}
         </div>
         {!collapsed ? (
           // Cuando está expandido: muestra los SelectMenu

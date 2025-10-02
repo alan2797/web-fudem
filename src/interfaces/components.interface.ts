@@ -21,11 +21,6 @@ export interface FieldConfig<T extends Record<string, unknown> = Record<string, 
   sm?: string | number;
   xs?: string | number;
   validations: Validation[];
-   // Propiedades específicas para SelectMenu (opcionales)
-  options?: Array<{ label: string; value: string | number }>;
-  icon?: ReactNode;
-  color?: string;
-  size?: 'small' | 'middle' | 'large';
 }
 
 export interface FormFieldProps<T extends Record<string, unknown> = Record<string, unknown>> {
@@ -55,3 +50,68 @@ export interface ButtonCustomProps extends ButtonProps {
   text?: string | ReactNode;        // texto del botón
 }
 
+
+// Interface GenericTable
+/* export interface FilterOption {
+  label: string;
+  value: string;
+}
+
+export interface FilterConfig {
+  key: string;
+  placeholder: string;
+  type?: "text" | "select" | "button";
+  options?: FilterOption[];
+  onFilter?: (value: string) => void;
+  col?: number; // 👈 cantidad de columnas (1-24 en AntD)
+  buttonProps?: { text: string; onClick: () => void };
+}
+
+export interface PaginationConfig {
+  currentPage: number;
+  pageSize: number;
+  total: number;
+  onPageChange: (page: number, pageSize: number) => void;
+}
+
+export interface GenericTableProps<T> {
+  columns: ColumnsType<T>;
+  data: T[];
+  filters?: FilterConfig[];
+  pagination: PaginationConfig;
+  onSearch?: (value: string) => void;
+} */
+
+
+export interface Column {
+  key: string;
+  label: string;
+  sortable?: boolean;
+  render?: (value: any, row: any) => ReactNode;
+  width?: number | string;
+}
+
+export interface FilterColumn {
+  key: string;
+  content: ReactNode;
+  span?: number;
+}
+
+export interface Pagination {
+  currentPage: number;
+  pageSize: number;
+  totalItems: number;
+  pageSizeOptions?: string[];
+}
+
+export interface TableProps {
+  data: any[];
+  columns: Column[];
+  filters?: FilterColumn[];
+  pagination?: Pagination;
+  onPageChange?: (page: number) => void;
+  onPageSizeChange?: (pageSize: number) => void;
+  onSort?: (key: string, direction: 'asc' | 'desc') => void;
+  loading?: boolean;
+  scroll?: { x?: number | string; y?: number | string };
+}
