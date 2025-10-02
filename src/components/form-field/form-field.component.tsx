@@ -16,5 +16,5 @@ export const FormField = <TFormValues extends Record<string, unknown>>({
 }: FormFieldProps<TFormValues>) => {
     const Component = fieldMap[fieldConfig.type ?? "text"];
     if (!Component) return null;
-    return <Component fieldConfig={fieldConfig} control={control} error={error} />;
+    return <Component fieldConfig={fieldConfig} control={control} error={error}/>;
 };

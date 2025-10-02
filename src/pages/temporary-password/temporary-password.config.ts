@@ -1,5 +1,6 @@
-import type { ChangePasswordRequestDto } from "../../interfaces/change-password.interface";
+
 import type { FieldConfig } from "../../interfaces/components.interface";
+import type { ChangePasswordRequestDto } from "../../interfaces/login.interface";
 
 
 
@@ -11,10 +12,11 @@ export const configFormChangePassword = (): FieldConfig<ChangePasswordRequestDto
         valueInitial: "",
         xs: 24,
         validations: [
-        { type: "required"},
-        { type: "min", value: 8, message: "Mínimo 8 caracteres" },
-        {type: "email"}
+            { type: "required"},
+            { type: "min", value: 8},
+            {type: "email"}
         ],
+        showAllErrors: true
     },
     {
         key: "confirmPassword",
