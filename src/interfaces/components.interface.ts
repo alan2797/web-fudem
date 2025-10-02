@@ -26,7 +26,7 @@ export interface FieldConfig<T extends Record<string, unknown> = Record<string, 
 export interface FormFieldProps<T extends Record<string, unknown> = Record<string, unknown>> {
   fieldConfig: FieldConfig<T>;
   control: Control<T>;
-  error?: string;
+  error?: string | any;
 }
 export interface ApiResponse<T = any> {
   timestamp: string;      // Fecha y hora de la respuesta

@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import type { BranchDto } from "./branch.interface";
 import type { ProfileDto } from "./profile.interface";
 
@@ -72,4 +73,9 @@ export interface ForgotPasswordReponse {
 
 export interface LoginStepNormalProps {
   user: LoginResponseDto | null;
+}
+
+export interface StepItemNormal {
+  type: "profile" | "department" | "position";
+  component: JSX.Element;
 }
