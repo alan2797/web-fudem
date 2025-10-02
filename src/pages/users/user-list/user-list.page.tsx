@@ -1,9 +1,13 @@
 
 import React, { useState } from 'react';
-import { Select, Input, Card } from 'antd';
+import { Select, Input, Card, Row, Divider, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import type { Column, FilterColumn, Pagination } from '../../../interfaces/components.interface';
+import type { Column, FieldConfig, FilterColumn, Pagination } from '../../../interfaces/components.interface';
 import GenericTable from '../../../components/generic-table/generic-table.component';
+import { useForm } from 'react-hook-form';
+import type { LoginRequestDto } from '../../../interfaces/login.interface';
+import { configForm } from './user-list.config';
+import { FormField } from '../../../components/form-field/form-field.component';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -27,8 +31,8 @@ const mockData = [
     pais: 'El Salvador'
   },
 ];
-
-const ExampleUsage: React.FC = () => {
+const configFormSchema: FieldConfig<LoginRequestDto>[] = configForm();
+const UserList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState<Pagination>({
     currentPage: 1,
@@ -135,10 +139,30 @@ const ExampleUsage: React.FC = () => {
   const handleSort = (key: string, direction: 'asc' | 'desc') => {
     console.log('Ordenar por:', key, direction);
   };
-
+  const {
+      control,
+      formState: { errors},
+    } = useForm<LoginRequestDto>({
+      defaultValues: configFormSchema.reduce(
+        (acc, field) => ({ ...acc, [field.key]: field.valueInitial }),
+        {} as LoginRequestDto
+      ),
+    });
   return (
 
     <Card title="Lista de Usuarios" style={{ margin: 16 }}>
+      <Row gutter={30}>
+          {configFormSchema.map((field) => (
+            <Col className="mb-1" key={String(field.key)} xs={field.xs}>
+              <FormField
+                fieldConfig={field}
+                control={control}
+                error={errors[field.key]?.message as string}
+              />
+            </Col>
+          ))}
+      </Row>
+    <Divider />
       <GenericTable
         data={mockData}
         columns={columns}
@@ -153,4 +177,4 @@ const ExampleUsage: React.FC = () => {
   );
 };
 
-export default ExampleUsage;
+export default UserList;
