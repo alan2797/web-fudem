@@ -25,7 +25,9 @@ export interface FieldConfig<T extends Record<string, unknown> = Record<string, 
   md?: string | number;
   sm?: string | number;
   xs?: string | number;
-  validations: Validation[];
+  showAllErrors?: boolean;
+  validations?: Validation[];
+  options?: SelectOption[];
 }
 
 export interface FormFieldProps<T extends Record<string, unknown> = Record<string, unknown>> {
@@ -54,39 +56,6 @@ export interface ButtonCustomProps extends ButtonProps {
   to?: string;          // ruta a la que navegará
   text?: string | ReactNode;        // texto del botón
 }
-
-
-// Interface GenericTable
-/* export interface FilterOption {
-  label: string;
-  value: string;
-}
-
-export interface FilterConfig {
-  key: string;
-  placeholder: string;
-  type?: "text" | "select" | "button";
-  options?: FilterOption[];
-  onFilter?: (value: string) => void;
-  col?: number; // 👈 cantidad de columnas (1-24 en AntD)
-  buttonProps?: { text: string; onClick: () => void };
-}
-
-export interface PaginationConfig {
-  currentPage: number;
-  pageSize: number;
-  total: number;
-  onPageChange: (page: number, pageSize: number) => void;
-}
-
-export interface GenericTableProps<T> {
-  columns: ColumnsType<T>;
-  data: T[];
-  filters?: FilterConfig[];
-  pagination: PaginationConfig;
-  onSearch?: (value: string) => void;
-} */
-
 
 export interface Column {
   key: string;
@@ -119,4 +88,21 @@ export interface TableProps {
   onSort?: (key: string, direction: 'asc' | 'desc') => void;
   loading?: boolean;
   scroll?: { x?: number | string; y?: number | string };
+}
+
+export interface SelectOption {
+  value: string | number;
+  label: string;
+}
+
+export interface SelectMenuConfigProps {
+  placeholder?: string;
+  options?: SelectOption[];
+  icon?: ReactNode;
+  color?: string;
+  size?: "small" | "middle" | "large";
+  showSearch?: boolean;
+  value?: string | number;
+  onChange?: (value: string | number) => void;
+  defaultValue?: string | number;
 }
