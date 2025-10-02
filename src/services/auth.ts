@@ -1,4 +1,4 @@
-import type { BlockedUsernameRequestDto, ChangePasswordRequestDto, ForgotPasswordReponse, ForgotPasswordRequestDto, ForgotUsernameRequestDto, LoginRequestDto } from "../interfaces/login.interface";
+import type { BlockedUsernameRequestDto, ChangePasswordRequestDto, ForgotPasswordRequestDto, ForgotUsernameRequestDto, LoginRequestDto } from "../interfaces/login.interface";
 import api from "./api";
 
 export const authService = async (data: LoginRequestDto) => {

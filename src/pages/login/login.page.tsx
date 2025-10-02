@@ -58,7 +58,7 @@ const onSubmit: SubmitHandler<LoginRequestDto> = async (data) => {
     <Row
       className="min-vh-100 d-flex justify-content-center align-items-center bg-primary-antd"
     >
-      <Col xs={24} lg={10} className="d-flex justify-content-center">
+      <Col xs={23} lg={10} className="d-flex justify-content-center">
         <Card
           className="w-100"
           style={{ maxWidth: 410, borderRadius: 24 }}
