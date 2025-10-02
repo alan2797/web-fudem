@@ -1,4 +1,4 @@
-import type { BlockedUsernameRequestDto, ForgotPasswordReponse, ForgotPasswordRequestDto, ForgotUsernameRequestDto, LoginRequestDto } from "../interfaces/login.interface";
+import type { BlockedUsernameRequestDto, ChangePasswordRequestDto, ForgotPasswordReponse, ForgotPasswordRequestDto, ForgotUsernameRequestDto, LoginRequestDto } from "../interfaces/login.interface";
 import api from "./api";
 
 export const authService = async (data: LoginRequestDto) => {
@@ -18,5 +18,10 @@ export const blockedUsernameService = async (data: BlockedUsernameRequestDto) =>
 
 export const forgotPasswordService = async (data: ForgotPasswordRequestDto) => {
     const res = await api.post("/users/recovery/password", data);
+    return res;
+};
+
+export const changePasswordTempService = async (data: ChangePasswordRequestDto) => {
+    const res = await api.post("/auth/change-temp-password", data);
     return res;
 };

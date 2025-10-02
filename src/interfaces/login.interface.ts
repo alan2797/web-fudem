@@ -18,6 +18,7 @@ export interface LoginResponseDto {
   profiles?: ProfileDto[];
   availableBranches?: BranchDto[];
   canSelectOrganization?: boolean;
+  tempPassword?: string;
 }
 
 export interface TokenPayload {
@@ -42,6 +43,7 @@ export interface ForgotUsernameRequestDto extends Record<string, unknown> {
 }
 
 export interface ChangePasswordRequestDto extends Record<string, unknown>{
+  tempPassword?: string;
   newPassword?: string;
   confirmPassword?: string;    
 }
@@ -78,4 +80,9 @@ export interface LoginStepNormalProps {
 export interface StepItemNormal {
   type: "profile" | "department" | "position";
   component: JSX.Element;
+}
+
+export interface ChangePasswordResponse{
+  success?: boolean;
+  message?: string;
 }

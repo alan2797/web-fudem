@@ -7,7 +7,7 @@ export const RoutePaths = {
     FORGOT_USERNAME: '/forgot-username',
     BLOCKED_USER: '/blocked-user',
     FORGOT_PASSWORD: '/forgot-password',
-    CHANGE_PASSWORD_TEMP: '/change-password',
+    CHANGE_PASSWORD_TEMP: '/change-temp-password',
     LOGIN_STEP: '/login/step',
   
     // Private routes

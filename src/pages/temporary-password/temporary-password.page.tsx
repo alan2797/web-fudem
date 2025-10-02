@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col, theme, Button, Form, Divider } from "antd";
 import { KeyOutlined } from "@ant-design/icons";
-import type { FieldConfig } from "../../interfaces/components.interface";
+import type { ApiResponse, FieldConfig } from "../../interfaces/components.interface";
 import { configFormChangePassword } from "./temporary-password.config";
 import { generateZodSchema } from "../../validators/validations";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormField } from "../../components/form-field/form-field.component";
-import type { ChangePasswordRequestDto } from "../../interfaces/login.interface";
+import type { ChangePasswordRequestDto, ChangePasswordResponse } from "../../interfaces/login.interface";
 import RecoveryLayout from "../recovery-account/components/recovery-layout";
+import { handleRequestAxios } from "../../utils/handle-request-axios";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../redux/store";
+import { changePasswordTempService } from "../../services/auth";
+import { useNavigate } from "react-router-dom";
+import { RoutePaths } from "../../utils/constants";
 
 const configFormSchema: FieldConfig<ChangePasswordRequestDto>[] =
   configFormChangePassword();
 const changePasswordSchema =
   generateZodSchema<ChangePasswordRequestDto>(configFormSchema);
 const ChangeTemporaryPassword: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const tempPassword = useSelector((state: RootState) => state.auth.user?.tempPassword);
   const { token } = theme.useToken();
   const {
     control,
@@ -29,8 +38,24 @@ const ChangeTemporaryPassword: React.FC = () => {
     ),
   });
 
-  const onSubmit = () => {
+  useEffect(() => {
+    if(!tempPassword){
+      console.log("entro a login")
+      navigate(RoutePaths.LOGIN);
+    }
+  }, [tempPassword, navigate]);
+
+  const onSubmit = async (data: ChangePasswordRequestDto) => {
+    data.tempPassword = tempPassword ?? '';
     console.log("enviado");
+    const result: ApiResponse<ChangePasswordResponse> | null = await handleRequestAxios(dispatch, () => changePasswordTempService(data), {
+        showSpinner: true,
+        showMessageApi: true
+    });
+    console.log(result);
+    if(result?.success){
+      navigate(RoutePaths.LOGIN);
+    }
   };
   return (
     <Row
@@ -65,7 +90,7 @@ const ChangeTemporaryPassword: React.FC = () => {
                   ))}
                 </Row>
                 <Form.Item>
-                  <Row>
+                  <Row className="mt-2">
                     <Col span={24}>
                       <Button
                         size="large"

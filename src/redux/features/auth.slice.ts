@@ -1,5 +1,5 @@
 
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 import type { ForgotUsernameRequestDto, LoginRequestDto, LoginResponseDto, SelectAreaDto } from "../../interfaces/login.interface";
 import { localStorageService } from "../../services/localstorage";
 import { getAreasService, getPositionsService, selectBranchService, selectDepartmentService, selectPositionService, selectProfileService } from "../../services/sessions";
@@ -135,6 +135,16 @@ const authSlice = createSlice({
       state.token = null;
       localStorage.removeItem("token");
     },
+    setTempPassword(state, action: PayloadAction<string>) {
+      if(state.user){
+        state.user.tempPassword = action.payload;
+      }
+    },
+    clearTempPassword(state) {
+      if(state.user){
+        state.user.tempPassword = undefined;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -169,5 +179,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setTempPassword, clearTempPassword } = authSlice.actions;
 export default authSlice.reducer;

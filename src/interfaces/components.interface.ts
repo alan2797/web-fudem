@@ -7,7 +7,12 @@ export type Validation =
   | { type: 'min'; value: number; message?: string }
   | { type: 'max'; value: number; message?: string }
   | { type: 'email'; message?: string }
-  | { type: 'matches'; regex: RegExp; message?: string };
+  | { type: 'matches'; regex: RegExp; message?: string }
+  | { type: 'passwordSpecialChar'; message?: string }
+  | { type: 'passwordNumber'; message?: string }
+  | { type: 'passwordUpper'; message?: string }
+  | { type: 'passwordLower'; message?: string }
+  | { type: 'matchField'; field: string; message?: string };
 
 export interface FieldConfig<T extends Record<string, unknown> = Record<string, unknown>> {
   key: keyof T;

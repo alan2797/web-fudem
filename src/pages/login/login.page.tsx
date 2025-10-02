@@ -10,49 +10,50 @@ import { Link, useNavigate } from "react-router-dom";
 import { FormField } from "../../components/form-field/form-field.component";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../redux/store";
-import { login } from "../../redux/features/auth.slice";
+import { login, setTempPassword } from "../../redux/features/auth.slice";
 import { handleRequestThunk } from "../../utils/handle-request-thunk";
 import { localStorageService } from "../../services/localstorage";
+import { RoutePaths } from "../../utils/constants";
 
 const configFormSchema: FieldConfig<LoginRequestDto>[] = configForm();
 const loginSchema = generateZodSchema<LoginRequestDto>(configFormSchema);
 const Login: React.FC = () => {
-  const { token: themeToken } = theme.useToken();
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginRequestDto>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: configFormSchema.reduce(
-      (acc, field) => ({ ...acc, [field.key]: field.valueInitial }),
-      {} as LoginRequestDto
-    ),
+const { token: themeToken } = theme.useToken();
+const {
+  control,
+  handleSubmit,
+  formState: { errors, isSubmitting },
+} = useForm<LoginRequestDto>({
+  resolver: zodResolver(loginSchema),
+  defaultValues: configFormSchema.reduce(
+    (acc, field) => ({ ...acc, [field.key]: field.valueInitial }),
+    {} as LoginRequestDto
+  ),
+});
+
+const dispatch = useDispatch<AppDispatch>();
+const navigate = useNavigate();
+
+const onSubmit: SubmitHandler<LoginRequestDto> = async (data) => {
+  const result: ApiResponse<LoginResponseDto> | null = await handleRequestThunk(dispatch, () => dispatch(login(data)).unwrap(), {
+    showSpinner: true,
+    showMessageApi: true
   });
-
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-
-  const onSubmit: SubmitHandler<LoginRequestDto> = async (data) => {
-    console.log(data);
-    const result: ApiResponse<LoginResponseDto> | null = await handleRequestThunk(dispatch, () => dispatch(login(data)).unwrap(), {
-      showSpinner: true,
-      showMessageApi: true
-    });
-    console.log(result);
-    if(result?.success){
-      const token = localStorageService.decode();
-      console.log(token);
-      if(token?.isAdmin){
-        navigate("/login/step");
-      }else if(result?.data.requiresProfileSelection){
-        navigate("/login/step");
-      }else{
-        navigate("/home");
-      }
+  if(result?.success){
+    if(result.data.requiresPasswordChange){
+      dispatch(setTempPassword(data?.password ?? ''));
+      navigate(RoutePaths.CHANGE_PASSWORD_TEMP);
+      return;
     }
-  
-  };
+
+    const token = localStorageService.decode();
+    if(token?.isAdmin || result.data.requiresProfileSelection){
+      navigate(RoutePaths.LOGIN_STEP);
+    }else{
+      navigate(RoutePaths.HOME);
+    }
+  }
+};
 
   return (
     <Row
