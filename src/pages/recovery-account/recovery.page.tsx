@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, theme } from "antd";
+import { Row, Col } from "antd";
 import {
   KeyOutlined,
   LockOutlined,
@@ -9,12 +9,10 @@ import RecoveryLayout from "./components/recovery-layout";
 import RecoveryOption from "./components/recovery-option";
 
 const RecoveryAccount: React.FC = () => {
-  const { token } = theme.useToken();
 
   return (
     <Row
-      className="min-vh-100 d-flex justify-content-center align-items-center"
-      style={{ backgroundColor: token.colorPrimary }}
+      className="min-vh-100 d-flex justify-content-center align-items-center bg-primary-antd"
     >
       <Col xs={24} lg={10} className="d-flex justify-content-center">
         <RecoveryLayout

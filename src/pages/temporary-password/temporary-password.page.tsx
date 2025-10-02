@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { Row, Col, theme, Button, Form, Divider } from "antd";
+import { Row, Col, Form, Divider } from "antd";
 import { KeyOutlined } from "@ant-design/icons";
 import type { ApiResponse, FieldConfig } from "../../interfaces/components.interface";
 import { configFormChangePassword } from "./temporary-password.config";
-import { generateZodSchema } from "../../validators/validations";
+import { buildDefaultValues, generateZodSchema } from "../../validators/validations";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormField } from "../../components/form-field/form-field.component";
@@ -15,16 +15,14 @@ import type { AppDispatch, RootState } from "../../redux/store";
 import { changePasswordTempService } from "../../services/auth";
 import { useNavigate } from "react-router-dom";
 import { RoutePaths } from "../../utils/constants";
+import ButtonCustom from "../../components/button/button.component";
 
-const configFormSchema: FieldConfig<ChangePasswordRequestDto>[] =
-  configFormChangePassword();
-const changePasswordSchema =
-  generateZodSchema<ChangePasswordRequestDto>(configFormSchema);
+const configFormSchema: FieldConfig<ChangePasswordRequestDto>[] = configFormChangePassword();
+const changePasswordSchema = generateZodSchema<ChangePasswordRequestDto>(configFormSchema);
 const ChangeTemporaryPassword: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const tempPassword = useSelector((state: RootState) => state.auth.user?.tempPassword);
-  const { token } = theme.useToken();
   const {
     control,
     handleSubmit,
@@ -32,35 +30,27 @@ const ChangeTemporaryPassword: React.FC = () => {
   } = useForm<ChangePasswordRequestDto>({
     resolver: zodResolver(changePasswordSchema),
     criteriaMode: "all",
-    defaultValues: configFormSchema.reduce(
-      (acc, field) => ({ ...acc, [field.key]: field.valueInitial }),
-      {} as ChangePasswordRequestDto
-    ),
+    defaultValues: buildDefaultValues(configFormSchema),
   });
 
   useEffect(() => {
-    if(!tempPassword){
-      console.log("entro a login")
-      navigate(RoutePaths.LOGIN);
-    }
+    if (!tempPassword) navigate(RoutePaths.LOGIN);
   }, [tempPassword, navigate]);
 
   const onSubmit = async (data: ChangePasswordRequestDto) => {
-    data.tempPassword = tempPassword ?? '';
     console.log("enviado");
-    const result: ApiResponse<ChangePasswordResponse> | null = await handleRequestAxios(dispatch, () => changePasswordTempService(data), {
+    const result: ApiResponse<ChangePasswordResponse> | null = await handleRequestAxios(dispatch, () => changePasswordTempService({ ...data, tempPassword }), {
         showSpinner: true,
         showMessageApi: true
     });
-    console.log(result);
     if(result?.success){
       navigate(RoutePaths.LOGIN);
     }
   };
+
   return (
     <Row
-      className="min-vh-100 d-flex justify-content-center align-items-center"
-      style={{ backgroundColor: token.colorPrimary }}
+      className="min-vh-100 d-flex justify-content-center align-items-center bg-primary-antd"
     >
       <Col xs={24} lg={10} className="d-flex justify-content-center">
         <RecoveryLayout
@@ -92,15 +82,13 @@ const ChangeTemporaryPassword: React.FC = () => {
                 <Form.Item>
                   <Row className="mt-2">
                     <Col span={24}>
-                      <Button
-                        size="large"
+                      <ButtonCustom
                         loading={isSubmitting}
                         type="primary"
                         htmlType="submit"
                         block
-                      >
-                        Confirmar Nueva Contraseña
-                      </Button>
+                        title="Confirmar Nueva Contraseña"
+                      />
                     </Col>
                   </Row>
                 </Form.Item>

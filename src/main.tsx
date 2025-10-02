@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
 import Spinner from "./components/spinner/spinner.component.tsx";
 import "./index.css";
+import { ThemeVariables } from "./utils/theme-provider.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -20,6 +21,7 @@ createRoot(document.getElementById("root")!).render(
           },
         }}
       >
+        <ThemeVariables />
         <App />
         <Spinner />
       </ConfigProvider>

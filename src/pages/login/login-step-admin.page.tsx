@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import StepDepartment from "./components/step-departament.component";
 import StepBranch from "./components/step-branch.component";
 import StepPosition from "./components/step-position.component";
-import { Col, Layout, Row, theme } from "antd";
+import { Col, Layout, Row } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../redux/store";
@@ -37,7 +37,6 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user, areas, positions
     null
   );
   const [positionList, setPositionList] = useState<PositionDto[] | null>(null);
-  const { token } = theme.useToken();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -201,7 +200,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user, areas, positions
   ];
 
   return (
-    <Layout style={{ minHeight: "100vh", backgroundColor: token.colorPrimary }}>
+    <Layout className="bg-primary-antd" style={{ minHeight: "100vh" }}>
       <Content>
         <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>
           <Col xs={24}>{steps[step]?.component}</Col>

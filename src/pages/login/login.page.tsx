@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card, Form, Button, theme } from "antd";
+import { Row, Col, Card, Form, Button } from "antd";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ApiResponse, FieldConfig } from "../../interfaces/components.interface";
@@ -18,7 +18,6 @@ import { RoutePaths } from "../../utils/constants";
 const configFormSchema: FieldConfig<LoginRequestDto>[] = configForm();
 const loginSchema = generateZodSchema<LoginRequestDto>(configFormSchema);
 const Login: React.FC = () => {
-const { token: themeToken } = theme.useToken();
 const {
   control,
   handleSubmit,
@@ -57,8 +56,7 @@ const onSubmit: SubmitHandler<LoginRequestDto> = async (data) => {
 
   return (
     <Row
-      className="min-vh-100 d-flex justify-content-center align-items-center"
-      style={{ backgroundColor: themeToken.colorPrimary }}
+      className="min-vh-100 d-flex justify-content-center align-items-center bg-primary-antd"
     >
       <Col xs={24} lg={10} className="d-flex justify-content-center">
         <Card

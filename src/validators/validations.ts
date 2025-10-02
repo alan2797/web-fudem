@@ -84,3 +84,9 @@ export const generateZodSchema = <T extends Record<string, any>>(
  
    return schema;
 };
+
+export const buildDefaultValues = <T extends Record<string, any>>(fields: FieldConfig<T>[]): T =>
+  fields.reduce(
+    (acc, field) => ({ ...acc, [field.key]: field.valueInitial }),
+    {} as T
+  );

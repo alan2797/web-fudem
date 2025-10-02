@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, theme, Button, Form, Input } from "antd";
+import { Row, Col, Button, Form } from "antd";
 import { CheckOutlined, KeyOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import RecoveryLayout from "./components/recovery-layout";
@@ -31,7 +31,6 @@ const ForgotPassword: React.FC = () => {
     ),
   });
   const dispatch = useDispatch<AppDispatch>();
-  const { token } = theme.useToken();
   const navigate = useNavigate();
   const [mostrarConfirm, setMostrarConfirm] = useState(false);
   const onSubmit = async (data: ForgotPasswordRequestDto) => {
@@ -45,8 +44,7 @@ const ForgotPassword: React.FC = () => {
   };
   return (
     <Row
-      className="min-vh-100 d-flex justify-content-center align-items-center"
-      style={{ backgroundColor: token.colorPrimary }}
+      className="min-vh-100 d-flex justify-content-center align-items-center bg-primary-antd"
     >
       <Col xs={24} lg={10} className="d-flex justify-content-center">
         {!mostrarConfirm ? (
