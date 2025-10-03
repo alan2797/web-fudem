@@ -1,3 +1,4 @@
+@import "./assets/css/theme-custom.css";
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 
@@ -6,6 +7,8 @@
   -moz-osx-font-smoothing: grayscale;
   --main-color: #0070B5;
   --main-secondary-color: #0099F7;
+
+  
 }
 
 body {

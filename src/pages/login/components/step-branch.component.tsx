@@ -1,4 +1,4 @@
-import { ShoppingOutlined, ArrowRightOutlined, ArrowLeftOutlined } from "@ant-design/icons"
+import { ShoppingOutlined, ArrowRightOutlined } from "@ant-design/icons"
 import { Button } from "antd"
 import StepLayout from "./step-layout.component"
 import type { BranchDto } from "../../../interfaces/branch.interface"

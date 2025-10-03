@@ -15,6 +15,7 @@ const InputText = <TFormValues extends Record<string, unknown>>({
       validateStatus={error ? "error" : undefined}
       help={error}
       style={{ marginBottom: 16 }}
+      layout="vertical"
     >
        <Controller
         name={key as any}

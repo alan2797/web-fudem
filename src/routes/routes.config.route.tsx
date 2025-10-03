@@ -13,6 +13,7 @@ const ChangeTemporaryPassword = lazy(() => import('../pages/temporary-password/t
 const HomePage = lazy(() => import('../pages/home/home.page'));
 
 const UserList = lazy(() => import('../pages/users/user-list/user-list.page'));
+const UserCreate = lazy(() => import('../pages/users/user-create/user-create.page'));
 
 export const publicRoutes: RouteConfig[] = [
   {
@@ -81,6 +82,13 @@ export const privateRoutes: RouteConfig[] = [
     isPrivate: true,
     layout: 'main',
     title: 'Lista de Usuario'
+  },
+  {
+    path: RoutePaths.USERS_CREATE,
+    component: UserCreate,
+    isPrivate: true,
+    layout: 'main',
+    title: 'Crear Usuario'
   },
 ];
 

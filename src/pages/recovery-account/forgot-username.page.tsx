@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, theme, Button, Form } from "antd";
+import { Row, Col, Button, Form } from "antd";
 import { CheckOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { configFormForgotUsername } from "./configs/forgot-username.config";
@@ -21,7 +21,6 @@ const forgotUsernameSchema =
   generateZodSchema<ForgotUsernameRequestDto>(configFormSchema);
 
 const ForgotUsername: React.FC = () => {
-  const { token } = theme.useToken();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [mostrarConfirm, setMostrarConfirm] = useState(false);
@@ -51,8 +50,7 @@ const ForgotUsername: React.FC = () => {
   };
   return (
     <Row
-      className="min-vh-100 d-flex justify-content-center align-items-center"
-      style={{ backgroundColor: token.colorPrimary }}
+      className="min-vh-100 d-flex justify-content-center align-items-center bg-primary-antd"
     >
       <Col xs={24} lg={10} className="d-flex justify-content-center">
         {!mostrarConfirm ? (
