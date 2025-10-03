@@ -30,6 +30,7 @@ const CustomSelect = <TFormValues extends Record<string, unknown>>({
             onBlur={field.onBlur}
             size="large"
             optionFilterProp="label"
+            showSearch
             style={{ width: "100%" }}
           >
             {options.map((option) => (

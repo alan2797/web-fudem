@@ -1,7 +1,7 @@
 import { Select } from "antd";
-import type { SelectMenuConfigProps } from "../../interfaces/select-menu.interface";
 import { DownOutlined } from "@ant-design/icons";
-
+import type { SelectMenuConfigProps } from "../../interfaces/components.interface";
+Select
 export const SelectMenu = ({
   placeholder = "Seleccionar opción",
   options = [],

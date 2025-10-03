@@ -8,7 +8,7 @@ const fieldMap: Record<string, React.FC<any>> = {
   text: InputText,
   password: InputPassword,
   selectMenu: SelectMenu,
-  select: CustomSelect
+  select: CustomSelect,
 };
 
 export const FormField = <TFormValues extends Record<string, unknown>>({
