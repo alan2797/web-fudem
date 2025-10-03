@@ -36,3 +36,8 @@ export const configForm = (): FieldConfig<LoginRequestDto>[] => [
     options: countryOptions,
   }
 ];
+
+export const breadcrumb = [
+  { label: "Inicio", path: "/" },
+  { label: "Lista de Usuarios" },
+];

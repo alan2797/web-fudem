@@ -1,4 +1,5 @@
 @import "./assets/css/theme-custom.css";
+@import "./assets/css/components.css";
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 

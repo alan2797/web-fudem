@@ -46,8 +46,8 @@ const Sidebar = ({ collapsed, toggleCollapsed }: SidebarProps) => {
       collapsible
       collapsed={collapsed}
       width={270}
-      className="bg-white custom-sider"
-      style={{ margin: "16px 16px", borderRadius: "8px" }}
+      className="bg-white custom-sider sidebar-content-layout"
+      style={{borderRadius: "8px" }}
     >
       <style>
         {`

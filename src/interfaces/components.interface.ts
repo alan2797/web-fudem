@@ -126,3 +126,14 @@ export interface TableCustomProps<T> {
   onPageSizeChange?: (size: number) => void;
   showPageSize?: boolean;
 }
+
+export interface BreadcrumbItem {
+  label: string;
+  path?: string; // opcional si quieres que sea clickeable
+}
+export interface PageContainerProps {
+  title: string;
+  icon?: ReactNode; // puede ser un ícono React
+  children: ReactNode; // contenido de la página
+  breadcrumb?: BreadcrumbItem[]; // lista de breadcrumb
+}
