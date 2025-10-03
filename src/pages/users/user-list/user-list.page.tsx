@@ -5,9 +5,9 @@ import { SearchOutlined } from '@ant-design/icons';
 import type { Column, FieldConfig, FilterColumn, Pagination } from '../../../interfaces/components.interface';
 import GenericTable from '../../../components/generic-table/generic-table.component';
 import { useForm } from 'react-hook-form';
-import type { LoginRequestDto } from '../../../interfaces/login.interface';
 import { configForm } from './user-list.config';
 import { FormField } from '../../../components/form-field/form-field.component';
+import type { FiltersUserDto } from '../../../interfaces/user.interface';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -31,7 +31,7 @@ const mockData = [
     pais: 'El Salvador'
   },
 ];
-const configFormSchema: FieldConfig<LoginRequestDto>[] = configForm();
+const configFormSchema: FieldConfig<FiltersUserDto>[] = configForm();
 const UserList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState<Pagination>({
@@ -142,10 +142,10 @@ const UserList: React.FC = () => {
   const {
       control,
       formState: { errors},
-    } = useForm<LoginRequestDto>({
+    } = useForm<FiltersUserDto>({
       defaultValues: configFormSchema.reduce(
         (acc, field) => ({ ...acc, [field.key]: field.valueInitial }),
-        {} as LoginRequestDto
+        {} as FiltersUserDto
       ),
     });
   return (

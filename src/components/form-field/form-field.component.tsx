@@ -1,4 +1,5 @@
 import type { FormFieldProps } from "../../interfaces/components.interface";
+import CustomAutoComplete from "../autocomplete/autocomplete.component";
 import InputPassword from "../input-password/input-password.component";
 import InputText from "../input-text/input-text.component";
 import {SelectMenu} from "../select-menu/select-menu.component";
@@ -8,7 +9,8 @@ const fieldMap: Record<string, React.FC<any>> = {
   text: InputText,
   password: InputPassword,
   selectMenu: SelectMenu,
-  select: CustomSelect
+  select: CustomSelect,
+  autocomplete: CustomAutoComplete
 };
 
 export const FormField = <TFormValues extends Record<string, unknown>>({

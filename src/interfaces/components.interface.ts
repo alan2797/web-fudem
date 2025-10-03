@@ -92,7 +92,7 @@ export interface TableProps {
 
 export interface SelectOption {
   value: string | number;
-  label: string;
+  label?: string;
 }
 
 export interface SelectMenuConfigProps {
