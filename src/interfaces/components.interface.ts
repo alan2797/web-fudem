@@ -1,4 +1,5 @@
 import type { ButtonProps } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 import type { ReactNode } from 'react';
 import type { Control } from 'react-hook-form';
 
@@ -105,4 +106,23 @@ export interface SelectMenuConfigProps {
   value?: string | number;
   onChange?: (value: string | number) => void;
   defaultValue?: string | number;
+}
+
+export interface TableCustomProps<T> {
+  columns: ColumnsType<T>; // Columnas de la tabla
+  dataSource?: T[];         // Datos
+  rowKey: string;          // Clave única
+  pageSize?: number;       // Paginación
+  searchable?: boolean;    // Barra de búsqueda global
+  selectable?: boolean;    // Si se pueden seleccionar filas
+  onView?: (record: T) => void;
+  onEdit?: (record: T) => void;
+  onDelete?: (record: T) => void;
+  extraActions?: (record: T) => React.ReactNode; // acciones adicionales
+  newButtonLabel?: React.ReactNode; // <-- puede ser string o nodo
+  showNewButton?: boolean;          // Flag para mostrar/ocultar
+  onNewButtonClick?: () => void;    // Función al hacer click
+  pageSizeOptions?: number[];
+  onPageSizeChange?: (size: number) => void;
+  showPageSize?: boolean;
 }

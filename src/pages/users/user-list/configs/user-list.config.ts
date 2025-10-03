@@ -1,5 +1,5 @@
-import type { FieldConfig } from "../../../interfaces/components.interface";
-import type { LoginRequestDto } from "../../../interfaces/login.interface";
+import type { FieldConfig } from "../../../../interfaces/components.interface";
+import type { LoginRequestDto } from "../../../../interfaces/login.interface";
 
 const countryOptions = [
   { value: "sv", label: "El Salvador" },
@@ -13,7 +13,8 @@ export const configForm = (): FieldConfig<LoginRequestDto>[] => [
     type: "select",
     label: "Ciudad",
     placeholder: "Seleccione una ciudad",
-    xs: 8,
+    xs: 24,
+    md: 8,
     options: countryOptions,
   },
   {
@@ -21,7 +22,8 @@ export const configForm = (): FieldConfig<LoginRequestDto>[] => [
     type: "select",
     label: "Pais",
     placeholder: "Seleccione un pais",
-    xs: 8,
+    xs: 24,
+    md: 8,
     options: countryOptions,
   },
   {
@@ -29,7 +31,8 @@ export const configForm = (): FieldConfig<LoginRequestDto>[] => [
     type: "select",
     label: "Provincia",
     placeholder: "Seleccione una provincia",
-    xs: 8,
+    xs: 24,
+    md: 8,
     options: countryOptions,
   }
 ];
