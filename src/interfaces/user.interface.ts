@@ -12,13 +12,13 @@ export interface User {
     country: string;
     status: string;
 }
-export interface CreateUserDto extends Record <string,unknown> {
-    nombre: string;
-    apellido: string;
-    usuario: string;
-    email: string;
-    dui: string;
-    rol: string;
-    sucursal: string;
-    estado: string;
+export interface CreateUserDto extends Record<string, unknown>{
+    nombre?: string;
+    apellido?: string;
+    usuario?: string;
+    email?: string;
+    dui?: string;
+    rol?: string;
+    sucursal?: string;
+    estado?: string;
 }

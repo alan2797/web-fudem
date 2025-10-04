@@ -67,7 +67,6 @@ export const generateZodSchema = <T extends Record<string, any>>(
 
     shape[field.key as string] = schema;
   });
-  console.log(shape);
    // Creamos el schema base
    let schema = z.object(shape) as ZodObject<Record<keyof T, ZodTypeAny>>;
 
@@ -90,3 +89,5 @@ export const buildDefaultValues = <T extends Record<string, any>>(fields: FieldC
     (acc, field) => ({ ...acc, [field.key]: field.valueInitial }),
     {} as T
   );
+  
+ 

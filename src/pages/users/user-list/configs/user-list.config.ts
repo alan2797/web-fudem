@@ -49,15 +49,17 @@ export const configForm = (): FieldConfig<FiltersUserDto>[] => [
     xs: 24,
     md: 8,
     options: rolOptions,
+    showSearch: true
   },
   {
     key: "perfil",
     type: "select",
     label: "Perfil",
-    placeholder: "Seleccione un perfil",
+    placeholder: "Seleccione un Perfil",
     xs: 24,
     md: 8,
     options: perfilOptions,
+    showSearch: true
   },
   {
     key: "sucursal",
@@ -67,6 +69,7 @@ export const configForm = (): FieldConfig<FiltersUserDto>[] => [
     xs: 24,
     md: 8,
     options: sucursalOptions,
+    showSearch: true
   },
   {
     key: "estado",
@@ -85,6 +88,7 @@ export const configForm = (): FieldConfig<FiltersUserDto>[] => [
     xs: 24,
     md: 8,
     options: countryOptions,
+    showSearch: true
   }
 ];
 
