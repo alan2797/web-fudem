@@ -89,6 +89,9 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     xs: 24,
     md: 8,
     options: rolOptions,
+     validations: [
+      { type: "required", message: "debe seleccionar un rol es obligatorio" },
+    ],
   },
   {
     key: "sucursal",
@@ -96,8 +99,11 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     label: "Sucursal",
     placeholder: "Seleccione una Sucursal",
     xs: 24,
-    md: 8,
+    md: 12,
     options: sucursalOptions,
+    validations: [
+      { type: "required", message: "debe seleccionar una sucursal es obligatorio" },
+    ],
   },
   {
     key: "estado",
@@ -105,7 +111,15 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     label: "Estado",
     placeholder: "Seleccione un Estado",
     xs: 24,
-    md: 8,
+    md: 12,
     options: StatusOptions,
+    validations: [
+      { type: "required", message: "debe seleccionar un estado es obligatorio" },
+    ],
   }
+];
+
+export const breadcrumb = [
+  { label: "Inicio", path: "/" },
+  { label: "Crear Usuario" },
 ];

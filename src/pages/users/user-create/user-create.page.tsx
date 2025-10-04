@@ -1,42 +1,55 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Row, Col, Select, Steps, Typography, Divider, Card } from 'antd';
+import { Row, Divider, Col, Steps, Form, Input } from "antd";
+import type { FieldConfig } from "../../../interfaces/components.interface";
+import { useForm } from "react-hook-form";
+import { FormField } from "../../../components/form-field/form-field.component";
+import type { CreateUserDto } from "../../../interfaces/user.interface";
 import {
-  UserOutlined,
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  CheckOutlined,
   LockOutlined,
   ProfileOutlined,
-  ArrowRightOutlined,
+  UnorderedListOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import type { FieldConfig } from "../../../interfaces/components.interface";
-import type { CreateUserDto } from "../../../interfaces/user.interface";
-import { configForm } from "./configs/user-create.config";
-import { generateZodSchema } from "../../../validators/validations";
+import PageContainer from "../../../components/page-container/page-container.component";
+import { generateZodSchema, buildDefaultValues } from '../../../validators/validations';
+import ButtonCustom from "../../../components/button/button.component";
+import { breadcrumb, configForm } from "./configs/user-create.config";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const { Step } = Steps;
-const { Title } = Typography;
-const { Option } = Select;
 
-const configFormSchema: FieldConfig<CreateUserDto>[] = configForm();
-const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
-
-const CrearUsuario: React.FC = () => {
+const UserCreate: React.FC = () => {
   const [current, setCurrent] = useState(0);
-  const [form] = Form.useForm();
+  const configFormSchema: FieldConfig<CreateUserDto>[] = configForm();// Solución temporal con type assertion
+const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
+  const {
+      control,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<CreateUserDto>({
+        resolver: zodResolver(userSchema),
+      defaultValues: buildDefaultValues(configFormSchema),
+    });
 
   const onNext = async () => {
     try {
-      await form.validateFields();
       setCurrent(current + 1);
     } catch (err) {
       console.log("Errores en formulario:", err);
     }
   };
-
+  const onSubmit = () => {
+  console.log("Formulario enviado:")
+}
   return (
-    <div style={{ background: "#fff", padding: 10, borderRadius: 8 }}>
-      <Title level={1} className='text-primary-antd'>
-        <UserOutlined style={{ marginRight: 8 }} />
-        Crear Usuarios
-      </Title>
+    <PageContainer
+      title="Crear Usuarios"
+      icon={<UnorderedListOutlined className="fs-4" />}
+      breadcrumb={breadcrumb}
+    >
       <Divider />
       {/* Steps */}
       <Steps current={current} style={{ marginBottom: 32 }}>
@@ -45,130 +58,206 @@ const CrearUsuario: React.FC = () => {
         <Step title="Perfil de Trabajo" icon={<ProfileOutlined />} />
       </Steps>
       <Divider />
+
       {/* Formulario primer paso */}
-      {current === 0 && (
+      {/* {current === 0 && (
         <>
-          <Title level={4}>Añada Detalles de Nuevo Usuario</Title>
-          <Form
-            form={form}
-            layout="vertical"
-            name="crear-usuario"
-            style={{ marginTop: 24 }}
-          >
-            <Row gutter={16}>
-              <Col xs={24} md={8}>
-                <Form.Item
-                  name="nombre"
-                  label="Nombre"
-                  rules={[{ required: true, message: "Ingrese el nombre" }]}
-                >
-                  <Input placeholder="Placeholder" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} md={8}>
-                <Form.Item
-                  name="apellido"
-                  label="Apellido"
-                  rules={[{ required: true, message: "Ingrese el apellido" }]}
-                >
-                  <Input placeholder="Placeholder" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} md={8}>
-                <Form.Item
-                  name="usuario"
-                  label="Nombre de Usuario"
-                  rules={[{ required: true, message: "Ingrese el usuario" }]}
-                >
-                  <Input placeholder="Placeholder" />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Row gutter={16}>
-              <Col xs={24} md={8}>
-                <Form.Item
-                  name="email"
-                  label="Email"
-                  rules={[
-                    { required: true, message: "Ingrese el email" },
-                    { type: "email", message: "Formato no válido" },
-                  ]}
-                >
-                  <Input placeholder="Placeholder" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} md={8}>
-                <Form.Item
-                  name="dui"
-                  label="DUI"
-                  rules={[{ required: true, message: "Ingrese el DUI" }]}
-                >
-                  <Input placeholder="Placeholder" />
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} md={8}>
-                <Form.Item
-                  name="rol"
-                  label="Rol"
-                  rules={[{ required: true, message: "Seleccione un rol" }]}
-                >
-                  <Select placeholder="Placeholder">
-                    <Option value="admin">Admin</Option>
-                    <Option value="user">Usuario</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Row gutter={16}>
-              <Col xs={24} md={8}>
-                <Form.Item
-                  name="sucursal"
-                  label="Sucursal"
-                  rules={[{ required: true, message: "Seleccione una sucursal" }]}
-                >
-                  <Select placeholder="Placeholder">
-                    <Option value="central">Sucursal Central</Option>
-                    <Option value="norte">Sucursal Norte</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-
-              <Col xs={24} md={8}>
-                <Form.Item
-                  name="estado"
-                  label="Estado"
-                  rules={[{ required: true, message: "Seleccione un estado" }]}
-                >
-                  <Select placeholder="Placeholder">
-                    <Option value="activo">Activo</Option>
-                    <Option value="inactivo">Inactivo</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Row justify="end">
-              <Col>
-                <Button
-                  type="primary"
-                  onClick={onNext}
-                  icon={<ArrowRightOutlined />}
-                >
-                  Siguiente
-                </Button>
-              </Col>
-            </Row>
-          </Form>
+          <Row gutter={30}>
+            <Col xs={24}>
+              <Form onFinish={handleSubmit(onSubmit)}>
+                <Row gutter={30}>
+                  {configFormSchema.map((field) => (
+                    <Col
+                      className="mb-2"
+                      key={String(field.key)}
+                      xs={field.xs}
+                      md={field.md}
+                    >
+                      <FormField
+                        fieldConfig={field}
+                        control={control}
+                        error={errors[field.key]?.message as string}
+                      />
+                    </Col>
+                  ))}
+                </Row>
+              </Form>
+            </Col>
+          </Row>
+          <Row gutter={20} justify={"end"}>
+            <Col xs={24} lg={10} xl={5} style={{marginTop: 15 }}>
+              <ButtonCustom
+                htmlType="submit"
+                type="primary"
+                variant={"solid"}
+                text="Siguiente"
+                onClick={onNext}
+                icon={<ArrowRightOutlined />}
+                iconPosition="end"
+                block
+              />
+            </Col>
+          </Row>
         </>
-      )}
-    </div>
+      )} */}
+      {current === 0 && (
+  <>
+    <Row gutter={30}>
+      <Col xs={24}>
+
+        <Form onFinish={handleSubmit(onSubmit)}>
+          <Row gutter={30}>
+            {configFormSchema
+              .map((field) => (
+                <Col
+                  className="mb-2"
+                  key={String(field.key)}
+                  xs={field.xs}
+                  md={field.md}
+                >
+                  <FormField
+                    fieldConfig={field}
+                    control={control}
+                    error={errors[field.key]?.message as string}
+                  />
+                </Col>
+              ))}
+          </Row>
+        </Form>
+      </Col>
+    </Row>
+    <Row gutter={20} justify={"end"}>
+      <Col xs={24} lg={10} xl={5} style={{ marginTop: 15 }}>
+        <ButtonCustom
+          htmlType="button"
+          type="primary"
+          variant={"solid"}
+          text="Siguiente"
+          onClick={onNext}
+          icon={<ArrowRightOutlined />}
+          iconPosition="end"
+          block
+        />
+      </Col>
+    </Row>
+  </>
+)}
+
+{current === 1 && (
+  <>
+    <Row gutter={30}>
+      <Col xs={24}>
+        <Form onFinish={handleSubmit(onSubmit)}>
+          <Row gutter={30}>
+           <Col xs={24}>
+           <h2 className="text-primary-antd">Añade Nueva Contraseña</h2>
+           </Col>
+           <Row>
+            <Col xs={12}>
+              <Form.Item
+                label="Poner Contraseña"
+                labelCol={{ span: 24 }}
+                wrapperCol={{ span: 24 }}
+                style={{ marginBottom: 8 }}
+              >
+                <Input 
+                  type="text"
+                  size="large"
+                  placeholder="Ingrese contraseña"
+                />
+              </Form.Item>
+           </Col>
+           <Col>
+
+           </Col>
+           </Row>
+          </Row>
+        </Form>
+      </Col>
+    </Row>
+    <Row gutter={20} justify={"space-between"}>
+      <Col xs={24} lg={10} xl={5}>
+        <ButtonCustom
+          htmlType="button"
+          type="default"
+          variant={"solid"}
+          text="Anterior"
+          onClick={() => setCurrent(0)}
+          icon={<ArrowLeftOutlined />}
+          iconPosition="start"
+          block
+        />
+      </Col>
+      <Col xs={24} lg={10} xl={5}>
+        <ButtonCustom
+          htmlType="button"
+          type="primary"
+          variant={"solid"}
+          text="Siguiente"
+          onClick={() => setCurrent(2)}
+          icon={<ArrowRightOutlined />}
+          iconPosition="end"
+          block
+        />
+      </Col>
+    </Row>
+  </>
+)}
+
+{current === 2 && (
+  <>
+    <Row gutter={30}>
+      <Col xs={24}>
+        <Form onFinish={handleSubmit(onSubmit)}>
+          <Row gutter={30}>
+            {configFormSchema
+              .map((field) => (
+                <Col
+                  className="mb-2"
+                  key={String(field.key)}
+                  xs={field.xs}
+                  md={field.md}
+                >
+                  <FormField
+                    fieldConfig={field}
+                    control={control}
+                    error={errors[field.key]?.message as string}
+                  />
+                </Col>
+              ))}
+          </Row>
+        </Form>
+      </Col>
+    </Row>
+    <Row gutter={20} justify={"space-between"}>
+      <Col xs={24} lg={10} xl={5}>
+        <ButtonCustom
+          htmlType="button"
+          type="default"
+          variant={"solid"}
+          text="Anterior"
+          onClick={() => setCurrent(1)}
+          icon={<ArrowLeftOutlined />}
+          iconPosition="start"
+          block
+        />
+      </Col>
+      <Col xs={24} lg={10} xl={5}>
+        <ButtonCustom
+          htmlType="submit"
+          type="primary"
+          variant={"solid"}
+          text="Crear Usuario"
+          icon={<CheckOutlined />}
+          iconPosition="end"
+          block
+        />
+      </Col>
+    </Row>
+  </>
+)}
+    </PageContainer>
   );
 };
 
-export default CrearUsuario;
+export default UserCreate;

@@ -15,6 +15,7 @@ export type Validation =
   | { type: 'passwordLower'; message?: string }
   | { type: 'matchField'; field: string; message?: string };
 
+// export interface FieldConfig<T extends Record<string, unknown> = Record<string, unknown>> {
 export interface FieldConfig<T extends Record<string, unknown> = Record<string, unknown>> {
   key: keyof T;
   label?: string;
@@ -29,6 +30,7 @@ export interface FieldConfig<T extends Record<string, unknown> = Record<string, 
   showAllErrors?: boolean;
   validations?: Validation[];
   options?: SelectOption[];
+  showSearch?: boolean;
 }
 
 export interface FormFieldProps<T extends Record<string, unknown> = Record<string, unknown>> {

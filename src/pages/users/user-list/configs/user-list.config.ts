@@ -34,6 +34,7 @@ export const configFormUser = (catalogs: {
     xs: 24,
     md: 8,
     options: rolOptions,
+    showSearch: true
   },
   {
     key: "sucursal",
