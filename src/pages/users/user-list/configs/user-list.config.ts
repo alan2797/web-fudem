@@ -1,38 +1,23 @@
+import type { BranchDto } from "../../../../interfaces/branch.interface";
 import type { FieldConfig } from "../../../../interfaces/components.interface";
+import type { CountryDto } from "../../../../interfaces/country.interface";
 import type { FiltersUserDto } from "../../../../interfaces/user.interface";
 
-const countryOptions = [
-  { value: "sv", label: "El Salvador" },
-  { value: "mx", label: "México" },
-  { value: "gt", label: "Guatemala" },
-];
 const rolOptions = [
-
-  { value: "adm", label: "Admin" },
-  { value: "ven", label: "Vendedor" },
-  { value: "sup", label: "Supervisor" },
-];
-const sucursalOptions = [
-
-  { value: "sn", label: "Sucursal Norte" },
-  { value: "sc", label: "Sucursal Central" },
-  { value: "ss", label: "Sucursal Sur" },
-];
-
-const perfilOptions = [
-
-  { value: "p1", label: "perfil 1" },
-  { value: "p2", label: "perfil 2" },
-  { value: "p3", label: "perfil 3" },
+  { value: true, label: "Administrador" },
+  { value: false, label: "Usuario Normal" },
 ];
 
 const StatusOptions = [
-
+  { value: "all", label: "Todos" },
   { value: "active", label: "Activos" },
   { value: "blocked", label: "Bloqueados" },
-  { value: "all", label: "Todos" },
 ];
-export const configForm = (): FieldConfig<FiltersUserDto>[] => [
+
+export const configFormUser = (catalogs: {
+  countries: CountryDto[];
+  branches: BranchDto[];
+}): FieldConfig<FiltersUserDto>[] => [
   {
     key: "nombre",
     type: "text",
@@ -51,22 +36,16 @@ export const configForm = (): FieldConfig<FiltersUserDto>[] => [
     options: rolOptions,
   },
   {
-    key: "perfil",
-    type: "select",
-    label: "Perfil",
-    placeholder: "Seleccione un perfil",
-    xs: 24,
-    md: 8,
-    options: perfilOptions,
-  },
-  {
     key: "sucursal",
     type: "select",
     label: "Sucursal",
     placeholder: "Seleccione una Sucursal",
     xs: 24,
     md: 8,
-    options: sucursalOptions,
+    options: catalogs.branches.map((c) => ({
+      label: c.name,
+      value: c.id,
+    })),
   },
   {
     key: "estado",
@@ -84,7 +63,10 @@ export const configForm = (): FieldConfig<FiltersUserDto>[] => [
     placeholder: "Seleccione un País",
     xs: 24,
     md: 8,
-    options: countryOptions,
+    options: catalogs.countries.map((c) => ({
+      label: c.name,
+      value: c.id,
+    })),
   }
 ];
 

@@ -2,19 +2,20 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 import type { ForgotUsernameRequestDto, LoginRequestDto, LoginResponseDto, SelectAreaDto } from "../../interfaces/login.interface";
 import { localStorageService } from "../../services/localstorage";
-import { getAreasService, getPositionsService, selectBranchService, selectDepartmentService, selectPositionService, selectProfileService } from "../../services/sessions";
+import { selectBranchService, selectDepartmentService, selectPositionService, selectProfileService } from "../../services/sessions";
 import type { PositionDto, SelectPositionDto } from "../../interfaces/position.interface";
 import type { SelectProfileDto } from "../../interfaces/profile.interface";
 import type { SelectBranchDto } from "../../interfaces/branch.interface";
 import { authService, recoveryUsernameService } from "../../services/auth";
-import type { DepartmentDto } from "../../interfaces/area.interface";
+import type { AreaDto } from "../../interfaces/area.interface";
+import { getAreasService, getPositionsService } from "../../services/catalogs";
 
 
 export interface AuthState {
   user: LoginResponseDto | null;
   token: string | null;
   error: string | null;
-  areas: DepartmentDto[] | null;
+  areas: AreaDto[] | null;
   positions: PositionDto[] | null;
 }
 

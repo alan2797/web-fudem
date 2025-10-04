@@ -24,12 +24,4 @@ export const selectPositionService = async (selectPositionDto: SelectPositionDto
   return res;
 };
 
-export const getAreasService = async (branchId: number) => {
-  const res = await api.get(`/catalogs/branches/${branchId}/areas`);
-  return res;
-};
 
-export const getPositionsService = async (areaId: number) => {
-  const res = await api.get(`/catalogs/areas/${areaId}/positions`);
-  return res;
-};

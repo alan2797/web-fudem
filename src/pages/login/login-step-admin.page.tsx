@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../redux/store";
 import { handleRequestThunk } from "../../utils/handle-request-thunk";
 import { getAreas, getPositions, selectArea, selectBranch, selectPosition } from "../../redux/features/auth.slice";
-import type { DepartmentDto, SelectAreaResponse } from "../../interfaces/area.interface";
+import type { AreaDto, SelectAreaResponse } from "../../interfaces/area.interface";
 import type { LoginResponseDto } from "../../interfaces/login.interface";
 import type {
   BranchDto,
@@ -25,15 +25,15 @@ interface StepItem {
 
 interface LoginStepNormalProps {
   user: LoginResponseDto | null;
-  areas: DepartmentDto[];
-  positions: DepartmentDto[]
+  areas: AreaDto[];
+  positions: PositionDto[]
 }
 const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user, areas, positions }) => {
   const [step, setStep] = useState<number>(0);
-  const [department, setDepartment] = useState<DepartmentDto | null>(null);
+  const [department, setDepartment] = useState<AreaDto | null>(null);
   const [position, setPosition] = useState<PositionDto | null>(null);
   const [branch, setBranch] = useState<BranchDto | null>(null);
-  const [departmentList, setDepartmentList] = useState<DepartmentDto[] | null>(
+  const [departmentList, setDepartmentList] = useState<AreaDto[] | null>(
     null
   );
   const [positionList, setPositionList] = useState<PositionDto[] | null>(null);
@@ -63,7 +63,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user, areas, positions
           console.log(branchResult);
 
           // 🔹 CARGAR ÁREAS INMEDIATAMENTE después de seleccionar perfil
-          const departmentResultList: ApiResponse<DepartmentDto[]> | null = await handleRequestThunk(
+          const departmentResultList: ApiResponse<AreaDto[]> | null = await handleRequestThunk(
             dispatch,
             () => dispatch(getAreas(branch.id)).unwrap(),
             {

@@ -3,6 +3,7 @@ import { showSpinner, hideSpinner } from "../redux/features/spinner.slice";
 import { message } from "antd";
 import type { AxiosResponse } from "axios";
 import type { ApiResponse, HandleOptions } from "../interfaces/components.interface";
+import { logout } from "../redux/features/auth.slice";
 
 export async function handleRequestAxios<T>(
   dispatch: AppDispatch,
@@ -36,6 +37,7 @@ export async function handleRequestAxios<T>(
     switch (status) {
       case 401:
         message.error("No autorizado. Por favor inicia sesión nuevamente.");
+        dispatch(logout());
         break;
       case 404:
         message.error("Recurso no encontrado.");

@@ -18,3 +18,10 @@ export interface SelectProfileResponse {
 export interface SelectProfileDto {
     profileId: number;
 }
+
+export interface WorkProfileDto {
+    id: number;
+    name: string;
+    branch: string;
+    area: string;
+}

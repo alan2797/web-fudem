@@ -10,7 +10,7 @@ import type { AppDispatch } from "../../redux/store";
 import type { ProfileDto, SelectProfileResponse } from "../../interfaces/profile.interface";
 import { handleRequestThunk } from "../../utils/handle-request-thunk";
 import { getAreas, getPositions, selectArea, selectPosition, selectProfile } from "../../redux/features/auth.slice";
-import type { DepartmentDto, SelectAreaResponse } from "../../interfaces/area.interface";
+import type { AreaDto, SelectAreaResponse } from "../../interfaces/area.interface";
 import type { LoginStepNormalProps, StepItemNormal } from "../../interfaces/login.interface";
 import type { PositionDto, SelectPositionResponse } from "../../interfaces/position.interface";
 import type { ApiResponse } from "../../interfaces/components.interface";
@@ -18,9 +18,9 @@ import type { ApiResponse } from "../../interfaces/components.interface";
 const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
   const [step, setStep] = useState<number>(0);
   const [profile, setProfile] = useState<ProfileDto | null>(null);
-  const [department, setDepartment] = useState<DepartmentDto | null>(null);
+  const [department, setDepartment] = useState<AreaDto | null>(null);
   const [position, setPosition] = useState<PositionDto | null>(null);
-  const [departmentList, setDepartmentList] = useState<DepartmentDto[] | null>(null);
+  const [departmentList, setDepartmentList] = useState<AreaDto[] | null>(null);
   const [positionList, setPositionList] = useState<PositionDto[] | null>(null);
   const [branchId, setBranchId] = useState<number | null>(null);
   const [areaId, setAreaId] = useState<number | null>(null);
@@ -64,7 +64,7 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
             setBranchId(profileResult.data.profile.branchId);
             
             // 🔹 CARGAR ÁREAS INMEDIATAMENTE después de seleccionar perfil
-            const departmentResultList: ApiResponse<DepartmentDto[]> | null = await handleRequestThunk(
+            const departmentResultList: ApiResponse<AreaDto[]> | null = await handleRequestThunk(
                     dispatch,
                     () => dispatch(getAreas(profileResult.data.profile.branchId)).unwrap(),
                 {
