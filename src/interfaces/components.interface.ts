@@ -1,4 +1,4 @@
-import type { ButtonProps } from 'antd';
+import type { ButtonProps, StepProps } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { ReactNode } from 'react';
 import type { Control } from 'react-hook-form';
@@ -138,4 +138,11 @@ export interface PageContainerProps {
   icon?: ReactNode; // puede ser un ícono React
   children: ReactNode; // contenido de la página
   breadcrumb?: BreadcrumbItem[]; // lista de breadcrumb
+}
+
+
+export interface StepCustomProps {
+  current: number;
+  steps: (StepProps & { icon2?: ReactNode }) [];
+  onChange?: (current: number) => void;
 }

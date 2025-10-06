@@ -1,5 +1,8 @@
+import { LockOutlined, ProfileOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
 import type { FieldConfig } from "../../../../interfaces/components.interface";
 import type { CreateUserDto } from "../../../../interfaces/user.interface";
+import { Button } from "antd";
+import type { ChangePasswordRequestDto } from "../../../../interfaces/login.interface";
 
 
 const rolOptions = [
@@ -119,7 +122,43 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
   }
 ];
 
+export const configFormPassword = (): FieldConfig<ChangePasswordRequestDto>[] => [
+     {
+        key: "newPassword",
+        type: "password",
+        label: "Ingresa Nueva Contraseña",
+        valueInitial: "",
+        xs: 24,
+        validations: [
+            { type: "required"},
+            { type: "min", value: 8, message: "Debe ser 8 caracteres"},
+            { type: "passwordSpecialChar", message: "Debe contener al menos un carácter especial" },
+            { type: "passwordNumber", message: "Debe contener al menos un número" },
+            { type: "passwordUpper", message: "Debe contener al menos una letra mayúscula" },
+            { type: "passwordLower", message: "Debe contener al menos una letra minúscula" }
+        ],
+        showAllErrors: true
+    },
+    {
+        key: "confirmPassword",
+        type: "password",
+        label: "Confirma Nueva Contraseña",
+        valueInitial: "",
+        xs: 24,
+        validations: [
+            { type: "required", message: "La confirmación de la contraseña es obligatoria"},
+            { type: "matchField", field: "newPassword", message: "Las contraseñas no coinciden" }
+        ],
+    }
+]
+
 export const breadcrumb = [
   { label: "Inicio", path: "/" },
   { label: "Crear Usuario" },
+];
+
+export const steps = [
+  { title: "Detalle", icon2: <UserOutlined />},
+  { title: "Contraseña", icon2:  <LockOutlined />},
+  { title: "Perfil de Trabajo", icon2: <ProfileOutlined /> },
 ];

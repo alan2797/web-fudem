@@ -7,24 +7,22 @@ import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
   CheckOutlined,
-  LockOutlined,
-  ProfileOutlined,
   UnorderedListOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import PageContainer from "../../../components/page-container/page-container.component";
 import { generateZodSchema, buildDefaultValues } from '../../../validators/validations';
 import ButtonCustom from "../../../components/button/button.component";
-import { breadcrumb, configForm } from "./configs/user-create.config";
+import { breadcrumb, configForm, configFormPassword, steps } from "./configs/user-create.config";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-const { Step } = Steps;
+import { StepCustom } from "../../../components/step/step.component";
 
 const UserCreate: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const configFormSchema: FieldConfig<CreateUserDto>[] = configForm();// Solución temporal con type assertion
 const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
+const configFormStep2Schema: FieldConfig<CreateUserDto>[] = configFormPassword();// Solución temporal con type assertion
+const userStep2Schema = generateZodSchema<CreateUserDto>(configFormStep2Schema);
   const {
       control,
       handleSubmit,
@@ -52,12 +50,14 @@ const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
     >
       <Divider />
       {/* Steps */}
-      <Steps current={current} style={{ marginBottom: 32 }}>
-        <Step title="Detalle" icon={<UserOutlined />} />
-        <Step title="Contraseña" icon={<LockOutlined />} />
-        <Step title="Perfil de Trabajo" icon={<ProfileOutlined />} />
-      </Steps>
-      <Divider />
+      <Row justify="center">
+        <Col md={24} lg={24} xl={18}>
+          <StepCustom 
+            current={current}
+            steps={steps}
+          />
+        </Col>
+      </Row>
 
       {/* Formulario primer paso */}
       {/* {current === 0 && (
@@ -149,28 +149,21 @@ const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
       <Col xs={24}>
         <Form onFinish={handleSubmit(onSubmit)}>
           <Row gutter={30}>
-           <Col xs={24}>
-           <h2 className="text-primary-antd">Añade Nueva Contraseña</h2>
-           </Col>
-           <Row>
-            <Col xs={12}>
-              <Form.Item
-                label="Poner Contraseña"
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                style={{ marginBottom: 8 }}
-              >
-                <Input 
-                  type="text"
-                  size="large"
-                  placeholder="Ingrese contraseña"
-                />
-              </Form.Item>
-           </Col>
-           <Col>
-
-           </Col>
-           </Row>
+            {configFormStep2Schema
+              .map((field) => (
+                <Col
+                  className="mb-2"
+                  key={String(field.key)}
+                  xs={field.xs}
+                  md={field.md}
+                >
+                  <FormField
+                    fieldConfig={field}
+                    control={control}
+                    error={errors[field.key]?.message as string}
+                  />
+                </Col>
+              ))}
           </Row>
         </Form>
       </Col>
