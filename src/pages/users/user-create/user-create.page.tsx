@@ -1,19 +1,20 @@
-import { Row, Divider, Col, Steps, Form, Input } from "antd";
+import { Row, Divider, Col, Steps, Form } from "antd";
 import type { FieldConfig } from "../../../interfaces/components.interface";
 import { useForm } from "react-hook-form";
 import { FormField } from "../../../components/form-field/form-field.component";
 import type { CreateUserDto } from "../../../interfaces/user.interface";
 import {
-  ArrowLeftOutlined,
   ArrowRightOutlined,
-  CheckOutlined,
   LockOutlined,
   ProfileOutlined,
   UnorderedListOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import PageContainer from "../../../components/page-container/page-container.component";
-import { generateZodSchema, buildDefaultValues } from '../../../validators/validations';
+import {
+  generateZodSchema,
+  buildDefaultValues,
+} from "../../../validators/validations";
 import ButtonCustom from "../../../components/button/button.component";
 import { breadcrumb, configForm } from "./configs/user-create.config";
 import { useState } from "react";
@@ -23,16 +24,16 @@ const { Step } = Steps;
 
 const UserCreate: React.FC = () => {
   const [current, setCurrent] = useState(0);
-  const configFormSchema: FieldConfig<CreateUserDto>[] = configForm();// Solución temporal con type assertion
-const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
+  const configFormSchema: FieldConfig<CreateUserDto>[] = configForm(); // Solución temporal con type assertion
+  const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
   const {
-      control,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<CreateUserDto>({
-        resolver: zodResolver(userSchema),
-      defaultValues: buildDefaultValues(configFormSchema),
-    });
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateUserDto>({
+    resolver: zodResolver(userSchema),
+    defaultValues: buildDefaultValues(configFormSchema),
+  });
 
   const onNext = async () => {
     try {
@@ -42,8 +43,8 @@ const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
     }
   };
   const onSubmit = () => {
-  console.log("Formulario enviado:")
-}
+    console.log("Formulario enviado:");
+  };
   return (
     <PageContainer
       title="Crear Usuarios"
@@ -60,7 +61,7 @@ const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
       <Divider />
 
       {/* Formulario primer paso */}
-      {/* {current === 0 && (
+      {current === 0 && (
         <>
           <Row gutter={30}>
             <Col xs={24}>
@@ -85,7 +86,7 @@ const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
             </Col>
           </Row>
           <Row gutter={20} justify={"end"}>
-            <Col xs={24} lg={10} xl={5} style={{marginTop: 15 }}>
+            <Col xs={24} lg={10} xl={5} style={{ marginTop: 15 }}>
               <ButtonCustom
                 htmlType="submit"
                 type="primary"
@@ -99,163 +100,7 @@ const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
             </Col>
           </Row>
         </>
-      )} */}
-      {current === 0 && (
-  <>
-    <Row gutter={30}>
-      <Col xs={24}>
-
-        <Form onFinish={handleSubmit(onSubmit)}>
-          <Row gutter={30}>
-            {configFormSchema
-              .map((field) => (
-                <Col
-                  className="mb-2"
-                  key={String(field.key)}
-                  xs={field.xs}
-                  md={field.md}
-                >
-                  <FormField
-                    fieldConfig={field}
-                    control={control}
-                    error={errors[field.key]?.message as string}
-                  />
-                </Col>
-              ))}
-          </Row>
-        </Form>
-      </Col>
-    </Row>
-    <Row gutter={20} justify={"end"}>
-      <Col xs={24} lg={10} xl={5} style={{ marginTop: 15 }}>
-        <ButtonCustom
-          htmlType="button"
-          type="primary"
-          variant={"solid"}
-          text="Siguiente"
-          onClick={onNext}
-          icon={<ArrowRightOutlined />}
-          iconPosition="end"
-          block
-        />
-      </Col>
-    </Row>
-  </>
-)}
-
-{current === 1 && (
-  <>
-    <Row gutter={30}>
-      <Col xs={24}>
-        <Form onFinish={handleSubmit(onSubmit)}>
-          <Row gutter={30}>
-           <Col xs={24}>
-           <h2 className="text-primary-antd">Añade Nueva Contraseña</h2>
-           </Col>
-           <Row>
-            <Col xs={12}>
-              <Form.Item
-                label="Poner Contraseña"
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                style={{ marginBottom: 8 }}
-              >
-                <Input 
-                  type="text"
-                  size="large"
-                  placeholder="Ingrese contraseña"
-                />
-              </Form.Item>
-           </Col>
-           <Col>
-
-           </Col>
-           </Row>
-          </Row>
-        </Form>
-      </Col>
-    </Row>
-    <Row gutter={20} justify={"space-between"}>
-      <Col xs={24} lg={10} xl={5}>
-        <ButtonCustom
-          htmlType="button"
-          type="default"
-          variant={"solid"}
-          text="Anterior"
-          onClick={() => setCurrent(0)}
-          icon={<ArrowLeftOutlined />}
-          iconPosition="start"
-          block
-        />
-      </Col>
-      <Col xs={24} lg={10} xl={5}>
-        <ButtonCustom
-          htmlType="button"
-          type="primary"
-          variant={"solid"}
-          text="Siguiente"
-          onClick={() => setCurrent(2)}
-          icon={<ArrowRightOutlined />}
-          iconPosition="end"
-          block
-        />
-      </Col>
-    </Row>
-  </>
-)}
-
-{current === 2 && (
-  <>
-    <Row gutter={30}>
-      <Col xs={24}>
-        <Form onFinish={handleSubmit(onSubmit)}>
-          <Row gutter={30}>
-            {configFormSchema
-              .map((field) => (
-                <Col
-                  className="mb-2"
-                  key={String(field.key)}
-                  xs={field.xs}
-                  md={field.md}
-                >
-                  <FormField
-                    fieldConfig={field}
-                    control={control}
-                    error={errors[field.key]?.message as string}
-                  />
-                </Col>
-              ))}
-          </Row>
-        </Form>
-      </Col>
-    </Row>
-    <Row gutter={20} justify={"space-between"}>
-      <Col xs={24} lg={10} xl={5}>
-        <ButtonCustom
-          htmlType="button"
-          type="default"
-          variant={"solid"}
-          text="Anterior"
-          onClick={() => setCurrent(1)}
-          icon={<ArrowLeftOutlined />}
-          iconPosition="start"
-          block
-        />
-      </Col>
-      <Col xs={24} lg={10} xl={5}>
-        <ButtonCustom
-          htmlType="submit"
-          type="primary"
-          variant={"solid"}
-          text="Crear Usuario"
-          icon={<CheckOutlined />}
-          iconPosition="end"
-          block
-        />
-      </Col>
-    </Row>
-  </>
-)}
+      )}
     </PageContainer>
   );
 };
