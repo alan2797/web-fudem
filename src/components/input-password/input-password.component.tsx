@@ -31,6 +31,7 @@ const InputPassword = <TFormValues extends Record<string, unknown>>({
       validateStatus={error ? "error" : undefined}
       help={renderErrors()}
       style={{ marginBottom: 16 }}
+      layout="vertical"
     >
       <Controller
         name={key as any} // workaround para key genérico
