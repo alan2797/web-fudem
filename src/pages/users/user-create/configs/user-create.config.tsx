@@ -106,7 +106,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     options: sucursalOptions,
     validations: [
       { type: "required", message: "debe seleccionar una sucursal es obligatorio" },
-    ],
+    ]
   },
   {
     key: "estado",
@@ -151,6 +151,58 @@ export const configFormPassword = (): FieldConfig<ChangePasswordRequestDto>[] =>
         ],
     }
 ]
+
+export const configFormStep3 = (): FieldConfig<CreateUserDto>[] => [
+  {
+    key: "nombre",
+    type: "text",
+    label: "Nombre",
+    placeholder: "Ingrese Nombre",
+    xs: 24,
+    md: 6,
+    validations: [
+      { type: "required", message: "El Nombre es obligatorio" },
+      { type: "min", value: 2 , message: "El Nombre debe contener mínimo 2 Caracteres" }
+    ],
+  },
+  {
+    key: "sucursal",
+    type: "select",
+    label: "Sucursal",
+    placeholder: "Seleccione una Sucursal",
+    xs: 24,
+    md: 6,
+    options: sucursalOptions,
+    validations: [
+      { type: "required", message: "debe seleccionar una sucursal es obligatorio" },
+    ]
+  },
+  {
+    key: "function",
+    type: "select",
+    label: "Funcion",
+    placeholder: "Seleccione una Funcion",
+    xs: 24,
+    md: 6,
+    options: sucursalOptions,
+    validations: [
+      { type: "required", message: "debe seleccionar una funcion es obligatorio" },
+    ]
+  },
+  {
+    key: "locacion",
+    type: "select",
+    label: "Locación",
+    placeholder: "Seleccione una Locación",
+    xs: 24,
+    md: 6,
+    options: sucursalOptions,
+    validations: [
+      { type: "required", message: "debe seleccionar una locación es obligatorio" },
+    ]
+  }
+];
+
 
 export const breadcrumb = [
   { label: "Inicio", path: "/" },

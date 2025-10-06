@@ -25,15 +25,15 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StepCustom } from "../../../components/step/step.component";
 
+//Step1
+const configFormSchema: FieldConfig<CreateUserDto>[] = configForm();
+const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
+
+//Step2
+const configFormStep2Schema: FieldConfig<CreateUserDto>[] = configFormPassword(); // Solución temporal con type assertion
+const userStep2Schema = generateZodSchema<CreateUserDto>(configFormStep2Schema);
 const UserCreate: React.FC = () => {
   const [current, setCurrent] = useState(0);
-  const configFormSchema: FieldConfig<CreateUserDto>[] = configForm(); // Solución temporal con type assertion
-  const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
-  const configFormStep2Schema: FieldConfig<CreateUserDto>[] =
-    configFormPassword(); // Solución temporal con type assertion
-  const userStep2Schema = generateZodSchema<CreateUserDto>(
-    configFormStep2Schema
-  );
   const {
     control,
     handleSubmit,
