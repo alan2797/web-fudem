@@ -9,7 +9,7 @@ const CustomSelect = <TFormValues extends Record<string, unknown>>({
   control,
   error,
 }: FormFieldProps<TFormValues>) => {
-  const { key, label, placeholder, options = [], showSearch = false } = fieldConfig 
+  const { key, label, placeholder, options = [], showSearch = false, disabled=false } = fieldConfig 
 
   return (
     <Form.Item
@@ -32,10 +32,11 @@ const CustomSelect = <TFormValues extends Record<string, unknown>>({
             optionFilterProp="label"
             style={{ width: "100%" }}
             showSearch = {showSearch}
+            disabled = {disabled}
           >
             {options.map((option) => (
               <Option
-                key={option.value}
+                key={String(option.value)}
                 value={option.value}
                 label={option.label}
               >

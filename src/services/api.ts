@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://6h903gf6-3000.use2.devtunnels.ms",
+  baseURL: "https://agent-scale-lloyd-telephone.trycloudflare.com",
   headers: {
     "Content-Type": "application/json",
   },

@@ -9,6 +9,7 @@ import {
     CalendarOutlined,
     SettingOutlined,
     LogoutOutlined,
+    MedicineBoxOutlined,
   } from "@ant-design/icons";
   import { RoutePaths } from "../../utils/constants";
   import type { MenuProps } from "antd";
@@ -26,8 +27,26 @@ import {
           label: "Administración de Usuarios",
           children: [
             { key: RoutePaths.USERS_LIST, label: "Lista de Usuarios", icon: <UnorderedListOutlined /> },
-            { key: "/users/create", label: "Crear Usuario", icon: <UserAddOutlined /> },
-            { key: "/users/edit", label: "Edición de Usuario", icon: <EditOutlined /> },
+            { key: RoutePaths.USERS_CREATE, label: "Crear Usuario", icon: <UserAddOutlined /> },
+            { key: RoutePaths.USERS_EDIT, label: "Edición de Usuario", icon: <EditOutlined /> },
+            { key: RoutePaths.USERS_FILTER, label: "Búsqueda de Expediente", icon: <MedicineBoxOutlined /> },
+          ],
+        },
+      ],
+    },
+    {
+      key: "/patients",
+      label: "PACIENTES",
+      type: "group",
+      children: [
+        {
+          key: "patients",
+          icon: <UserOutlined />,
+          label: "Administración de Pacientes",
+          children: [
+            { key: RoutePaths.PATIENTS_LIST, label: "Lista de Pacientes", icon: <UnorderedListOutlined /> },
+            { key: RoutePaths.PATIENTS_CREATE, label: "Crear Paciente", icon: <UserAddOutlined /> },
+            { key: RoutePaths.PATIENTS_EDIT, label: "Edición de Paciente", icon: <EditOutlined /> },
           ],
         },
       ],

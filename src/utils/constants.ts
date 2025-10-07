@@ -17,6 +17,12 @@ export const RoutePaths = {
     USERS_LIST: '/users/list',
     USERS_CREATE: '/users/create',
     USERS_EDIT: '/users/edit',
+    USERS_FILTER: '/users/filter',
+
+    // Patients routes
+    PATIENTS_LIST: '/patients/list',
+    PATIENTS_CREATE: '/patients/create',
+    PATIENTS_EDIT: '/patients/edit',
   
     // Catch all
     NOT_FOUND: '*',

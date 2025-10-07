@@ -1,7 +1,7 @@
 // PageContainer.tsx
-import { Card, Typography, Breadcrumb } from "antd";
+import { Typography, Breadcrumb, Tabs } from "antd";
 import type { PageContainerProps } from "../../interfaces/components.interface";
-const PageContainer = ({ title, icon, breadcrumb, children }: PageContainerProps) => {
+const PageContainer = ({ title, icon, breadcrumb,tabs, children }: PageContainerProps) => {
   return (
     <div style={{ padding: "0px" }}>
       {breadcrumb && breadcrumb.length > 0 && (
@@ -38,6 +38,23 @@ const PageContainer = ({ title, icon, breadcrumb, children }: PageContainerProps
             {title}
             </Typography.Title>
         </div>
+           {tabs && tabs.items.length > 0 && (
+              <Tabs
+                defaultActiveKey={tabs.defaultActiveKey}
+                onChange={tabs.onChange}
+                items={tabs.items.map((tab) => ({
+                  key: tab.key,
+                  label: (
+                    <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      {tab.icon && tab.icon}
+                      {tab.label}
+                    </span>
+                  ),
+                  children: tab.children,
+                }))}
+                style={{ marginBottom: 16 }}
+              />
+            )}
         <div className="page-content" style={{ padding: 0 }}>
             {children}
         </div>

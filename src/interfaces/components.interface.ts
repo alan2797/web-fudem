@@ -27,10 +27,17 @@ export interface FieldConfig<T extends Record<string, unknown> = Record<string, 
   md?: string | number;
   sm?: string | number;
   xs?: string | number;
+  disabled?: boolean;
   showAllErrors?: boolean;
   validations?: Validation[];
-  options?: SelectOption[];
+  options?: Options[];
   showSearch?: boolean;
+  level?: 1 | 2 | 3 | 4 | 5; // para el tamaño del campo readOnly
+  format?: string;      // para pasarle el formato de la fecha m/d/y, d/m/y
+
+  addonBefore?: string; // agrega un simbolo al input number +,-,$
+  min?:number;
+  max?:number;
 }
 
 export interface FormFieldProps<T extends Record<string, unknown> = Record<string, unknown>> {
@@ -93,14 +100,14 @@ export interface TableProps {
   scroll?: { x?: number | string; y?: number | string };
 }
 
-export interface SelectOption {
+export interface Options {
   value: string | number | boolean;
   label?: string;
 }
 
 export interface SelectMenuConfigProps {
   placeholder?: string;
-  options?: SelectOption[];
+  options?: Options[];
   icon?: ReactNode;
   color?: string;
   size?: "small" | "middle" | "large";
@@ -138,9 +145,19 @@ export interface PageContainerProps {
   icon?: ReactNode; // puede ser un ícono React
   children: ReactNode; // contenido de la página
   breadcrumb?: BreadcrumbItem[]; // lista de breadcrumb
+  tabs?: {
+    items: TabItem[];               // lista de pestañas
+    defaultActiveKey?: string;      // pestaña activa por defecto
+    onChange?: (key: string) => void; // callback al cambiar pestaña
+  };
 }
 
-
+export interface TabItem {
+  key: string;          // identificador único de la pestaña
+  label: string;        // texto que se muestra en la pestaña
+  children?: ReactNode; // contenido dentro de la pestaña
+  icon?: ReactNode;     // ícono opcional
+}
 export interface StepCustomProps {
   current: number;
   steps: (StepProps & { icon2?: ReactNode }) [];

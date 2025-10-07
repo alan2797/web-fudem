@@ -61,3 +61,12 @@ export interface CreateUserDto extends Record<string, unknown>{
     sucursal?: string;
     estado?: string;
 }
+
+export interface FilterEditUserDto extends Record<string, unknown>{
+    medicalRecord?: string; //No. de Expediente
+    name?: string;
+    dui?: string;
+    fechaNac ?: string;
+    dpto ?: string;
+    municipio ?: string;
+}
