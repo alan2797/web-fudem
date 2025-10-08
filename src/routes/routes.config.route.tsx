@@ -19,6 +19,8 @@ const UserEdit = lazy(() => import('../pages/users/user-edit/user-edit.page'));
 const PatientSearch = lazy(() => import('../pages/patients/patient-search/patient-search.page'));
 const PatientCreate = lazy(() => import('../pages/patients/patient-create/patient-create.page'));
 
+const ExpedientPatient = lazy(() => import('../pages/patients/patient-expedient/patient-expedient.page'));
+
 
 
 
@@ -118,6 +120,13 @@ export const privateRoutes: RouteConfig[] = [
     component: PatientCreate,
     isPrivate: true,
     layout: 'main',
+    title: 'Crear Paciente'
+  },
+  {
+    path: RoutePaths.PATIENTS_EXPEDIENT,
+    component: ExpedientPatient,
+    isPrivate: true,
+    layout: 'none',
     title: 'Crear Paciente'
   },
   

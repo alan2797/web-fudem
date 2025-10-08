@@ -32,7 +32,7 @@ const CustomSelect = <TFormValues extends Record<string, unknown>>({
           <Select
             {...field}
             placeholder={placeholder}
-            value={field.value ?? undefined}
+            value={field.value === "" ? undefined : field.value}
             onBlur={field.onBlur}
             size="large"
             optionFilterProp="label"

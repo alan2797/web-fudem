@@ -10,6 +10,7 @@ import {
     SettingOutlined,
     LogoutOutlined,
     MedicineBoxOutlined,
+    FileTextOutlined,
   } from "@ant-design/icons";
   import { RoutePaths } from "../../utils/constants";
   import type { MenuProps } from "antd";
@@ -47,6 +48,7 @@ import {
             { key: RoutePaths.PATIENTS_LIST, label: "Lista de Pacientes", icon: <UnorderedListOutlined /> },
             { key: RoutePaths.PATIENTS_CREATE, label: "Crear Paciente", icon: <UserAddOutlined /> },
             { key: RoutePaths.PATIENTS_EDIT, label: "Edición de Paciente", icon: <EditOutlined /> },
+            { key: RoutePaths.PATIENTS_EXPEDIENT, label: "Expediente Paciente", icon: <FileTextOutlined /> },
           ],
         },
       ],

@@ -56,21 +56,20 @@ const EditFormLayout: React.FC<EditFormLayoutProps> = ({
             block
             htmlType="button"
             type="primary"
-            variant="solid"
             text="Eliminar Usuario"
             onClick={onDelete}
-            style={{ backgroundColor: "#ff4d4f", borderColor: "#ff4d4f" }}
+            className="bg-error-antd"
           />
         </Col>
         <Col xs={24} md={7} lg={5} xl={3}>
           <ButtonCustom
             block
             htmlType="button"
-            type="default"
-            variant="solid"
             text="Limpiar"
+            type="primary"
+            variant="outlined"
             onClick={onReset}
-            style={{ backgroundColor: "#FF7D00", color: "#fff", borderColor: "#FF7D00" }}
+            className="bg-success-info"
           />
         </Col>
         <Col xs={24} md={7} lg={4} xl={3}>

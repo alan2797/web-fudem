@@ -1,5 +1,5 @@
 import type { FieldConfig } from "../../../../interfaces/components.interface";
-import type { CreateUserDto } from "../../../../interfaces/user.interface";
+import type { CreateExpedientPatientDto } from "../../../../interfaces/user.interface";
 
 const rolOptions = [
   { value: "adm", label: "Admin" },
@@ -17,7 +17,7 @@ const StatusOptions = [
   { value: "blocked", label: "Bloqueados" },
   { value: "all", label: "Todos" },
 ];
-export const configForm = (): FieldConfig<CreateUserDto>[] => [
+export const configForm = (): FieldConfig<CreateExpedientPatientDto>[] => [
   {
     key: "medicalRecord",
     type: "readOnly",
@@ -37,7 +37,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     md: 12,
   },
   {
-    key: "name",
+    key: "firstName",
     type: "text",
     label: "Nombre",
     placeholder: "Ingrese Nombre",
@@ -53,7 +53,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     ],
   },
   {
-    key: "lastname",
+    key: "lastName",
     type: "text",
     label: "Apellidos",
     placeholder: "Ingrese Apellido",
@@ -67,7 +67,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     key: "nationality",
     type: "select",
     label: "Nacionalidad",
-    placeholder: "Seleccione un Nacionalidad",
+    placeholder: "Seleccione una Nacionalidad",
     xs: 24,
     md: 8,
     options: rolOptions,
@@ -82,7 +82,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     key: "dateOfBirth",
     type: "date",
     label: "Fecha de Nacimiento",
-    placeholder: "Ingrese Fecha de Nacimiento",
+    placeholder: "dd/mm/aaaa",
     xs: 24,
     md: 12,
     validations: [
@@ -111,7 +111,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     level: 5,
   },
   {
-    key: "parentName",
+    key: "parentFirstName",
     type: "text",
     label: "Nombre del Encargado/a",
     placeholder: "Ej: Tatiana",
@@ -136,13 +136,13 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     ],
   },
   {
-    key: "relationship",
+    key: "relationShip",
     type: "select",
     label: "Parentesco",
     placeholder: "Elegir Parentesco",
     xs: 24,
     md: 8,
-    options: rolOptions,
+    options: StatusOptions,
     validations: [
       {
         type: "required",
@@ -153,7 +153,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
   {
     key: "documentType",
     type: "select",
-    label: "Parentesco",
+    label: "Tipo de Documento",
     placeholder: "Elegir Documento",
     xs: 24,
     md: 8,
@@ -191,7 +191,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     md: 8,
   },
   {
-    key: "question",
+    key: "readAndWrite",
     label: "Lee y Escribe?",
     type: "radio",
     options: [
@@ -202,10 +202,10 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     md: 4,
   },
   {
-    key: "país",
+    key: "country",
     type: "select",
     label: "País",
-    placeholder: "elegir Pais",
+    placeholder: "Elegir Pais",
     xs: 24,
     md: 6,
     options: rolOptions,
@@ -230,7 +230,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     ],
   },
   {
-    key: "phone",
+    key: "phoneNumber1",
     type: "number",
     label: "Telefono Fijo",
     min: 0,
@@ -255,7 +255,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     ],
   },
   {
-    key: "phone",
+    key: "phoneNumber2",
     type: "number",
     label: "Telefono Movíl",
     min: 0,
@@ -270,7 +270,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     key: "department",
     type: "select",
     label: "Departamento",
-    placeholder: "elegir Departamento",
+    placeholder: "Elegir Departamento",
     xs: 24,
     md: 8,
     options: rolOptions,
@@ -282,10 +282,10 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     ],
   },
   {
-    key: "city",
+    key: "municipality",
     type: "select",
     label: "Municipio",
-    placeholder: "elegir Municipio",
+    placeholder: "Elegir Municipio",
     xs: 24,
     md: 8,
     options: rolOptions,
@@ -297,7 +297,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     ],
   },
   {
-    key: "direction",
+    key: "address",
     type: "text",
     label: "Dirección",
     placeholder: "Ingrese su direccion",
@@ -338,7 +338,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     key: "education",
     type: "select",
     label: "Educación",
-    placeholder: "elegir Educación",
+    placeholder: "Elegir Educación",
     xs: 24,
     md: 8,
     options: rolOptions,
@@ -380,7 +380,7 @@ export const configForm = (): FieldConfig<CreateUserDto>[] => [
     ],
   },
   {
-    key: "glasses",
+    key: "wearsGlasses",
     type: "radio",
     label: "Usa Lentes?",
     xs: 24,
