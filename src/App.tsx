@@ -13,14 +13,10 @@ const App: React.FC = () => {
   if (token) {
     try {
       const decoded = jwtDecode<TokenPayload>(token);
-      const hasClaims =
-        !!decoded.branchId &&
-        !!decoded.areaId &&
-        !!decoded.workProfileId &&
-        !!decoded.positionId;
-
-      if (hasClaims) {
-        isAuthenticated = true;
+      if(decoded.isAdmin){
+        isAuthenticated = !!decoded.branchId && !!decoded.areaId && !!decoded.positionId;
+      }else{
+        isAuthenticated = !!decoded.branchId && !!decoded.areaId && !!decoded.workProfileId && !!decoded.positionId;
       }
     } catch (err) {
       isAuthenticated = false;

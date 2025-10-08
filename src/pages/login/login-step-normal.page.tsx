@@ -46,9 +46,7 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
             const profileResult: ApiResponse<SelectProfileResponse> | null = await handleRequestThunk(
                 dispatch,
                 () => dispatch(selectProfile({profileId: profile.id})).unwrap(),
-                {
-                    showSpinner: true, showMessageApi: true
-                }
+                { showSpinner: true }
             );
             if((profileResult && !profileResult.success) || !profileResult) return;
             
@@ -68,7 +66,7 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
                     dispatch,
                     () => dispatch(getAreas(profileResult.data.profile.branchId)).unwrap(),
                 {
-                    showSpinner: false, showMessageApi: true
+                    showSpinner: false
                 }
             );
             if(!departmentResultList || !departmentResultList?.success) return;
@@ -81,7 +79,7 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
             dispatch,
             () => dispatch(selectArea({areaId: department.id, branchId: branchId ?? 0})).unwrap(),
             {
-                showSpinner: true, showMessageApi: true
+                showSpinner: true
             }
             );
           console.log(departamentResult);
@@ -102,7 +100,7 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
             dispatch,
             () => dispatch(getPositions(department.id)).unwrap(),
                 {
-                    showSpinner: false, showMessageApi: true
+                    showSpinner: false
                 }
             );
             
@@ -118,7 +116,7 @@ const LoginStepNormal: React.FC<LoginStepNormalProps> = ({ user }) => {
             dispatch,
             () => dispatch(selectPosition({areaId: areaId ?? 0, positionId: position.id ?? 0})).unwrap(),
               {
-                  showSpinner: true, showMessageApi: true
+                  showSpinner: true
               }
             );
           console.log(positionResult);

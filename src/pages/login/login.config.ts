@@ -8,6 +8,7 @@ export const configForm = (): FieldConfig<LoginRequestDto>[] => [
     label: "Correo o Usuario",
     placeholder: "Ingresa tu correo o usuario",
     valueInitial: "",
+    typeValue: "string",
     xs: "12",
     validations: [
       { type: "required", message: "El email es obligatorio" },
@@ -20,6 +21,7 @@ export const configForm = (): FieldConfig<LoginRequestDto>[] => [
     label: "Contraseña",
     placeholder: "Ingresa tu contraseña",
     valueInitial: "",
+    typeValue: "string",
     xs: "12",
     validations: [
       { type: "required", message: "La contraseña es obligatoria" },

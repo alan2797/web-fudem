@@ -7,6 +7,7 @@ import type { CountryDto } from "../../interfaces/country.interface";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getBranchesService, getCountriesService } from "../../services/catalogs";
 
+
 interface CatalogsState {
     countries: CountryDto[];
     branches: BranchDto[];
@@ -27,58 +28,41 @@ const initialState: CatalogsState = {
 
 export const getCountries = createAsyncThunk(
     "catalogs/getCountries",
-    async () => {
+    async (_, { rejectWithValue }) => {
       try {
         const response = await getCountriesService();
         return response.data; 
       } catch (err: any) {
-        return err;
+        console.log(err);
+        return rejectWithValue(err);
       }
     }
 );
 
 export const getBranches = createAsyncThunk(
     "catalogs/getBranches",
-    async () => {
+    async (_, { rejectWithValue }) => {
       try {
         const response = await getBranchesService();
         return response.data; 
       } catch (err: any) {
-        throw err;
+        console.log(err);
+        return rejectWithValue(err);
       }
     }
 );
-
-export const getInitialUserCatalogs = createAsyncThunk(
-    "catalogs/getInitialUserCatalogs",
-    async () => {
-      try {
-        const [countriesRes, branchesRes] = await Promise.all([
-          getCountriesService(),
-          getBranchesService(),
-        ]);
-        console.log(countriesRes);
-        console.log(branchesRes);
-        return {
-          countries: countriesRes.data as CountryDto[],
-          branches: branchesRes.data as BranchDto[],
-        };
-      } catch (err: any) {
-        throw err;
-      }
-    }
-);
-  
 
 const catalogsSlice = createSlice({
     name: "catalogs",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getInitialUserCatalogs.fulfilled, (state, action) => {
-            state.countries = action.payload.countries;
-            state.branches = action.payload.branches;
+        builder.addCase(getCountries.fulfilled, (state, action) => {
+            state.countries = action.payload.data;
         });
+        builder.addCase(getBranches.fulfilled, (state, action) => {
+          state.branches = action.payload.data;
+      });
     },
   });
   

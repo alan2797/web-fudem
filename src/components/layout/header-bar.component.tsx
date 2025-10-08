@@ -1,13 +1,7 @@
 import { Button, theme } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
-import { logout } from "../../redux/features/auth.slice";
-import { useNavigate } from "react-router-dom";
-import type { AppDispatch } from "../../redux/store";
 
 const HeaderBar = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const { token: { colorBgContainer } } = theme.useToken();
 
   return (
@@ -28,8 +22,6 @@ const HeaderBar = () => {
         type="text"
         icon={<LogoutOutlined />}
         onClick={() => {
-          dispatch(logout());
-          navigate("/login");
         }}
         style={{ fontSize: 16, marginLeft: "auto" }}
       />

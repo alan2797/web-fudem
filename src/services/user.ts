@@ -1,7 +1,8 @@
-import type { FiltersUserDto } from "../interfaces/user.interface";
+import type { CreateUserDto, FiltersUserDto } from "../interfaces/user.interface";
 import api from "./api";
 
 export const getAllUsersService = async (data: FiltersUserDto) => {
+    console.log(data);
     // agregar valores por defecto
     const dataWithDefaults: FiltersUserDto = {
         page: 1,
@@ -16,7 +17,13 @@ export const getAllUsersService = async (data: FiltersUserDto) => {
         ([_, value]) => value !== undefined && value !== ""
         )
     );
-    
+    console.log(params)
     const res = await api.get(`/users`, { params });
+    return res;
+};
+
+export const createUserService = async (data: CreateUserDto) => {
+    console.log(data)
+    const res = await api.post(`/users`, data);
     return res;
 };

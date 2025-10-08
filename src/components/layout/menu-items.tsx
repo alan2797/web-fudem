@@ -52,6 +52,6 @@ import {
     { key: "/calendar", icon: <CalendarOutlined />, label: "Calendario" },
     { type: "divider" },
     { key: "/settings", icon: <SettingOutlined />, label: "Ajustes de cuenta" },
-    { key: "/logout", icon: <LogoutOutlined />, label: "Cerrar Sesión" },
+    { key: "/logout", icon: <LogoutOutlined />, label: "Cerrar Sesión"},
   ];
   

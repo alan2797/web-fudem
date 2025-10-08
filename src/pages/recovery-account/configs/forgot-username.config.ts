@@ -6,6 +6,7 @@ export const configFormForgotUsername =
     {
       key: "email",
       type: "text",
+      typeValue: "string",
       label: "Coloque el correo que esta vinculado con su usuario",
       valueInitial: "",
       xs: 24,

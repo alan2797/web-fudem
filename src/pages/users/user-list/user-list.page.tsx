@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Row, Divider, Col, Form } from "antd";
-import type { ApiResponse, FieldConfig } from "../../../interfaces/components.interface";
+import type {
+  ApiResponse,
+  FieldConfig,
+} from "../../../interfaces/components.interface";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { breadcrumb, configFormUser } from "./configs/user-list.config";
 import { FormField } from "../../../components/form-field/form-field.component";
 import { TableCustom } from "../../../components/table/table-custom.component";
-import type { FiltersUserDto, UserListDto, UserListResponseDto } from "../../../interfaces/user.interface";
+import type {
+  FiltersUserDto,
+  UserListDto,
+  UserListResponseDto,
+} from "../../../interfaces/user.interface";
 import { columns } from "./configs/user-list.table";
 import {
   CloseCircleOutlined,
@@ -18,45 +25,65 @@ import { buildDefaultValues } from "../../../validators/validations";
 import ButtonCustom from "../../../components/button/button.component";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../redux/store";
-import { getInitialUserCatalogs } from "../../../redux/features/catalogs.slice";
 import { handleRequestAxios } from "../../../utils/handle-request-axios";
 import { getAllUsersService } from "../../../services/user";
+import { handleRequestThunk } from "../../../utils/handle-request-thunk";
+import {
+  getCountries,
+  getBranches,
+} from "../../../redux/features/catalogs.slice";
+import { useNavigate } from "react-router-dom";
+import { RoutePaths } from "../../../utils/constants";
 
 const UserList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const catalogs = useSelector((state: RootState) => state.catalogs);
   const configFormSchema: FieldConfig<FiltersUserDto>[] = configFormUser(catalogs);
-
   const {
     control,
     formState: { errors },
     reset,
+    handleSubmit
   } = useForm<FiltersUserDto>({
     defaultValues: buildDefaultValues(configFormSchema),
   });
 
-  const [dataSource, setDataSource] = useState<UserListDto[] | undefined>(undefined);
+  const [dataSource, setDataSource] = useState<UserListDto[] | undefined>(
+    undefined
+  );
 
-  useEffect(() => {
-    dispatch(getInitialUserCatalogs());
-    getAllUsers({});
-  }, [dispatch]);
-
-  const onSubmit: SubmitHandler<FiltersUserDto> = async (data: FiltersUserDto) => {
+  const onSubmit: SubmitHandler<FiltersUserDto> = async (
+    data: FiltersUserDto
+  ) => {
     getAllUsers(data);
   };
 
-  const getAllUsers = async (data: FiltersUserDto) => {
-    const result: ApiResponse<UserListResponseDto> | null = await handleRequestAxios(dispatch, () => getAllUsersService(data), {
-      showSpinner: true,
-      showMessageApi: true
-    });
-    console.log(result);
-    if(result?.success){
-      setDataSource(result?.data?.users);
-    }
-  }
+  useEffect(() => {
+    getAllBranches();
+    getAllCountries();
+    getAllUsers({});
+  }, []);
 
+  const getAllBranches = async () => {
+    await handleRequestThunk(dispatch, () => dispatch(getBranches()).unwrap(), {showSpinner: false});
+  };
+
+  const getAllCountries = async () => {
+    await handleRequestThunk(dispatch, () => dispatch(getCountries()).unwrap(), {showSpinner: false});
+  };
+
+  const getAllUsers = async (data: FiltersUserDto) => {
+    setDataSource(undefined);
+    const result: ApiResponse<UserListResponseDto> | null =
+      await handleRequestAxios(dispatch, () => getAllUsersService(data), {showSpinner: false});
+    console.log(result);
+    if (result?.success) {
+      setDataSource(result?.data?.users);
+    }else{
+      setDataSource([]);
+    }
+  };
 
   return (
     <PageContainer
@@ -64,7 +91,7 @@ const UserList: React.FC = () => {
       icon={<UnorderedListOutlined className="fs-4" />}
       breadcrumb={breadcrumb}
     >
-      <Form onFinish={onSubmit}>
+      <Form onFinish={handleSubmit(onSubmit)}>
         <Row gutter={30}>
           {configFormSchema.map((field) => (
             <Col
@@ -84,7 +111,6 @@ const UserList: React.FC = () => {
         <Row gutter={20} justify={"end"}>
           <Col xs={24} lg={10} xl={5}>
             <ButtonCustom
-              htmlType="submit"
               type="primary"
               color="gold"
               variant={"solid"}
@@ -109,24 +135,22 @@ const UserList: React.FC = () => {
           </Col>
         </Row>
       </Form>
-      
+
       <Divider />
       <TableCustom<UserListDto>
+        selectable
         columns={columns}
         dataSource={dataSource}
         rowKey="id"
         pageSize={5}
         searchable
-        onView={() => {}}
-        onDelete={() => {}}
-        onEdit={() => {}}
         showNewButton
         newButtonLabel={
           <span>
             <PlusOutlined /> Añadir nuevo usuario
           </span>
         }
-        onNewButtonClick={() => {}}
+        onNewButtonClick={() => {navigate(RoutePaths.USERS_CREATE)}}
         showPageSize
       />
     </PageContainer>

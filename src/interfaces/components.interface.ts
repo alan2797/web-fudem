@@ -1,4 +1,4 @@
-import type { ButtonProps, StepProps } from 'antd';
+import type { ButtonProps, StepProps, SwitchProps } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { ReactNode } from 'react';
 import type { Control } from 'react-hook-form';
@@ -19,7 +19,8 @@ export type Validation =
 export interface FieldConfig<T extends Record<string, unknown> = Record<string, unknown>> {
   key: keyof T;
   label?: string;
-  type?: 'text' | 'password' | string;
+  type?: 'text' | 'password' | 'switch' | 'select';
+  typeValue?: 'string' | 'number' | 'boolean' | 'date'
   placeholder?: string;
   valueInitial?: T[keyof T];
   xl?: string | number;
@@ -31,6 +32,8 @@ export interface FieldConfig<T extends Record<string, unknown> = Record<string, 
   validations?: Validation[];
   options?: SelectOption[];
   showSearch?: boolean;
+  checkedChildren?: React.ReactNode;
+  unCheckedChildren?: React.ReactNode;
 }
 
 export interface FormFieldProps<T extends Record<string, unknown> = Record<string, unknown>> {
@@ -145,4 +148,9 @@ export interface StepCustomProps {
   current: number;
   steps: (StepProps & { icon2?: ReactNode }) [];
   onChange?: (current: number) => void;
+}
+
+export interface SwitchCustomProps extends SwitchProps {
+  // Puedes agregar props personalizadas si quieres
+  label?: string; // ejemplo: etiqueta opcional junto al switch
 }

@@ -1,58 +1,104 @@
-import { Row, Divider, Col, Form } from "antd";
-import type { FieldConfig } from "../../../interfaces/components.interface";
-import { useForm } from "react-hook-form";
-import { FormField } from "../../../components/form-field/form-field.component";
-import type { CreateUserDto } from "../../../interfaces/user.interface";
-import {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  CheckOutlined,
-  UnorderedListOutlined,
-} from "@ant-design/icons";
+// UserCreate.tsx
+import React, { useState } from "react";
+import { Row, Divider, Col, message } from "antd";
+import { useDispatch } from "react-redux";
+import { UnorderedListOutlined } from "@ant-design/icons";
+
 import PageContainer from "../../../components/page-container/page-container.component";
-import {
-  generateZodSchema,
-  buildDefaultValues,
-} from "../../../validators/validations";
-import ButtonCustom from "../../../components/button/button.component";
-import {
-  breadcrumb,
-  configForm,
-  configFormPassword,
-  steps,
-} from "./configs/user-create.config";
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { StepCustom } from "../../../components/step/step.component";
+import { breadcrumb, steps } from "./configs/user-create.config";
+import type { AppDispatch } from "../../../redux/store";
 
-//Step1
-const configFormSchema: FieldConfig<CreateUserDto>[] = configForm();
-const userSchema = generateZodSchema<CreateUserDto>(configFormSchema);
+import UserDetailsStep from "./components/user-detail-step.component";
+import PasswordStep from "./components/password-step.components";
+import type {
+  CreateUserDto,
+  CreateUserPasswordDto,
+} from "../../../interfaces/user.interface";
+import type { ApiResponse } from "../../../interfaces/components.interface";
+import { handleRequestAxios } from "../../../utils/handle-request-axios";
+import { createUserService } from "../../../services/user";
+import { useNavigate } from "react-router-dom";
+import { RoutePaths } from "../../../utils/constants";
 
-//Step2
-const configFormStep2Schema: FieldConfig<CreateUserDto>[] = configFormPassword(); // Solución temporal con type assertion
-const userStep2Schema = generateZodSchema<CreateUserDto>(configFormStep2Schema);
+interface FormData {
+  step1?: CreateUserDto;
+  step2?: CreateUserPasswordDto;
+}
+
+interface CommonStepProps {
+  onNext: (data?: any) => void;
+  onPrev: () => void;
+  dispatch: AppDispatch;
+  initialData?: any;
+}
+
 const UserCreate: React.FC = () => {
-  const [current, setCurrent] = useState(0);
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<CreateUserDto>({
-    resolver: zodResolver(userSchema),
-    defaultValues: buildDefaultValues(configFormSchema),
-  });
+  const [current, setCurrent] = useState<number>(0);
+  const [formData, setFormData] = useState<FormData>({});
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
-  const onNext = async () => {
-    try {
-      setCurrent(current + 1);
-    } catch (err) {
-      console.log("Errores en formulario:", err);
+  const handleNext = (stepData?: any) => {
+    // Guardar datos del step actual
+    if (stepData) {
+      setFormData((prev) => ({
+        ...prev,
+        [`step${current + 1}`]: stepData,
+      }));
+    }
+
+    setCurrent((c) => Math.min(c + 1, steps.length - 1));
+  };
+
+  const handlePrev = () => setCurrent((c) => Math.max(0, c - 1));
+
+  // Función para manejar el envío final del formulario desde el step 2
+  const handleSubmit = async (step2Data: CreateUserPasswordDto) => {
+    const createUserDto: CreateUserDto = {
+      ...formData.step1,
+      ...step2Data,
+    };
+    const result: ApiResponse<CreateUserDto> | null = await handleRequestAxios(
+      dispatch,
+      () => createUserService(createUserDto),
+      {
+        showSpinner: true,
+        showMessageApi: true,
+      }
+    );
+    if (result?.success) {
+      navigate(RoutePaths.USERS_LIST);
     }
   };
-  const onSubmit = () => {
-    console.log("Formulario enviado:");
+
+  const renderStep = () => {
+    const commonProps: CommonStepProps = {
+      onNext: handleNext,
+      onPrev: handlePrev,
+      dispatch,
+    };
+
+    switch (current) {
+      case 0:
+        return (
+          <UserDetailsStep {...commonProps} initialData={formData.step1} />
+        );
+      case 1:
+        return (
+          <PasswordStep
+            {...commonProps}
+            onSubmit={handleSubmit} // Pasamos onSubmit al PasswordStep
+            initialData={formData.step2}
+          />
+        );
+      default:
+        return (
+          <UserDetailsStep {...commonProps} initialData={formData.step1} />
+        );
+    }
   };
+
   return (
     <PageContainer
       title="Crear Usuarios"
@@ -60,158 +106,16 @@ const UserCreate: React.FC = () => {
       breadcrumb={breadcrumb}
     >
       <Divider />
-      {/* Steps */}
+
       <Row justify="center">
         <Col md={24} lg={24} xl={18}>
           <StepCustom current={current} steps={steps} />
         </Col>
       </Row>
+
       <Divider />
-      {current === 0 && (
-        <>
-          <Row gutter={30}>
-            <Col xs={24}>
-              <Form onFinish={handleSubmit(onSubmit)}>
-                <Row gutter={30}>
-                  {configFormSchema.map((field) => (
-                    <Col
-                      className="mb-2"
-                      key={String(field.key)}
-                      xs={field.xs}
-                      md={field.md}
-                    >
-                      <FormField
-                        fieldConfig={field}
-                        control={control}
-                        error={errors[field.key]?.message as string}
-                      />
-                    </Col>
-                  ))}
-                </Row>
-              </Form>
-            </Col>
-          </Row>
-          <Row gutter={20} justify={"end"}>
-            <Col xs={24} lg={10} xl={5} style={{ marginTop: 15 }}>
-              <ButtonCustom
-                htmlType="button"
-                type="primary"
-                variant={"solid"}
-                text="Siguiente"
-                onClick={onNext}
-                icon={<ArrowRightOutlined />}
-                iconPosition="end"
-                block
-              />
-            </Col>
-          </Row>
-        </>
-      )}
 
-      {current === 1 && (
-        <>
-          <Row gutter={30}>
-            <Col xs={24}>
-              <Form onFinish={handleSubmit(onSubmit)}>
-                <Row gutter={30}>
-                  {configFormStep2Schema.map((field) => (
-                    <Col
-                      className="mb-2"
-                      key={String(field.key)}
-                      xs={field.xs}
-                      md={field.md}
-                    >
-                      <FormField
-                        fieldConfig={field}
-                        control={control}
-                        error={errors[field.key]?.message as string}
-                      />
-                    </Col>
-                  ))}
-                </Row>
-              </Form>
-            </Col>
-          </Row>
-          <Row gutter={20} justify={"space-between"}>
-            <Col xs={24} lg={10} xl={5}>
-              <ButtonCustom
-                htmlType="button"
-                type="default"
-                variant={"solid"}
-                text="Anterior"
-                onClick={() => setCurrent(0)}
-                icon={<ArrowLeftOutlined />}
-                iconPosition="start"
-                block
-              />
-            </Col>
-            <Col xs={24} lg={10} xl={5}>
-              <ButtonCustom
-                htmlType="button"
-                type="primary"
-                variant={"solid"}
-                text="Siguiente"
-                onClick={() => setCurrent(2)}
-                icon={<ArrowRightOutlined />}
-                iconPosition="end"
-                block
-              />
-            </Col>
-          </Row>
-        </>
-      )}
-
-      {current === 2 && (
-        <>
-          <Row gutter={30}>
-            <Col xs={24}>
-              <Form onFinish={handleSubmit(onSubmit)}>
-                <Row gutter={30}>
-                  {configFormSchema.map((field) => (
-                    <Col
-                      className="mb-2"
-                      key={String(field.key)}
-                      xs={field.xs}
-                      md={field.md}
-                    >
-                      <FormField
-                        fieldConfig={field}
-                        control={control}
-                        error={errors[field.key]?.message as string}
-                      />
-                    </Col>
-                  ))}
-                </Row>
-              </Form>
-            </Col>
-          </Row>
-          <Row gutter={20} justify={"space-between"}>
-            <Col xs={24} lg={10} xl={5}>
-              <ButtonCustom
-                htmlType="button"
-                type="default"
-                variant={"solid"}
-                text="Anterior"
-                onClick={() => setCurrent(1)}
-                icon={<ArrowLeftOutlined />}
-                iconPosition="start"
-                block
-              />
-            </Col>
-            <Col xs={24} lg={10} xl={5}>
-              <ButtonCustom
-                htmlType="submit"
-                type="primary"
-                variant={"solid"}
-                text="Crear Usuario"
-                icon={<CheckOutlined />}
-                iconPosition="end"
-                block
-              />
-            </Col>
-          </Row>
-        </>
-      )}
+      {renderStep()}
     </PageContainer>
   );
 };

@@ -11,7 +11,7 @@ const rolOptions = [
 const StatusOptions = [
   { value: "all", label: "Todos" },
   { value: "active", label: "Activos" },
-  { value: "blocked", label: "Bloqueados" },
+  { value: "locked", label: "Bloqueados" },
 ];
 
 export const configFormUser = (catalogs: {
@@ -19,7 +19,7 @@ export const configFormUser = (catalogs: {
   branches: BranchDto[];
 }): FieldConfig<FiltersUserDto>[] => [
   {
-    key: "nombre",
+    key: "name",
     type: "text",
     label: "Nombre",
     placeholder: "Ingrese nombre y/o apellido",
@@ -27,7 +27,7 @@ export const configFormUser = (catalogs: {
     md: 8,
   },
   {
-    key: "rol",
+    key: "isAdmin",
     type: "select",
     label: "Rol",
     placeholder: "Seleccione un Rol",
@@ -37,19 +37,19 @@ export const configFormUser = (catalogs: {
     showSearch: true
   },
   {
-    key: "sucursal",
+    key: "branchId",
     type: "select",
     label: "Sucursal",
     placeholder: "Seleccione una Sucursal",
     xs: 24,
     md: 8,
-    options: catalogs.branches.map((c) => ({
+    options: catalogs?.branches?.map((c) => ({
       label: c.name,
       value: c.id,
     })),
   },
   {
-    key: "estado",
+    key: "status",
     type: "select",
     label: "Estado",
     placeholder: "Seleccione un Estado",
@@ -58,13 +58,13 @@ export const configFormUser = (catalogs: {
     options: StatusOptions,
   },
   {
-    key: "pais",
+    key: "countryId",
     type: "select",
     label: "País",
     placeholder: "Seleccione un País",
     xs: 24,
     md: 8,
-    options: catalogs.countries.map((c) => ({
+    options: catalogs?.countries?.map((c) => ({
       label: c.name,
       value: c.id,
     })),

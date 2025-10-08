@@ -1,3 +1,7 @@
+import type { AreaDto } from "./area.interface";
+import type { BranchDto } from "./branch.interface";
+import type { PositionDto } from "./position.interface";
+
 export interface ProfileDto {
   id: number;
   name: string;
@@ -24,4 +28,12 @@ export interface WorkProfileDto {
     name: string;
     branch: string;
     area: string;
+}
+
+export interface WorkProfileTableDto {
+  id: number;
+  name: string;
+  branch: BranchDto;
+  area: AreaDto;
+  location: PositionDto;
 }

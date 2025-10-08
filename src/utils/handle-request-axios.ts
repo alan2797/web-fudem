@@ -4,6 +4,7 @@ import { message } from "antd";
 import type { AxiosResponse } from "axios";
 import type { ApiResponse, HandleOptions } from "../interfaces/components.interface";
 import { logout } from "../redux/features/auth.slice";
+import { handleApiError } from "./error-handler";
 
 export async function handleRequestAxios<T>(
   dispatch: AppDispatch,
@@ -31,24 +32,19 @@ export async function handleRequestAxios<T>(
     return result;
   } catch (err: any) {
     console.error(err);
-    const status = err.response?.status ?? 0;
+    
+    const status = err.response?.status;
     const serverMessage = err.response?.data?.message;
+    const serverErrors = err.response?.data?.error?.errors;
+    const errorMessage = err.message;
 
-    switch (status) {
-      case 401:
-        message.error("No autorizado. Por favor inicia sesión nuevamente.");
-        dispatch(logout());
-        break;
-      case 404:
-        message.error("Recurso no encontrado.");
-        break;
-      case 0:
-        message.error("No se pudo conectar con el servidor. Verifique su conexión a internet.");
-        break;
-      default:
-        message.error(errorMessage || serverMessage || "Ocurrió un error inesperado.");
-        break;
-    }
+    handleApiError({
+      status: status || 500,
+      serverMessage,
+      errorMessage,
+      serverErrors,
+      onUnauthorized: () => dispatch(logout())
+    });
 
     return null;
   } finally {

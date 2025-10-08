@@ -10,6 +10,7 @@ export const configFormChangePassword = (): FieldConfig<ChangePasswordRequestDto
         type: "password",
         label: "Ingresa Nueva Contraseña",
         valueInitial: "",
+        typeValue: "string",
         xs: 24,
         validations: [
             { type: "required"},
@@ -24,6 +25,7 @@ export const configFormChangePassword = (): FieldConfig<ChangePasswordRequestDto
     {
         key: "confirmPassword",
         type: "password",
+        typeValue: "string",
         label: "Confirma Nueva Contraseña",
         valueInitial: "",
         xs: 24,

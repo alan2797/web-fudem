@@ -8,7 +8,6 @@ const InputPassword = <TFormValues extends Record<string, unknown>>({
   error
 }: FormFieldProps<TFormValues>) => {
   const { label, placeholder, key, showAllErrors } = fieldConfig;
-  console.log("password: ", showAllErrors);
 
   const renderErrors = () => {
     if (!error) return undefined;

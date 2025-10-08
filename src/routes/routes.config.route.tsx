@@ -48,14 +48,14 @@ export const publicRoutes: RouteConfig[] = [
     path: RoutePaths.FORGOT_PASSWORD,
     component: ForgotPassword,
     isPrivate: false,
-    isRestricted: true,
+    isRestricted: false,
     title: 'Recuperar Contraseña'
   },
   {
     path: RoutePaths.LOGIN_STEP,
     component: LoginStep,
     isPrivate: false,
-    isRestricted: true,
+    isRestricted: false,
     title: 'step de login'
   },
 ];

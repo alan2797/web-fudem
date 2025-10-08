@@ -12,48 +12,91 @@ export const generateZodSchema = <T extends Record<string, any>>(
   }[] = [];
 
   fields.forEach((field) => {
-    let schema: ZodTypeAny = z.string();
-
+    let schema: ZodTypeAny;
+    
+    switch (field.typeValue) {
+      case "string":
+        schema = z.string();
+        break;
+      case "number":
+        schema = z.number();
+        break;
+      case "boolean":
+        schema = z.boolean();
+        break;
+      default:
+        schema = z.string(); // Por defecto string
+    }
     field.validations?.forEach((val) => {
       switch (val.type) {
         case "required":
-          schema = (schema as z.ZodString).nonempty(val.message || "El campo es requerido");
+          if (field.typeValue === "string") {
+            schema = (schema as z.ZodString).nonempty(val.message || "El campo es requerido");
+          } else if (field.typeValue === "number") {
+            schema = (schema as z.ZodNumber).min(0.0001, val.message || "El campo es requerido");
+          } else if (field.typeValue === "boolean") {
+            // Para boolean, required significa que debe ser true
+            schema = (schema as z.ZodBoolean).refine(
+              (value) => value === true || value === false, 
+              val.message || "Este campo debe ser aceptado"
+            );
+          }
           break;
         case "min":
-          schema = (schema as z.ZodString).min(val.value, val.message || "El campo requiere minimo " + val.value + " caracteres");
+          if (field.typeValue === "string") {
+            schema = (schema as z.ZodString).min(val.value, val.message || `El campo requiere mínimo ${val.value} caracteres`);
+          } else if (field.typeValue === "number") {
+            schema = (schema as z.ZodNumber).min(val.value, val.message || `El valor debe ser mayor o igual a ${val.value}`);
+          }
           break;
         case "max":
-          schema = (schema as z.ZodString).max(val.value, val.message || "El campo requiere maximo " + val.value + " caracteres");
+          if (field.typeValue === "string") {
+            schema = (schema as z.ZodString).max(val.value, val.message || `El campo requiere máximo ${val.value} caracteres`);
+          } else if (field.typeValue === "number") {
+            schema = (schema as z.ZodNumber).max(val.value, val.message || `El valor debe ser menor o igual a ${val.value}`);
+          }
           break;
         case "email":
-          schema = (schema as z.ZodString).email(val.message || "Formato de correo inválido");
+          if (field.typeValue === "string") {
+            schema = (schema as z.ZodString).email(val.message || "Formato de correo inválido");
+          }
           break;
         case "matches":
-          schema = (schema as z.ZodString).regex(val.regex, val.message);
+          if (field.typeValue === "string") {
+            schema = (schema as z.ZodString).regex(val.regex, val.message);
+          }
           break;
         case "passwordSpecialChar":
-          schema = (schema as z.ZodString).regex(
-            /[!@#$%^&*(),.?":{}|<>]/,
-            val.message || "Debe contener al menos un carácter especial"
-          );
+          if (field.typeValue === "string") {
+            schema = (schema as z.ZodString).regex(
+              /[!@#$%^&*(),.?":{}|<>]/,
+              val.message || "Debe contener al menos un carácter especial"
+            );
+          }
           break;
         case "passwordNumber":
-          schema = (schema as z.ZodString).regex(
-            /\d/,
-            val.message || "Debe contener al menos un número"
-          );
+          if (field.typeValue === "string") {
+            schema = (schema as z.ZodString).regex(
+              /\d/,
+              val.message || "Debe contener al menos un número"
+            );
+          }
           break;
         case "passwordUpper":
-          schema = (schema as z.ZodString).regex(
-            /[A-Z]/,
-            val.message || "Debe contener al menos una letra mayúscula"
-          );
+          if (field.typeValue === "string") {
+            schema = (schema as z.ZodString).regex(
+              /[A-Z]/,
+              val.message || "Debe contener al menos una letra mayúscula"
+            );
+          }
           break;
         case "passwordLower":
-          schema = (schema as z.ZodString).regex(
-            /[a-z]/,
-            val.message || "Debe contener al menos una letra minúscula"
-          );
+          if (field.typeValue === "string") {
+            schema = (schema as z.ZodString).regex(
+              /[a-z]/,
+              val.message || "Debe contener al menos una letra minúscula"
+            );
+          }
           break;
         case "matchField":
           matchFieldValidations.push({
@@ -86,8 +129,21 @@ export const generateZodSchema = <T extends Record<string, any>>(
 
 export const buildDefaultValues = <T extends Record<string, any>>(fields: FieldConfig<T>[]): T =>
   fields.reduce(
-    (acc, field) => ({ ...acc, [field.key]: field.valueInitial }),
+    (acc, field) => ({ ...acc, [field.key]: field.valueInitial ?? getDefaultValueByType(field.typeValue)  }),
     {} as T
   );
+
+  // Función auxiliar para obtener valores por defecto según el tipo
+const getDefaultValueByType = (typeValue?: string): any => {
+  switch (typeValue) {
+    case "number":
+      return null;
+    case "boolean":
+      return false;
+    case "string":
+    default:
+      return '';
+  }
+};
   
  

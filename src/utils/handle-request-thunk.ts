@@ -43,7 +43,7 @@ export async function handleRequestThunk<T>(
         dispatch(logout());
         break;
       case 404:
-        message.error("Recurso no encontrado.");
+        message.error(serverMessage ||"Recurso no encontrado.");
         break;
       case 0:
         message.error("No se pudo conectar con el servidor. Verifique su conexión a internet.");

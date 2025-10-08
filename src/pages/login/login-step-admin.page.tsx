@@ -51,12 +51,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user, areas, positions
           if (!branch) return;
           const branchResult: ApiResponse<SelectBranchResponse> | null = await handleRequestThunk(
             dispatch,
-            () => dispatch(selectBranch({branchId: branch.id})).unwrap(),
-            {
-              showSpinner: true,
-              successMessage: "Sucursal seleccionado",
-              errorMessage: "Error al seleccionar Sucursal",
-            }
+            () => dispatch(selectBranch({branchId: branch.id})).unwrap(), { showSpinner: true }
           );
           if ((branchResult && !branchResult.success) || !branchResult) return;
 
@@ -65,11 +60,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user, areas, positions
           // 🔹 CARGAR ÁREAS INMEDIATAMENTE después de seleccionar perfil
           const departmentResultList: ApiResponse<AreaDto[]> | null = await handleRequestThunk(
             dispatch,
-            () => dispatch(getAreas(branch.id)).unwrap(),
-            {
-              showSpinner: false, 
-              showMessageApi: true
-            }
+            () => dispatch(getAreas(branch.id)).unwrap(), { showSpinner: false }
           );
           if(!departmentResultList || !departmentResultList?.success) return;
           setDepartmentList(departmentResultList?.data ?? []);
@@ -83,18 +74,14 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user, areas, positions
               dispatch(
                 selectArea({ areaId: department.id, branchId: branch?.id ?? 0 })
               ).unwrap(),
-            {
-              showSpinner: true,
-              successMessage: "Area seleccionado",
-              errorMessage: "Error al seleccionar Area",
-            }
+            { showSpinner: true }
           );
           console.log(departamentResult);
 
           if ((departamentResult && !departamentResult.success) || !departamentResult) return;
 
           // Si tiene areaId definido, ir directo a home
-          if (departamentResult.data.area.positionId != null) {
+          if (departamentResult.data?.area?.positionId != null) {
             handleFinish();
             return;
           }
@@ -106,11 +93,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user, areas, positions
               dispatch(
                 getPositions(department.id ?? 0)
               ).unwrap(),
-            {
-              showSpinner: false, // Ya mostró spinner en selectProfile
-              successMessage: "Puestos cargadas",
-              errorMessage: "Error al cargar Puestos",
-            }
+            {showSpinner: true}
           );
 
           if(!positionResultList || !positionResultList?.success) return;
@@ -124,11 +107,7 @@ const LoginStepAdmin: React.FC<LoginStepNormalProps> = ({ user, areas, positions
           const positionResult: ApiResponse<SelectPositionResponse> | null = await handleRequestThunk(
             dispatch,
             () => dispatch(selectPosition({areaId: department?.id ?? 0, positionId: position.id ?? 0})).unwrap(),
-              {
-                  showSpinner: true,
-                  successMessage: "Position seleccionado",
-                  errorMessage: "Error al seleccionar Position",
-              }
+              {showSpinner: true}
             );
           console.log(positionResult);
           if((positionResult && !positionResult.success) || !positionResult) return;

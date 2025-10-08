@@ -52,12 +52,44 @@ export interface UserListResponseDto {
   
   
 export interface CreateUserDto extends Record<string, unknown>{
-    nombre?: string;
-    apellido?: string;
-    usuario?: string;
+    firstName?: string;
+    lastName?: string;
+    username?: string;
     email?: string;
     dui?: string;
-    rol?: string;
-    sucursal?: string;
-    estado?: string;
+    isAdmin?: string;
+    branchId?: string;
+    status?: string;
+    autoPassword?: boolean;
+    password?: string;
+    confirmPassword?: string;   
 }
+
+export interface CreateUserDetailDto extends Record<string, unknown>{
+    firstName?: string;
+    lastName?: string;
+    username?: string;
+    email?: string;
+    dui?: string;
+    isAdmin?: string;
+    branchId?: string;
+    status?: string;
+}
+
+
+export interface CreateUserPasswordDto extends Record<string, unknown>{
+    autoPassword?: boolean;
+    password?: string;
+    confirmPassword?: string;    
+  }
+  export interface CreateUserWorkProfileDto extends Record<string, unknown>{
+    name?: string;
+    branchId?: number;
+    areaId?: number;    
+    positionId?: number;    
+  }
+
+  export interface WorkProfileDtoUser {
+    workProfiles: CreateUserWorkProfileDto[]
+  }
+   

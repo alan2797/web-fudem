@@ -1,15 +1,15 @@
 import { LockOutlined, ProfileOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
 import type { FieldConfig } from "../../../../interfaces/components.interface";
-import type { CreateUserDto } from "../../../../interfaces/user.interface";
+import type { CatalogsUserDto, CreateUserDto, CreateUserPasswordDto, CreateUserWorkProfileDto } from "../../../../interfaces/user.interface";
 import { Button } from "antd";
 import type { ChangePasswordRequestDto } from "../../../../interfaces/login.interface";
+import type { CountryDto } from "../../../../interfaces/country.interface";
+import type { BranchDto } from "../../../../interfaces/branch.interface";
 
 
 const rolOptions = [
-
-  { value: "adm", label: "Admin" },
-  { value: "ven", label: "Vendedor" },
-  { value: "sup", label: "Supervisor" },
+  { value: true, label: "Administrador" },
+  { value: false, label: "Usuario Normal" },
 ];
 const sucursalOptions = [
 
@@ -20,112 +20,135 @@ const sucursalOptions = [
 
 const StatusOptions = [
 
-  { value: "active", label: "Activos" },
-  { value: "blocked", label: "Bloqueados" },
-  { value: "all", label: "Todos" },
+  { value: "active", label: "Activo" },
+  { value: "blocked", label: "Bloqueado" }
 ];
 export const configForm = (): FieldConfig<CreateUserDto>[] => [
   {
-    key: "nombre",
+    key: "firstName",
     type: "text",
     label: "Nombre",
+    typeValue: "string",
     placeholder: "Ingrese Nombre",
     xs: 24,
     md: 8,
     validations: [
-      { type: "required", message: "El Nombre es obligatorio" },
-      { type: "min", value: 2 , message: "El Nombre debe contener mínimo 2 Caracteres" }
+      { type: "required"},
+      { type: "min", value: 2}
     ],
   },
   {
-    key: "apellido",
+    key: "lastName",
     type: "text",
+    typeValue: "string",
     label: "Apellido",
     placeholder: "Ingrese Apellido",
     xs: 24,
     md: 8,
     validations: [
-      { type: "required", message: "El email es obligatorio" },
-      { type: "min", value: 2 , message: "El Apellido debe contener mínimo 2 Caracteres" }
+      { type: "required" },
+      { type: "min", value: 2 }
     ],
   },
   {
-    key: "usuario",
+    key: "username",
     type: "text",
+    typeValue: "string",
     label: "Nombre de Usuario",
     placeholder: "Ingrese Usuario",
     xs: 24,
     md: 8,
     validations: [
-      { type: "required", message: "El nombre usuario es obligatorio" },
+      { type: "required" },
     ],
   },
   {
     key: "email",
     type: "text",
+    typeValue: "string",
     label: "Email",
     placeholder: "Ingrese Email",
     xs: 24,
     md: 8,
     validations: [
-      { type: "required", message: "El email es obligatorio" },
-      { type: "email",message: "El email debe ser un correo válido" }
+      { type: "required"},
+      { type: "email"}
     ],
   },
   {
     key: "dui",
     type: "text",
+    typeValue: "string",
     label: "DUI",
     placeholder: "Ingrese DUI",
     xs: 24,
     md: 8,
     validations: [
-      { type: "required", message: "El email es obligatorio" },
-      { type: "min", value: 9, message: "Mínimo 9 caracteres" }
+      { type: "required" },
+      { type: "min", value: 9 }
     ],
   },
   {
-    key: "rol",
+    key: "isAdmin",
     type: "select",
     label: "Rol",
+    typeValue: "boolean",
     placeholder: "Seleccione un Rol",
     xs: 24,
     md: 8,
     options: rolOptions,
      validations: [
-      { type: "required", message: "debe seleccionar un rol es obligatorio" },
+      { type: "required"},
     ],
   },
   {
-    key: "sucursal",
+    key: "branchId",
     type: "select",
+    typeValue: "number",
     label: "Sucursal",
     placeholder: "Seleccione una Sucursal",
     xs: 24,
     md: 12,
-    options: sucursalOptions,
+    options: [],
     validations: [
-      { type: "required", message: "debe seleccionar una sucursal es obligatorio" },
+      { type: "required" },
     ]
   },
   {
-    key: "estado",
+    key: "status",
+    typeValue: "string",
     type: "select",
     label: "Estado",
     placeholder: "Seleccione un Estado",
     xs: 24,
     md: 12,
     options: StatusOptions,
+    showSearch: true,
+    valueInitial: "active",
     validations: [
-      { type: "required", message: "debe seleccionar un estado es obligatorio" },
+      { type: "required" },
     ],
+    
   }
 ];
 
-export const configFormPassword = (): FieldConfig<ChangePasswordRequestDto>[] => [
+export const configFormPassword = (): FieldConfig<CreateUserPasswordDto>[] => [
+    {
+        key: "autoPassword",
+        type: "switch",
+        typeValue: 'boolean',
+        label: "Contraseña Automatica",
+        valueInitial: false,
+        xs: 24,
+        validations: [
+            { type: "required", message: "La confirmación de la contraseña es obligatoria"}
+        ],
+    },
      {
-        key: "newPassword",
+        key: "password",
         type: "password",
+        typeValue: 'string',
+        showAllErrors: true,
         label: "Ingresa Nueva Contraseña",
         valueInitial: "",
         xs: 24,
@@ -136,25 +159,25 @@ export const configFormPassword = (): FieldConfig<ChangePasswordRequestDto>[] =>
             { type: "passwordNumber", message: "Debe contener al menos un número" },
             { type: "passwordUpper", message: "Debe contener al menos una letra mayúscula" },
             { type: "passwordLower", message: "Debe contener al menos una letra minúscula" }
-        ],
-        showAllErrors: true
+        ]
     },
     {
         key: "confirmPassword",
         type: "password",
+        typeValue: 'string',
         label: "Confirma Nueva Contraseña",
         valueInitial: "",
         xs: 24,
         validations: [
             { type: "required", message: "La confirmación de la contraseña es obligatoria"},
-            { type: "matchField", field: "newPassword", message: "Las contraseñas no coinciden" }
+            { type: "matchField", field: "password", message: "Las contraseñas no coinciden" }
         ],
     }
 ]
 
-export const configFormStep3 = (): FieldConfig<CreateUserDto>[] => [
+export const configFormStep3 = (): FieldConfig<CreateUserWorkProfileDto>[] => [
   {
-    key: "nombre",
+    key: "name",
     type: "text",
     label: "Nombre",
     placeholder: "Ingrese Nombre",
@@ -166,19 +189,19 @@ export const configFormStep3 = (): FieldConfig<CreateUserDto>[] => [
     ],
   },
   {
-    key: "sucursal",
+    key: "branchId",
     type: "select",
     label: "Sucursal",
     placeholder: "Seleccione una Sucursal",
     xs: 24,
     md: 6,
-    options: sucursalOptions,
+    options: [],
     validations: [
       { type: "required", message: "debe seleccionar una sucursal es obligatorio" },
     ]
   },
   {
-    key: "function",
+    key: "areaId",
     type: "select",
     label: "Funcion",
     placeholder: "Seleccione una Funcion",
@@ -190,7 +213,7 @@ export const configFormStep3 = (): FieldConfig<CreateUserDto>[] => [
     ]
   },
   {
-    key: "locacion",
+    key: "positionId",
     type: "select",
     label: "Locación",
     placeholder: "Seleccione una Locación",
@@ -212,5 +235,4 @@ export const breadcrumb = [
 export const steps = [
   { title: "Detalle", icon2: <UserOutlined />},
   { title: "Contraseña", icon2:  <LockOutlined />},
-  { title: "Perfil de Trabajo", icon2: <ProfileOutlined /> },
 ];

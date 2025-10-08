@@ -71,6 +71,11 @@ export const TableCustom = <T extends { [key: string]: any }>({
 
   // Columnas con acciones
   const enhancedColumns: ColumnsType<T> = useMemo(() => {
+    const hasActions = onView || onEdit || onDelete || extraActions;
+
+    if (!hasActions) {
+      return columns;
+    }
     const actionColumn = {
       title: "Acciones",
       key: "actions",

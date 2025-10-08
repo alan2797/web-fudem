@@ -10,6 +10,9 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { SelectMenu } from "../select-menu/select-menu.component";
 import { menuItems } from "./menu-items";
+import type { AppDispatch } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/features/auth.slice";
 
 const { Sider } = Layout;
 
@@ -39,7 +42,7 @@ const locationOptions = [
 const Sidebar = ({ collapsed, toggleCollapsed }: SidebarProps) => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch<AppDispatch>();
   return (
     <Sider
       trigger={null}
@@ -223,7 +226,13 @@ const Sidebar = ({ collapsed, toggleCollapsed }: SidebarProps) => {
         mode="inline"
         selectedKeys={[location.pathname]}
         items={menuItems}
-        onClick={({ key }) => navigate(key)}
+        onClick={({ key }) =>{ 
+          if(key == '/logout'){
+            dispatch(logout());
+            navigate("/login");
+            return;
+          }
+          navigate(key)}}
       />
     </Sider>
   );
