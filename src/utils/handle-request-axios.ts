@@ -39,7 +39,7 @@ export async function handleRequestAxios<T>(
     const errorMessage = err.message;
 
     handleApiError({
-      status: status || 500,
+      status: status || 0,
       serverMessage,
       errorMessage,
       serverErrors,

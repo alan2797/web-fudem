@@ -29,7 +29,6 @@ import {
             { key: RoutePaths.USERS_LIST, label: "Lista de Usuarios", icon: <UnorderedListOutlined /> },
             { key: RoutePaths.USERS_CREATE, label: "Crear Usuario", icon: <UserAddOutlined /> },
             { key: RoutePaths.USERS_EDIT, label: "Edición de Usuario", icon: <EditOutlined /> },
-            { key: RoutePaths.USERS_FILTER, label: "Búsqueda de Expediente", icon: <MedicineBoxOutlined /> },
           ],
         },
       ],
@@ -44,6 +43,7 @@ import {
           icon: <UserOutlined />,
           label: "Administración de Pacientes",
           children: [
+            { key: RoutePaths.PATIENTS_SEARCH, label: "Búsqueda de Expediente", icon: <MedicineBoxOutlined /> },
             { key: RoutePaths.PATIENTS_LIST, label: "Lista de Pacientes", icon: <UnorderedListOutlined /> },
             { key: RoutePaths.PATIENTS_CREATE, label: "Crear Paciente", icon: <UserAddOutlined /> },
             { key: RoutePaths.PATIENTS_EDIT, label: "Edición de Paciente", icon: <EditOutlined /> },

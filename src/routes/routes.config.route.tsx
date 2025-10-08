@@ -15,8 +15,8 @@ const HomePage = lazy(() => import('../pages/home/home.page'));
 const UserList = lazy(() => import('../pages/users/user-list/user-list.page'));
 const UserCreate = lazy(() => import('../pages/users/user-create/user-create.page'));
 const UserEdit = lazy(() => import('../pages/users/user-edit/user-edit.page'));
-const UserFilter = lazy(() => import('../pages/users/user-filter/user-filter.page'));
 
+const PatientSearch = lazy(() => import('../pages/patients/patient-search/patient-search.page'));
 const PatientCreate = lazy(() => import('../pages/patients/patient-create/patient-create.page'));
 
 
@@ -97,13 +97,7 @@ export const privateRoutes: RouteConfig[] = [
     layout: 'main',
     title: 'Crear Usuario'
   },
-  {
-    path: RoutePaths.USERS_FILTER,
-    component: UserFilter,
-    isPrivate: true,
-    layout: 'main',
-    title: 'Busqueda de Expediente'
-  },
+
   {
     path: RoutePaths.USERS_EDIT,
     component: UserEdit,
@@ -111,8 +105,14 @@ export const privateRoutes: RouteConfig[] = [
     layout: 'main',
     title: 'Edición de Usuario'
   },
-
   // Rutas Pacientes
+  {
+    path: RoutePaths.PATIENTS_SEARCH,
+    component: PatientSearch,
+    isPrivate: true,
+    layout: 'main',
+    title: 'Busqueda de Expediente'
+  },
   {
     path: RoutePaths.PATIENTS_CREATE,
     component: PatientCreate,

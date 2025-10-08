@@ -20,6 +20,7 @@ export const RoutePaths = {
     USERS_FILTER: '/users/filter',
 
     // Patients routes
+    PATIENTS_SEARCH: '/patients/seach',
     PATIENTS_LIST: '/patients/list',
     PATIENTS_CREATE: '/patients/create',
     PATIENTS_EDIT: '/patients/edit',

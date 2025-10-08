@@ -12,13 +12,14 @@ export interface ErrorHandlerConfig {
 
 export const handleApiError = (config: ErrorHandlerConfig) => {
   const { status, serverMessage, errorMessage, serverErrors, onUnauthorized } = config;
-
+  console.log(status);
   switch (status) {
     case 401:
       notification.error({
         message: 'Error de Autenticación',
         description: 'No autorizado. Por favor inicia sesión nuevamente.',
         duration: 5,
+        placement: "top"
       });
       onUnauthorized?.();
       break;
@@ -27,13 +28,15 @@ export const handleApiError = (config: ErrorHandlerConfig) => {
         message: 'Recurso No Encontrado',
         description: serverMessage || "El recurso solicitado no existe.",
         duration: 5,
+        placement: "top"
       });
       break;
     case 0:
       notification.error({
         message: 'Error de Conexión',
         description: "No se pudo conectar con el servidor. Verifique su conexión a internet.",
-        duration: 0,
+        duration: 5,
+        placement: "top"
       });
       break;
     default:
@@ -86,7 +89,7 @@ export const handleApiError = (config: ErrorHandlerConfig) => {
       } else {
         notification.error({
           message: 'Error',
-          description: errorMessage || serverMessage || "Ocurrió un error inesperado.",
+          description:  serverMessage ||  errorMessage || "Ocurrió un error inesperado.",
           duration: 5,
         });
       }

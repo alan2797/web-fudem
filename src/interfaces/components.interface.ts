@@ -1,4 +1,4 @@
-import type { ButtonProps, StepProps, SwitchProps } from 'antd';
+import type { ButtonProps, ModalProps, StepProps, SwitchProps } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { ReactNode } from 'react';
 import type { Control } from 'react-hook-form';
@@ -170,4 +170,15 @@ export interface StepCustomProps {
 export interface SwitchCustomProps extends SwitchProps {
   // Puedes agregar props personalizadas si quieres
   label?: string; // ejemplo: etiqueta opcional junto al switch
+}
+
+
+export interface ConfirmModalProps extends ModalProps {
+  visible: boolean;              // controla si se muestra
+  title?: string;                // título del modal
+  content?: string | React.ReactNode;  // mensaje
+  onConfirm: () => void;         // callback al confirmar
+  onCancel: () => void;          // callback al cancelar
+  okText?: string;               // texto botón confirmar
+  cancelText?: string;           // texto botón cancelar
 }
