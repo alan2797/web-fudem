@@ -19,7 +19,7 @@ export type Validation =
 export interface FieldConfig<T extends Record<string, unknown> = Record<string, unknown>> {
   key: keyof T;
   label?: string;
-  type?: 'text' | 'password' | 'switch' | 'select';
+  type?: 'text' | 'password' | 'switch' | 'select' | 'number' | 'readOnly' | 'date' | 'radio' | 'divider';
   typeValue?: 'string' | 'number' | 'boolean' | 'date'
   placeholder?: string;
   valueInitial?: T[keyof T];

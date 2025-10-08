@@ -97,7 +97,36 @@ export interface FilterEditUserDto extends Record<string, unknown>{
     medicalRecord?: string; //No. de Expediente
     name?: string;
     dui?: string;
-    fechaNac ?: string;
-    dpto ?: string;
-    municipio ?: string;
+    dateOfBirth ?: string;
+    branch ?: string;
+    country ?: string;
+}
+
+export interface CreateExpedientPatientDto extends Record<string, unknown>{
+    medicalRecord?: string;
+    recordDate?:string;
+    firstName?: string;
+    lastName?: string;
+    nationality?: string;
+    dateOfBirth?: string;
+    age?: number;
+    parentFirstName?: string;
+    parentLastName?: string;
+    relationShip?:string;
+    documentType?:string;
+    noDocument?:string;
+    gender?:string;
+    readAndWrite?:string;
+    country?:string;
+    phoneNumber1?: string;
+    phoneNumber2?: string;
+    department?: string;
+    municipality?:string;
+    address?:string
+    housingLocation?:string;
+    email?: string;
+    education?: string;
+    ocupation?: string;
+    category?: string;
+    wearsGlasses?:string;
 }

@@ -9,7 +9,7 @@ const DatePickerCustom = <TFormValues extends Record<string, any>>({
   control,
   error,
 }: FormFieldProps<TFormValues>) => {
-    const { key, label, format = 'DD/MM/YYYY' } = fieldConfig;
+    const { key, label, format = 'DD/MM/YYYY', placeholder} = fieldConfig;
   return (
     <Form.Item
       label={label}
@@ -25,6 +25,7 @@ const DatePickerCustom = <TFormValues extends Record<string, any>>({
             {...field}
             onChange={(date: Dayjs | null) => field.onChange(date)}
             value={field.value}
+            placeholder={placeholder}
             format={format}
             style={{ width: "100%" }}
             size="large"

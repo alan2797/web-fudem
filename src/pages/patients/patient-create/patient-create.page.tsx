@@ -11,6 +11,7 @@ import {
 import { breadcrumb, configForm } from "./configs/patient-create.config";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormField } from "../../../components/form-field/form-field.component";
+import ButtonCustom from "../../../components/button/button.component";
 
 //Step1
 const configFormSchema: FieldConfig<CreateUserDto>[] = configForm();
@@ -52,40 +53,50 @@ const PatientCreate: React.FC = () => {
           Crea Nuevos Pacientes{" "}
         </Title>
         <Row gutter={30}>
-        <Col xs={24}>
-            <Form onFinish={handleSubmit(onSubmit)}>
-            <Row gutter={30}>
-                {configFormSchema.map((field) => (
-                <Col
-                    className="mb-2"
-                    key={String(field.key)}
-                    xs={field.xs}
-                    md={field.md}
-                >
-                    <FormField
-                    fieldConfig={field}
-                    control={control}
-                    error={errors[field.key]?.message as string}
-                    />
-                </Col>
-                ))}
-            </Row>
-            </Form>
-        </Col>
+          <Col xs={24}>
+              <Form onFinish={handleSubmit(onSubmit)}>
+              <Row gutter={30}>
+                  {configFormSchema.map((field) => (
+                  <Col
+                      className="mb-2"
+                      key={String(field.key)}
+                      xs={field.xs}
+                      md={field.md}
+                  >
+                      <FormField
+                      fieldConfig={field}
+                      control={control}
+                      error={errors[field.key]?.message as string}
+                      />
+                  </Col>
+                  ))}
+              </Row>
+              </Form>
+          </Col>
         </Row>
 
         {/* Botones */}
-        <Row justify="end" gutter={16}>
-          <Col>
-            <Button danger size="large">
-              Cancelar
-            </Button>
-          </Col>
-          <Col>
-            <Button type="primary" size="large">
-              Crear
-            </Button>
-          </Col>
+        <Row justify={"end"} gutter={16}>
+          <Col xs={24} md={10} lg={6} xl={4}>
+          <ButtonCustom
+            block
+            htmlType="button"
+            type="primary"
+            variant="solid"
+            text="Cancelar"
+            className="bg-error-antd"
+          />
+        </Col>
+          <Col xs={24} md={10} lg={6} xl={4}>
+          <ButtonCustom
+            block
+            htmlType="button"
+            type="primary"
+            variant="solid"
+            text="Crear"
+            className="bg-primary-antd"
+          />
+        </Col>
         </Row>
       </Form>
     </PageContainer>
