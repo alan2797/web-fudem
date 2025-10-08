@@ -7,7 +7,7 @@ const InputText = <TFormValues extends Record<string, unknown>>({
   control,
   error,
 }: FormFieldProps<TFormValues>) => {
-  const {key, label, placeholder } = fieldConfig;
+  const {key, label, placeholder, disabled = false } = fieldConfig;
 
   return (
     <Form.Item
@@ -27,7 +27,8 @@ const InputText = <TFormValues extends Record<string, unknown>>({
               value: (field.value ?? "") as string,
               onChange: field.onChange,
               onBlur: field.onBlur,
-              size: 'large'
+              size: 'large',
+              disabled
             }}
         />}
       />

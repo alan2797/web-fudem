@@ -9,27 +9,13 @@ const CustomSelect = <TFormValues extends Record<string, unknown>>({
   control,
   error,
 }: FormFieldProps<TFormValues>) => {
-  const { key, label, placeholder, options = [], showSearch = false } = fieldConfig;
+  const { key, label, placeholder, options = [], showSearch = false, disabled=false } = fieldConfig;
 
   // Safe error message handling
   let displayError = error;
   if (error && typeof error === 'string') {
     displayError = error.includes("Invalid input") ? "El campo es requerido" : error;
   }
-
-  // Función para manejar el clear con valores por defecto según typeValue
-  const getDefaultValue = () => {
-    switch (fieldConfig.typeValue) {
-      case 'string':
-        return "";
-      case 'number':
-        return null;
-      case 'boolean':
-        return false;
-      default:
-        return null;
-    }
-  };
 
   return (
     <Form.Item
@@ -51,11 +37,12 @@ const CustomSelect = <TFormValues extends Record<string, unknown>>({
             size="large"
             optionFilterProp="label"
             style={{ width: "100%" }}
-            showSearch={showSearch}
+            showSearch = {showSearch}
+            disabled = {disabled}
           >
             {options.map((option) => (
               <Option
-                key={option.value as any}
+                key={String(option.value)}
                 value={option.value}
                 label={option.label}
               >

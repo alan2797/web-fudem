@@ -93,3 +93,11 @@ export interface CreateUserPasswordDto extends Record<string, unknown>{
     workProfiles: CreateUserWorkProfileDto[]
   }
    
+export interface FilterEditUserDto extends Record<string, unknown>{
+    medicalRecord?: string; //No. de Expediente
+    name?: string;
+    dui?: string;
+    fechaNac ?: string;
+    dpto ?: string;
+    municipio ?: string;
+}

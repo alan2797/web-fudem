@@ -1,6 +1,10 @@
 import type { FormFieldProps } from "../../interfaces/components.interface";
+import DatePickerCustom from "../date-picker/date-picker.component";
+import InputNumberCustom from "../input-number/input-number.component";
 import InputPassword from "../input-password/input-password.component";
 import InputText from "../input-text/input-text.component";
+import RadioGroupCustom from "../radio-group/radio-group.component";
+import ReadOnlyField from "../read-only/read-only.component";
 import {SelectMenu} from "../select-menu/select-menu.component";
 import CustomSelect from "../select/select.component";
 import SwitchCustom from "../switch/switch.component";
@@ -11,6 +15,10 @@ const fieldMap: Record<string, React.FC<any>> = {
   selectMenu: SelectMenu,
   select: CustomSelect,
   switch: SwitchCustom,
+  readOnly: ReadOnlyField,
+  radio: RadioGroupCustom,
+  date: DatePickerCustom,
+  number: InputNumberCustom
 };
 
 export const FormField = <TFormValues extends Record<string, unknown>>({

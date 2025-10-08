@@ -3,10 +3,10 @@ import type { FieldConfig } from "../../../../interfaces/components.interface";
 import type { CountryDto } from "../../../../interfaces/country.interface";
 import type { FiltersUserDto } from "../../../../interfaces/user.interface";
 
-const rolOptions = [
-  { value: true, label: "Administrador" },
-  { value: false, label: "Usuario Normal" },
-];
+  const rolOptions = [
+    { value: true, label: "Administrador" },
+    { value: false, label: "Usuario Normal" },
+  ];
 
 const StatusOptions = [
   { value: "all", label: "Todos" },

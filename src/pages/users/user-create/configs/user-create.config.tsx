@@ -1,10 +1,7 @@
-import { LockOutlined, ProfileOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import type { FieldConfig } from "../../../../interfaces/components.interface";
-import type { CatalogsUserDto, CreateUserDto, CreateUserPasswordDto, CreateUserWorkProfileDto } from "../../../../interfaces/user.interface";
-import { Button } from "antd";
-import type { ChangePasswordRequestDto } from "../../../../interfaces/login.interface";
-import type { CountryDto } from "../../../../interfaces/country.interface";
-import type { BranchDto } from "../../../../interfaces/branch.interface";
+import type { CreateUserDto, CreateUserPasswordDto, CreateUserWorkProfileDto } from "../../../../interfaces/user.interface";
+
 
 
 const rolOptions = [
