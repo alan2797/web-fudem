@@ -129,4 +129,5 @@ export interface CreateExpedientPatientDto extends Record<string, unknown>{
     ocupation?: string;
     category?: string;
     wearsGlasses?:string;
+    observations?:string;
 }

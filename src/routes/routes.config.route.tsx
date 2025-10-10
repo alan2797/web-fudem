@@ -19,7 +19,9 @@ const UserEdit = lazy(() => import('../pages/users/user-edit/user-edit.page'));
 const PatientSearch = lazy(() => import('../pages/patients/patient-search/patient-search.page'));
 const PatientCreate = lazy(() => import('../pages/patients/patient-create/patient-create.page'));
 
-const ExpedientPatient = lazy(() => import('../pages/patients/patient-expedient/patient-expedient.page'));
+const ExpedientPatient = lazy(() => import('../pages/expedients/expedient-view/expedient-view.page'));
+const ExpedientMedicalCertificates = lazy(() => import('../pages/expedients/expedients-medical-certificates/expedients-medical-certificates.page'));
+const ExpedientsNursingSheets = lazy(() => import('../pages/expedients/expedients-nursing-sheets/expedients-nursing-sheets.page'));
 
 
 
@@ -126,10 +128,23 @@ export const privateRoutes: RouteConfig[] = [
     path: RoutePaths.PATIENTS_EXPEDIENT,
     component: ExpedientPatient,
     isPrivate: true,
-    layout: 'none',
-    title: 'Crear Paciente'
+    layout: 'expedient',
+    title: 'Expediente del Paciente'
   },
-  
+  {
+    path: RoutePaths.EXPEDIENTS_MEDICAL_CERTIFICATES,
+    component: ExpedientMedicalCertificates,
+    isPrivate: true,
+    layout: 'expedient',
+    title: 'Expediente del Paciente'
+  },
+   {
+    path: RoutePaths.EXPEDIENTS_NURSING_CHEETS,
+    component: ExpedientsNursingSheets,
+    isPrivate: true,
+    layout: 'expedient',
+    title: 'Expediente del Paciente'
+  },
 ];
 
 export const allRoutes = [...publicRoutes, ...privateRoutes];

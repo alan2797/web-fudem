@@ -1,4 +1,4 @@
-import { Row, Divider, Col, Typography, Form, Button } from "antd";
+import { Row, Divider, Col, Typography, Form } from "antd";
 import type { FieldConfig } from "../../../interfaces/components.interface";
 import { useForm } from "react-hook-form";
 import type { CreateUserDto } from "../../../interfaces/user.interface";

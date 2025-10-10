@@ -1,30 +1,58 @@
-import { Form, } from "antd";
+import { Form, Typography } from "antd";
 import type { FormFieldProps } from "../../interfaces/components.interface";
 import { Controller } from "react-hook-form";
-import Title from "antd/es/typography/Title";
+import type { CSSProperties } from "react";
+const { Text } = Typography;
+import "./read-only.css";
 
 const ReadOnlyField = <TFormValues extends Record<string, unknown>>({
   fieldConfig,
   control,
   error,
 }: FormFieldProps<TFormValues>) => {
-  const {key, label, level, valueInitial } = fieldConfig;
+  // const {key, label, valueInitial } = fieldConfig;
+  const {
+    key,
+    fontSize = "18px",
+    color,
+    fontWeight = "bold",
+    label,
+    textAlign = "left",
+    display = "block",
+    padding,
+    style = {},
+    typeText,
+    valueInitial,
+    margin,
+    textTransform,
+  } = fieldConfig;
+  const textStyle: CSSProperties = {
+    fontSize,
+    color,
+    fontWeight,
+    textAlign,
+    textTransform,
+    display,
+    padding,
+    margin,
+    ...style,
+  };
 
   return (
     <Form.Item
+      layout="vertical"
       label={label}
       validateStatus={error ? "error" : undefined}
       help={error}
-      style={{ marginBottom: 16 }}
-      layout="vertical"
+      className={"readonly-field-container"}
     >
-       <Controller
+      <Controller
         name={key as any}
         control={control}
         render={({ field }) => (
-          <Title level={level} style={{ margin: 0, color: '#1f1e1eff' }}>
-            {(field.value ?? valueInitial ?? "") as string}
-          </Title>
+          <Text type={typeText} style={textStyle}>
+            {String(field.value ?? valueInitial ?? "")}
+          </Text>
         )}
       />
     </Form.Item>

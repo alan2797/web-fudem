@@ -14,10 +14,6 @@ const HeaderBar = () => {
         height: 70,
       }}
     >
-      {/* Aquí podrían ir otros elementos a la izquierda si quieres */}
-      <div style={{ fontWeight: "bold" }}>Mi App</div>
-
-      {/* Botón logout alineado al final */}
       <Button
         type="text"
         icon={<LogoutOutlined />}
@@ -25,6 +21,11 @@ const HeaderBar = () => {
         }}
         style={{ fontSize: 16, marginLeft: "auto" }}
       />
+      {/* Aquí podrían ir otros elementos a la izquierda si quieres */}
+      <div style={{ fontWeight: "bold" }}>Mi App</div>
+
+      {/* Botón logout alineado al final */}
+      
     </div>
   );
 };

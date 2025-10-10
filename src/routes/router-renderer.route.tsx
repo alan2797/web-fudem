@@ -5,6 +5,7 @@ import PrivateRoute from './private.route';
 import MainLayout from '../components/layout/main-layout.component';
 import type { RouteConfig } from '../interfaces/routes.interface';
 import Spinner from '../components/spinner/spinner.component';
+import ExpedientLayout from '../components/layout/expedient-layout/expedient-layout.component';
 
 // Esta función retorna un array de Route elements
 export const renderRoutes = (routes: RouteConfig[], isAuthenticated: boolean) => {
@@ -21,6 +22,29 @@ export const renderRoutes = (routes: RouteConfig[], isAuthenticated: boolean) =>
             element={
               <PrivateRoute isAuthenticated={isAuthenticated}>
                 <MainLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route
+              index
+              element={
+                <Suspense fallback={<Spinner />}>
+                  <RouteComponent />
+                </Suspense>
+              }
+            />
+          </Route>
+        );
+      }
+
+      if (route.layout === 'expedient') {
+        return (
+          <Route
+            key={route.path}
+            path={route.path}
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <ExpedientLayout />
               </PrivateRoute>
             }
           >

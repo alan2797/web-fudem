@@ -1,6 +1,6 @@
 import type { ButtonProps, ModalProps, StepProps, SwitchProps } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import type { Control } from 'react-hook-form';
 
 export type Validation =
@@ -19,7 +19,7 @@ export type Validation =
 export interface FieldConfig<T extends Record<string, unknown> = Record<string, unknown>> {
   key: keyof T;
   label?: string;
-  type?: 'text' | 'password' | 'switch' | 'select' | 'number' | 'readOnly' | 'date' | 'radio' | 'divider';
+  type?: 'text' | 'password' | 'switch' | 'select' | 'number' | 'readOnly' | 'date' | 'radio' | 'divider' | 'title' | 'textArea'| 'counter';
   typeValue?: 'string' | 'number' | 'boolean' | 'date'
   placeholder?: string;
   valueInitial?: T[keyof T];
@@ -41,6 +41,19 @@ export interface FieldConfig<T extends Record<string, unknown> = Record<string, 
   addonBefore?: string; // agrega un simbolo al input number +,-,$
   min?:number;
   max?:number;
+
+  fontSize?: string;
+  color?:string;
+  display?:string;
+  textAlign?: CSSProperties['textAlign'];
+  padding?:string;
+  margin?:string;
+  fontWeight?:string;
+  typeText?: "secondary" | "success" | "warning" | "danger";
+  textTransform?: "lowercase" | "uppercase";
+  style?: CSSProperties;
+  children?: ReactNode
+  autoSize?: boolean | { minRows?: number; maxRows?: number };
 }
 
 export interface FormFieldProps<T extends Record<string, unknown> = Record<string, unknown>> {
@@ -181,4 +194,30 @@ export interface ConfirmModalProps extends ModalProps {
   onCancel: () => void;          // callback al cancelar
   okText?: string;               // texto botón confirmar
   cancelText?: string;           // texto botón cancelar
+}
+
+export interface ModalConstanciaMedicaProps {
+  open: boolean;
+  onClose: () => void;
+  /** Funciones predefinidas si no se pasan botones personalizados */
+  onSave?: () => void;
+  onPreview?: () => void;
+  onClear?: () => void;
+
+  /** Ícono o imagen opcional */
+  icon?: ReactNode;
+  imageSrc?: string;
+
+  /** Contenido dinámico (formulario, texto, etc.) */
+  children?: ReactNode;
+
+  /** Permite mostrar o no los botones del footer */
+  showFooter?: boolean;
+
+  /** Botones personalizados del footer */
+  footerButtons?: ButtonCustomProps[];
+
+  /** Título personalizable */
+  title?: string;
+  width?:number;
 }

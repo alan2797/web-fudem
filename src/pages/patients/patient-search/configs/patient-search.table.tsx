@@ -2,6 +2,7 @@ import type { ColumnsType } from "antd/es/table";
 import type { PatientSearchDto } from "../../../../interfaces/patient.interface";
 import moment from "moment";
 
+
 export const columns: ColumnsType<PatientSearchDto> = [
   { title: "No. de Expediente", dataIndex: "expedientNumber", key: "expedientNumber" },
   { title: "Paciente", dataIndex: "patientName", key: "patientName" },

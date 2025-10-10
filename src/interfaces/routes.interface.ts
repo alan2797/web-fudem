@@ -5,7 +5,7 @@ export interface RouteConfig {
   component: LazyExoticComponent<ComponentType<any>>;
   isPrivate: boolean;
   isRestricted?: boolean;
-  layout?: 'main' | 'none';
+  layout?: 'main' | 'none' | 'expedient';
   title?: string;
   meta?: {
     requiresEmailVerification?: boolean;

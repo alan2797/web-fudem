@@ -24,7 +24,12 @@ export const RoutePaths = {
     PATIENTS_LIST: '/patients/list',
     PATIENTS_CREATE: '/patients/create',
     PATIENTS_EDIT: '/patients/edit',
+
+
+
     PATIENTS_EXPEDIENT: '/patients/expedient',
+    EXPEDIENTS_MEDICAL_CERTIFICATES: '/expedients/medical-certificates',
+    EXPEDIENTS_NURSING_CHEETS: '/expedients/nursing-sheets',
   
     // Catch all
     NOT_FOUND: '*',

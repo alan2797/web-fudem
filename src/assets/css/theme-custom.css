@@ -26,8 +26,8 @@
     background-color: var(--color-success-antd) !important;
   }
 
-  .bg-info-antd {
-    background-color: var(--color-info-antd) !important;
+  .bg-warning-antd {
+    background-color: var(--color-warning-antd) !important;
   }
 
 
@@ -42,7 +42,8 @@
   
   /* 🔹 Borders */
   .border-primary-antd {
-    border: 1px solid var(--color-primary-antd) !important;
+    border: 2px solid var(--color-primary-antd) !important;
+    font-weight: 600;
   }
   
   /* 🔹 Buttons */

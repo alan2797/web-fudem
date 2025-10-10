@@ -30,7 +30,7 @@ const PageContainer = ({ title, icon, breadcrumb,tabs, children }: PageContainer
             level={4}
             style={{
                 margin: 0,
-                fontWeight: 400,
+                fontWeight: 600,
                 lineHeight: 1,
             }}
             className="text-primary-antd fs-3 ms-2"

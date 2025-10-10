@@ -25,7 +25,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <AppRoutes isAuthenticated={isAuthenticated} />
+      <AppRoutes isAuthenticated={true} />
     </Router>
   );
 };
